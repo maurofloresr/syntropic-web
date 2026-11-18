@@ -9,6 +9,8 @@ Lo mantiene Claude Code. Registro de las piezas reutilizables, para usarlas en l
 - `sitio/assets/css/secciones.css`: disposición de cada sección de la landing (no se reutiliza).
 - `sitio/assets/js/interfaz.js`: menú hamburguesa, elección de cliente, WhatsApp que se esconde con el formulario en mobile.
 - `sitio/assets/img/iconos.svg`: todos los íconos en un solo archivo.
+- `sitio/assets/js/particulas.js`: sistema de partículas (galaxia, S, títulos de 0 y 1, espiral atada al scroll, estrellas fugaces, luces al tocar). Ver "Partículas" abajo.
+- `sitio/assets/img/isologo-s-muestreo.png`: copia del isologo blanco SIN el "DEV", recortada a la S y a 400 px de ancho. Solo se usa para muestrear la forma de la S (el original de `../branding/` no se tocó).
 
 ## Íconos
 
@@ -37,6 +39,7 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |
 | Opción seleccionable | `.opcion` + `.opcion-input` | componentes.css | Paso 1 del formulario |
 | WhatsApp flotante | `.whatsapp` | componentes.css | Toda la web |
+| Canvas de partículas | `.particulas` (fijo) y `.particulas-estaticas` (movimiento reducido) | componentes.css | Lo crea `particulas.js`. `main` y `.footer` van por encima (z-index 1) |
 
 ## Anclas y menú fijo
 
@@ -45,3 +48,13 @@ Cada `.seccion` calcula su `scroll-margin-top` con `--altura-menu` y su espacio 
 ## Cortes de pantalla
 
 Mobile first desde 390 px. Tablet desde 768 px. Desktop desde 1024 px.
+
+## Partículas
+
+- Un solo canvas fijo detrás del contenido, creado por JavaScript al terminar la carga (sin JavaScript no existe y los h2 se ven normales).
+- Estados en orden: galaxia, S, y los h2 con id `titulo-desarrollo-web`, `titulo-automatizaciones`, `titulo-sistemas`, `titulo-contacto`. Para sumar o sacar un título de la cadena se edita la lista `TITULOS` al principio de `particulas.js`.
+- Los títulos se muestrean del h2 real (misma posición, tamaño y cortes de línea), así que si cambia el CSS del h2 las partículas lo siguen solas.
+- El avance lo marca el scroll con ScrollTrigger (scrub de 0,6 s). Cada título queda formado cuando su h2 llega al 20% de la altura de la pantalla (o 40 px debajo del menú, lo que sea más bajo); ahí aparece el h2 real con un fade y las partículas se apagan.
+- Cantidad: 900 partículas en mobile, 2500 en desktop (1800 en compus de 4 núcleos o menos). 90 o 220 de ellas quedan como estrellas de fondo en las secciones.
+- Galaxia y S suben más lento que la página (parallax): 0,45 en desktop y 0,2 en el diseño en columna (hasta 1024 px). En columna la S se forma con el primer 14% de pantalla de scroll, antes de que el texto del hero la pise.
+- Se pausa con la pestaña oculta. Con `prefers-reduced-motion`: sin canvas fijo, una S estática de puntos dentro de `.hero-visual` y los h2 normales.

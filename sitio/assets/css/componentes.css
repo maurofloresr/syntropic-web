@@ -338,3 +338,35 @@
   line-height: 1.3;
   color: var(--celeste-claro);
 }
+
+/* ==========================================================================
+   Canvas de partículas (lo crea particulas.js; sin JavaScript no existe)
+   ========================================================================== */
+/* Fijo, de pantalla completa y detrás del contenido. No recibe toques:
+   los botones, links y el formulario siguen funcionando igual. */
+.particulas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* El contenido va por encima del canvas */
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Movimiento reducido: S estática de puntos dentro del hero, sin canvas fijo */
+.hero-visual { position: relative; }
+
+.particulas-estaticas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

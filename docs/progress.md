@@ -4,7 +4,14 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- Fase 1, paso 4 terminado (tamaño final de los h2). Fase 1 completa, esperando revisión de Mauro. Siguiente: Fase 2 (sistema de partículas), pedida por Mauro en la misma sesión.
+- Fase 2 completa (sistema de partículas, pasos 1 a 9), hecha de corrido junto con el paso 4 de la Fase 1 mientras Mauro no estaba. Esperando revisión de Mauro de las Fases 1 y 2. No arrancar la Fase 3 sin su confirmación.
+- Decisiones tomadas en la Fase 2 (Mauro no estaba disponible, revisar):
+  - El título de bytes queda completo un momento (último 20% de cada tramo) y después aparece el h2 real con fade mientras las partículas se apagan, como dice el brief. Los h2 que todavía no se formaron quedan con opacidad 0 (siguen en el HTML y para lectores de pantalla).
+  - Los 0 y 1 de los títulos van en celeste, celeste claro y blanco (el azul eléctrico sobre navy no se lee); los puntos de la galaxia y la S usan los cuatro colores. Tipografía de los 0 y 1: Inter SemiBold.
+  - Las partículas que sobran en cada título quedan como polvo fino dentro de las letras y como estrellas de fondo fijas (titilan) en toda la web.
+  - En secciones largas el título anterior queda muy arriba: los bytes arrancan la espiral desde apenas arriba de la pantalla en vez de desde el título original.
+  - Galaxia y S con parallax (suben más lento que la página). En mobile y tablet la S se forma con el primer pedacito de scroll para que el texto del hero no la pise.
+  - Brillo de la S y de los puntos hecho con transparencia de los colores de la paleta (sin mezclas que generen colores nuevos).
 - Decisiones tomadas en el paso 4 (Mauro no estaba disponible, revisar):
   - Un solo tamaño para los h2 de la cadena: 9.4% del ancho de pantalla con tope de 72 px. En 390 px "DESARROLLO WEB" pasa a dos líneas (como el mockup mobile) y queda a 37 px; Automatizaciones mantiene su tamaño ajustado al ancho. Preguntas frecuentes no cambia.
   - En tablet y desktop el ancho máximo de Automatizaciones pasó a la frase y la bajada, para que el h2 no se salga de su caja.
@@ -39,6 +46,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 18/11: Fase 2 completa. Canvas fijo y motor de partículas (`particulas.js`), galaxia del hero en movimiento lento, S muestreada de una copia del isologo sin "DEV", títulos de 0 y 1 muestreados de cada h2, transición en espiral atada al scroll que rebobina al subir, cadena galaxia > S > DESARROLLO WEB > AUTOMATIZACIONES > SISTEMAS > HABLEMOS, cruce con el h2 real, 900/2500 partículas, pausa con pestaña oculta, versión con movimiento reducido, estrellas fugaces cada 6 a 10 s (nunca durante una espiral) y luces al tocar o hacer clic (no al deslizar, sin bloquear botones). Probado en 375x667, 390x844, 768x1024, 1024x768 y 1440x900 con Chrome sin placa de video: sin errores de consola ni scroll horizontal; mobile a ~60 cuadros por segundo con la CPU frenada 4 veces.
 - 18/11: Fase 1, paso 4: h2 con tamaño y estilo finales. Medidos en 320, 360, 390, 768, 1024 y 1440 px: sin desbordes ni scroll horizontal, "DESARROLLO / WEB" en dos líneas en todos los anchos.
 - 18/11: Fase 1, paso 3: cada link (menú, menú hamburguesa, logo, Scrolleá, botones de sección, footer) baja con scroll suave y el título frena 40 px debajo del menú fijo, en las dos alturas del menú. Con movimiento reducido salta directo. Galaxia mobile al 35% y menú desktop a 72 px. Probado en 390x844, 390x664, 375x667, 768 y 1440 px.
 - 18/11: ajustes del paso 2: LinkedIn fuera del footer, link real de Instagram, TikTok y Facebook como `[FALTA]`; Slack fuera y Make, Airtable y Excel adentro de "Y también conectamos"; menú fijo con vidrio esmerilado (56 px en mobile). Brief sección 3 y `componentes.md` actualizados. Probado en 390, 768 y 1440 px.
