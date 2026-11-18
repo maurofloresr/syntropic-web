@@ -4,7 +4,10 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- Fase 1, paso 3 terminado (scroll suave del menú). Esperando revisión de Mauro. Próximo: paso 4 (los h2 se ven como texto normal).
+- Fase 1, paso 4 terminado (tamaño final de los h2). Fase 1 completa, esperando revisión de Mauro. Siguiente: Fase 2 (sistema de partículas), pedida por Mauro en la misma sesión.
+- Decisiones tomadas en el paso 4 (Mauro no estaba disponible, revisar):
+  - Un solo tamaño para los h2 de la cadena: 9.4% del ancho de pantalla con tope de 72 px. En 390 px "DESARROLLO WEB" pasa a dos líneas (como el mockup mobile) y queda a 37 px; Automatizaciones mantiene su tamaño ajustado al ancho. Preguntas frecuentes no cambia.
+  - En tablet y desktop el ancho máximo de Automatizaciones pasó a la frase y la bajada, para que el h2 no se salga de su caja.
 - Decisiones de Mauro en el paso 3:
   - Galaxia del hero en mobile: mínimo 35% del alto de pantalla (antes 40%), para que "Hablemos" se vea sin scrollear también en pantallas bajas (iPhone con barras de Safari, iPhone SE).
   - Menú fijo: 56 px en mobile y tablet, 72 px en desktop.
@@ -36,6 +39,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 18/11: Fase 1, paso 4: h2 con tamaño y estilo finales. Medidos en 320, 360, 390, 768, 1024 y 1440 px: sin desbordes ni scroll horizontal, "DESARROLLO / WEB" en dos líneas en todos los anchos.
 - 18/11: Fase 1, paso 3: cada link (menú, menú hamburguesa, logo, Scrolleá, botones de sección, footer) baja con scroll suave y el título frena 40 px debajo del menú fijo, en las dos alturas del menú. Con movimiento reducido salta directo. Galaxia mobile al 35% y menú desktop a 72 px. Probado en 390x844, 390x664, 375x667, 768 y 1440 px.
 - 18/11: ajustes del paso 2: LinkedIn fuera del footer, link real de Instagram, TikTok y Facebook como `[FALTA]`; Slack fuera y Make, Airtable y Excel adentro de "Y también conectamos"; menú fijo con vidrio esmerilado (56 px en mobile). Brief sección 3 y `componentes.md` actualizados. Probado en 390, 768 y 1440 px.
 - 18/11: Fase 1, paso 2: maquetación de toda la landing a 390, 768 y 1440 px siguiendo los mockups 01 a 06. Nuevos `componentes.css`, `secciones.css`, `interfaz.js` (menú hamburguesa a pantalla completa, elección de cliente, WhatsApp que se esconde con el formulario en mobile) e `iconos.svg`. Sin scroll horizontal en ningún ancho, orden de teclado verificado.

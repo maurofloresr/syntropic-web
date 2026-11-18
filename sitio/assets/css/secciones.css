@@ -12,8 +12,12 @@
   scroll-margin-top: calc(var(--altura-menu) + 40px - var(--seccion-espacio));
 }
 
+/* Títulos de la cadena de bytes. Tamaño final: en 390 px "DESARROLLO" ocupa
+   casi todo el ancho y "WEB" baja a la segunda línea (como el mockup mobile);
+   tope de 72 px desde tablet. El tamaño importa para las partículas: cuanto
+   más grande el h2, más nítida la forma muestreada con 0 y 1. */
 .seccion h2 {
-  font-size: clamp(1.5rem, 7vw, 4.5rem);
+  font-size: clamp(1.75rem, 9.4vw, 4.5rem);
   margin-bottom: 1.25rem;
 }
 
@@ -530,12 +534,15 @@ body.menu-abierto { overflow: hidden; }
 .conectamos-con-nombre .icono { opacity: 1; stroke-width: 1.75; }
 
 @media (min-width: 768px) {
+  /* El ancho máximo va en los textos y no en el bloque: así el h2 de una sola
+     línea no se sale de su caja en desktop */
   .auto-texto {
     align-items: center;
-    max-width: 48rem;
-    margin-inline: auto;
     text-align: center;
   }
+
+  .auto-texto .frase,
+  .auto-texto .bajada { max-width: 48rem; }
 }
 
 @media (min-width: 1024px) {
