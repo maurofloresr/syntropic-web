@@ -8,7 +8,7 @@
   /* Botón flotante de WhatsApp: los botones de sección le dejan este lugar */
   --whatsapp-tamano: 56px;
   --whatsapp-margen: 16px;
-  --altura-menu: 56px; /* menú fijo: bajo en mobile y tablet, 96 px en desktop */
+  --altura-menu: 56px; /* menú fijo: 56 px en mobile y tablet, 72 px en desktop */
 }
 
 /* --- Ícono (sprite: assets/img/iconos.svg) --- */

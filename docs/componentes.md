@@ -23,7 +23,7 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 
 | Componente | Clase | Archivo | Dónde se usa |
 | --- | --- | --- | --- |
-| Menú fijo de vidrio | `.menu` (el vidrio va en `.menu::before`) | secciones.css | Toda la web. Fijo arriba, sin fondo sólido: desenfoque de 14 px y tinte navy al 35% (al 85% si el navegador no soporta desenfoque). Alto en `--altura-menu`: 56 px en mobile y tablet, 96 px en desktop. El vidrio va en un pseudo-elemento porque un `backdrop-filter` en el header encerraría el menú mobile de pantalla completa |
+| Menú fijo de vidrio | `.menu` (el vidrio va en `.menu::before`) | secciones.css | Toda la web. Fijo arriba, sin fondo sólido: desenfoque de 14 px y tinte navy al 35% (al 85% si el navegador no soporta desenfoque). Alto en `--altura-menu`: 56 px en mobile y tablet, 72 px en desktop. El vidrio va en un pseudo-elemento porque un `backdrop-filter` en el header encerraría el menú mobile de pantalla completa |
 | Botón | `.boton` | base.css | Todos los botones azules |
 | Botón de sección | `.boton .boton-seccion` | componentes.css | Hablemos, Quiero mi web, Automatizar mi negocio, Quiero mi sistema. En mobile deja libre el lugar del botón de WhatsApp |
 | Tarjeta de vidrio | `.tarjeta-vidrio` | base.css | Tarjeta del puntaje, formulario |
@@ -37,6 +37,10 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |
 | Opción seleccionable | `.opcion` + `.opcion-input` | componentes.css | Paso 1 del formulario |
 | WhatsApp flotante | `.whatsapp` | componentes.css | Toda la web |
+
+## Anclas y menú fijo
+
+Cada `.seccion` calcula su `scroll-margin-top` con `--altura-menu` y su espacio de arriba (`--seccion-espacio`): al llegar desde un link, el h2 frena siempre 40 px debajo del menú (96 px desde arriba en mobile y tablet, 112 px en desktop). Si se cambia el alto del menú o el espacio de las secciones, no hay que tocar nada más. El scroll suave es `scroll-behavior: smooth` en `base.css` y se apaga con `prefers-reduced-motion`.
 
 ## Cortes de pantalla
 

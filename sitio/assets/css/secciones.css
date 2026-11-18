@@ -5,8 +5,11 @@
 
 /* --- Común a todas las secciones --- */
 .seccion {
-  padding-block: 96px;
-  scroll-margin-top: 0;
+  --seccion-espacio: 96px;
+  padding-block: var(--seccion-espacio);
+  /* Al llegar desde un link, el título frena siempre a la misma distancia
+     debajo del menú fijo, sea cual sea el alto del menú (56 o 72 px). */
+  scroll-margin-top: calc(var(--altura-menu) + 40px - var(--seccion-espacio));
 }
 
 .seccion h2 {
@@ -15,7 +18,7 @@
 }
 
 @media (min-width: 1024px) {
-  .seccion { padding-block: 144px; }
+  .seccion { --seccion-espacio: 144px; }
 }
 
 /* ==========================================================================
@@ -143,7 +146,7 @@
 body.menu-abierto { overflow: hidden; }
 
 @media (min-width: 1024px) {
-  :root { --altura-menu: 96px; }
+  :root { --altura-menu: 72px; }
 
   .menu-logo img { width: 160px; }
 
@@ -192,7 +195,7 @@ body.menu-abierto { overflow: hidden; }
 /* Mobile: la galaxia ocupa la mitad de arriba */
 .hero-visual {
   flex: 1;
-  min-height: 40svh;
+  min-height: 35svh;
 }
 
 .hero-texto {

@@ -4,7 +4,10 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- Ajustes de Mauro sobre el paso 2 aplicados (redes, logos de "Y también conectamos", menú fijo de vidrio). Falta que Mauro decida cómo hacer entrar "Hablemos" en pantallas bajas. Próximo: paso 3 (scroll suave del menú).
+- Fase 1, paso 3 terminado (scroll suave del menú). Esperando revisión de Mauro. Próximo: paso 4 (los h2 se ven como texto normal).
+- Decisiones de Mauro en el paso 3:
+  - Galaxia del hero en mobile: mínimo 35% del alto de pantalla (antes 40%), para que "Hablemos" se vea sin scrollear también en pantallas bajas (iPhone con barras de Safari, iPhone SE).
+  - Menú fijo: 56 px en mobile y tablet, 72 px en desktop.
 - Decisiones de Mauro en los ajustes del paso 2:
   - Sin LinkedIn en ningún lado (footer ni datos estructurados). Instagram: https://www.instagram.com/syntropic__/. TikTok y Facebook en el footer como `[FALTA]` hasta que estén creados.
   - "Y también conectamos": sin Slack, se suman Make y Airtable (Simple Icons). Excel con el ícono de planilla de Lucide y la palabra "Excel", porque Microsoft no publica un ícono monocromo oficial.
@@ -33,6 +36,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 18/11: Fase 1, paso 3: cada link (menú, menú hamburguesa, logo, Scrolleá, botones de sección, footer) baja con scroll suave y el título frena 40 px debajo del menú fijo, en las dos alturas del menú. Con movimiento reducido salta directo. Galaxia mobile al 35% y menú desktop a 72 px. Probado en 390x844, 390x664, 375x667, 768 y 1440 px.
 - 18/11: ajustes del paso 2: LinkedIn fuera del footer, link real de Instagram, TikTok y Facebook como `[FALTA]`; Slack fuera y Make, Airtable y Excel adentro de "Y también conectamos"; menú fijo con vidrio esmerilado (56 px en mobile). Brief sección 3 y `componentes.md` actualizados. Probado en 390, 768 y 1440 px.
 - 18/11: Fase 1, paso 2: maquetación de toda la landing a 390, 768 y 1440 px siguiendo los mockups 01 a 06. Nuevos `componentes.css`, `secciones.css`, `interfaz.js` (menú hamburguesa a pantalla completa, elección de cliente, WhatsApp que se esconde con el formulario en mobile) e `iconos.svg`. Sin scroll horizontal en ningún ancho, orden de teclado verificado.
 - 18/11: brief, roadmap y reglas del proyecto escritos con Mauro en Claude.ai.

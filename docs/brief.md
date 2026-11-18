@@ -111,7 +111,7 @@ Referencia: `originales/mockups/03-automatizaciones.jpg`
   4. Ciclo continuo y escalonado (no todos los cables a la vez), para que se lea "entra un mensaje, Syntropic lo procesa, se resuelve solo".
   5. Los nodos aparecen en orden al entrar la sección.
 - **Mobile:** el lienzo pasa a flujo vertical: disparadores arriba, la S al medio, acciones abajo, cables verticales.
-- **Abajo:** "Y TAMBIÉN CONECTAMOS" y una fila de logos monocromos blancos al 70%: Mercado Pago, Instagram, Facebook, Notion, Google Drive, Excel, Slack, Calendly, Trello, Zoom. Regla: ninguna herramienta que ya esté en los nodos se repite acá. Logos en SVG oficiales (Simple Icons u oficiales de cada marca).
+- **Abajo:** "Y TAMBIÉN CONECTAMOS" y una fila de logos monocromos blancos al 70%: Mercado Pago, Instagram, Facebook, Notion, Google Drive, Excel, Make, Airtable, Calendly, Trello, Zoom. Excel va con el ícono de planilla de Lucide y la palabra "Excel" al lado (Microsoft no publica una versión monocroma). Regla: ninguna herramienta que ya esté en los nodos se repite acá. Logos en SVG oficiales (Simple Icons u oficiales de cada marca).
 
 ## 7. Sección 4: Sistemas
 
@@ -162,7 +162,7 @@ Referencia: `originales/mockups/05-formulario.jpg`
   - Pantalla final de gracias.
 - **Botones de las secciones:** "Quiero mi web", "Automatizar mi negocio" y "Quiero mi sistema" bajan al formulario con ese servicio ya marcado en el paso 1 (por ejemplo con `#contacto?servicio=web`).
 - **Envío:** según el CHECKLIST: formulario > webhook de Make > Airtable, con evento Lead del Pixel de Meta al enviar. [FALTA: URL del webhook y ID del Pixel]
-- **Footer** (separado por una línea fina): logo blanco a la izquierda; links Desarrollo web, Automatizaciones, Sistemas al centro; íconos de Instagram, LinkedIn y WhatsApp y el mail a la derecha; abajo "© 2026 Syntropic. Todos los derechos reservados." [FALTA: dominio, mail y links de redes]
+- **Footer** (separado por una línea fina): logo blanco a la izquierda; links Desarrollo web, Automatizaciones, Sistemas al centro; íconos de Instagram, TikTok, Facebook y WhatsApp y el mail a la derecha (LinkedIn no va por ahora); abajo "© 2026 Syntropic. Todos los derechos reservados." [FALTA: dominio, mail y links de redes]
 
 ## 9. La animación de bytes (la pieza central)
 
@@ -196,7 +196,7 @@ Mantienen viva la idea de galaxia en toda la página. Se dibujan en el mismo can
 Referencia: `originales/mockups/06-mobile.jpg`. Todo pasa a una sola columna. Se construye primero a 390 px.
 
 - **Menú:** "Syntropic" (Tipo_Blanco) a la izquierda y menú hamburguesa a la derecha. Al abrirlo, pantalla completa navy con los links grandes.
-- **Hero:** la galaxia y la S ocupan la mitad de arriba de la pantalla; abajo, la etiqueta, el h1, la bajada y el botón "Hablemos" a todo el ancho.
+- **Hero:** la galaxia y la S ocupan la parte de arriba de la pantalla (mínimo 35% del alto); abajo, la etiqueta, el h1, la bajada y el botón "Hablemos" a todo el ancho. El botón "Hablemos" tiene que verse sin scrollear incluso en pantallas bajas (iPhone SE, Safari con barras).
 - **Desarrollo web:** título, textos y las 6 etiquetas en 2 columnas. Abajo, SOLO el celular (sin notebook) con la tarjeta de puntaje encima. Los nombres de clientes en una fila que se desliza con el dedo. Botón a todo el ancho.
 - **Automatizaciones:** título, textos y botón a todo el ancho. Después, el lienzo en vertical: los 3 disparadores arriba, la S al medio y las 5 acciones abajo, con cables verticales y la luz bajando. Los logos de "Y también conectamos" pasan solos en una fila en movimiento continuo.
 - **Sistemas:** título y frase, enseguida la notebook (más chica) abriéndose, después los 3 bloques y el botón a todo el ancho.
