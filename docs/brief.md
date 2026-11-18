@@ -37,7 +37,7 @@ galaxia de puntos (caos) > se ordena y forma la S > la S se desarma en 0 y 1 > l
 
 ## 3. Elementos fijos (en toda la web)
 
-- **Menú superior:** transparente sobre el fondo. Izquierda: logo blanco. Derecha: Desarrollo web, Automatizaciones, Sistemas, Contacto. Cada link baja a su sección. En mobile, menú hamburguesa.
+- **Menú superior:** fijo arriba y siempre visible, sin fondo sólido. Efecto vidrio esmerilado: desenfoca y oscurece apenas lo que pasa por debajo (backdrop-filter con un tinte navy muy transparente), igual en el hero y en el resto de la página. En mobile es bajo (56 px de alto). Izquierda: logo blanco. Derecha: Desarrollo web, Automatizaciones, Sistemas, Contacto. Cada link baja a su sección. En mobile, menú hamburguesa.
 - **Botón flotante de WhatsApp:** abajo a la derecha, siempre visible, círculo #25D366 con ícono blanco. Abre WhatsApp con un mensaje ya escrito. Número: [FALTA: número de WhatsApp de Syntropic]. Mensaje: "Hola Syntropic, vengo de la web y quiero hacer una consulta."
 - **Canvas de partículas:** un solo canvas fijo detrás del contenido para la galaxia y los bytes (ver sección 9).
 
@@ -227,7 +227,8 @@ Base: la guía oficial de Google de mayo 2026 dice que GEO es SEO bien hecho. No
 - [x] Guardar las 5 imágenes de Gemini en `originales/mockups/` (18/11).
 - [ ] Dominio (define mail, links y datos estructurados).
 - [ ] Número de WhatsApp de Syntropic.
-- [ ] Links de Instagram y LinkedIn.
+- [x] Instagram: https://www.instagram.com/syntropic__/ (el teléfono que figura en ese perfil NO es el de la web).
+- [ ] TikTok y Facebook: se suman cuando estén creados. LinkedIn no va por ahora (ver `docs/a-futuro.md`).
 - [ ] Capturas de las webs de clientes y su permiso para aparecer.
 - [ ] Preguntas del formulario (pasos 2 a 4) y rangos de presupuesto.
 - [ ] URL del webhook de Make, base de Airtable e ID del Pixel de Meta.

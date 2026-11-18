@@ -21,11 +21,32 @@
 /* ==========================================================================
    Menú
    ========================================================================== */
+/* Fijo arriba y siempre visible. Vidrio esmerilado: desenfoca y oscurece apenas
+   lo que pasa por debajo. El efecto va en un pseudo-elemento porque un
+   backdrop-filter en el propio header encerraría el menú mobile de pantalla
+   completa (position: fixed) dentro de los 56 px del header. */
 .menu {
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto 0;
   z-index: 50;
 }
+
+.menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(11, 21, 36, 0.35); /* navy muy transparente */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  pointer-events: none;
+}
+
+/* Navegadores sin backdrop-filter: el tinte se hace más denso para que se lea */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .menu::before { background-color: rgba(11, 21, 36, 0.85); }
+}
+
+.menu-contenedor { position: relative; }
 
 .menu-contenedor {
   display: flex;
@@ -493,10 +514,17 @@ body.menu-abierto { overflow: hidden; }
 
 .conectamos-lista .icono-ancho { width: 64px; }
 
-.conectamos-falta {
-  font-size: 0.75rem;
-  color: var(--celeste-claro);
+/* Logo sin versión oficial monocroma (Excel): ícono de planilla con el nombre al lado */
+.conectamos-con-nombre {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--blanco);
+  opacity: 0.7;
+  font-weight: 600;
 }
+
+.conectamos-con-nombre .icono { opacity: 1; stroke-width: 1.75; }
 
 @media (min-width: 768px) {
   .auto-texto {
@@ -760,6 +788,16 @@ body.menu-abierto { overflow: hidden; }
   font-size: 0.875rem;
   color: var(--celeste-claro);
 }
+
+.footer-contacto a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  transition: color 0.2s ease;
+}
+
+.footer-contacto a:hover { color: var(--blanco); }
 
 .footer-legal {
   margin-top: 2rem;

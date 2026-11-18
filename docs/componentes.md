@@ -15,14 +15,15 @@ Lo mantiene Claude Code. Registro de las piezas reutilizables, para usarlas en l
 Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-NOMBRE"></use></svg>`. Toman el color del texto (`color`) y el grosor de línea se ajusta con `stroke-width` en CSS.
 
 - De línea (Lucide 1.75.0, licencia ISC): search, bot, smartphone, zap, chart-column, palette, globe, shopping-bag, calendar, file-spreadsheet, bell, shield, pointer, puzzle, waypoints, layout-dashboard, check, x, arrow-down, arrow-right, mail.
-- Marcas (Simple Icons 16.38.0, CC0): whatsapp, gmail, instagram, mercadopago, facebook, notion, googledrive, calendly, trello, zoom.
+- Marcas (Simple Icons 16.38.0, CC0): whatsapp, gmail, instagram, mercadopago, facebook, notion, googledrive, calendly, trello, zoom, make, airtable, tiktok.
 - Armado: `web-dispositivos` (laptop y smartphone de Lucide juntos, para la tarjeta Desarrollo web del formulario).
-- Faltan: LinkedIn, Excel y Slack (Simple Icons los sacó a pedido de esas marcas).
+- Excel: Microsoft no publica una versión monocroma oficial (sus íconos son a color y no se pueden recolorear). Se usa `file-spreadsheet` de Lucide con la palabra "Excel" al lado (clase `.conectamos-con-nombre`).
 
 ## Componentes
 
 | Componente | Clase | Archivo | Dónde se usa |
 | --- | --- | --- | --- |
+| Menú fijo de vidrio | `.menu` (el vidrio va en `.menu::before`) | secciones.css | Toda la web. Fijo arriba, sin fondo sólido: desenfoque de 14 px y tinte navy al 35% (al 85% si el navegador no soporta desenfoque). Alto en `--altura-menu`: 56 px en mobile y tablet, 96 px en desktop. El vidrio va en un pseudo-elemento porque un `backdrop-filter` en el header encerraría el menú mobile de pantalla completa |
 | Botón | `.boton` | base.css | Todos los botones azules |
 | Botón de sección | `.boton .boton-seccion` | componentes.css | Hablemos, Quiero mi web, Automatizar mi negocio, Quiero mi sistema. En mobile deja libre el lugar del botón de WhatsApp |
 | Tarjeta de vidrio | `.tarjeta-vidrio` | base.css | Tarjeta del puntaje, formulario |
