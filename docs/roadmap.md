@@ -15,7 +15,7 @@ Orden de construcción. Una fase a la vez; cada fase termina con Mauro revisando
 
 ## Fase 1: Estructura y contenido (sin animaciones)
 
-1. HTML semántico de las 5 secciones con todos los textos del brief, menú, footer y botón flotante de WhatsApp.
+1. HTML semántico de las 5 secciones y las preguntas frecuentes con todos los textos del brief, menú, footer y botón flotante de WhatsApp.
 2. Maquetación mobile first de cada sección (390 px), después tablet y desktop, siguiendo las imágenes de `originales/mockups/`.
 3. Scroll suave del menú a cada sección.
 4. Los títulos h2 se ven como texto normal (las partículas llegan en la Fase 2).
@@ -32,6 +32,7 @@ Orden de construcción. Una fase a la vez; cada fase termina con Mauro revisando
 6. Encadenar todo: galaxia > S > DESARROLLO WEB > AUTOMATIZACIONES > SISTEMAS > HABLEMOS.
 7. Cruce entre partículas y h2 real (fade).
 8. Ajuste de cantidad de partículas para mobile, pausa en pestaña oculta y versión con `prefers-reduced-motion`.
+9. Estrellas fugaces y luces al tocar (brief, sección 9).
 
 **Revisión de Mauro:** recorrer toda la web scrolleando para abajo y para arriba, en celu y en compu.
 
@@ -63,9 +64,19 @@ Orden de construcción. Una fase a la vez; cada fase termina con Mauro revisando
 4. Revisión de accesibilidad (teclado, contraste, foco, alt).
 5. Prueba en Chrome, Safari (iPhone) y Firefox.
 
-## Fase 6: Publicación
+## Fase 6: Publicación (cierra la v1)
 
+0. Repasar con Mauro `docs/lanzamiento.md` y no publicar hasta que esté completo.
 1. Generar `publicar/` con HTML, CSS y JS minificados y sin comentarios.
 2. Deploy en Cloudflare Pages y conexión del dominio.
 3. Medir el puntaje real de PageSpeed y ponerlo en la tarjeta de la sección Desarrollo web.
 4. Prueba final del formulario en producción.
+
+## Fase 7: v2, páginas por servicio
+
+Arranca cuando Mauro tenga los contenidos de cada servicio (textos, casos reales, preguntas frecuentes).
+
+1. Páginas `/desarrollo-web`, `/automatizaciones` y `/sistemas` reutilizando los componentes de la landing.
+2. En cada sección de la landing, dos botones: el principal sigue yendo al formulario y se suma uno secundario "Ver más" a la página del servicio.
+3. Menú con links a las páginas, sitemap actualizado y enlaces internos entre páginas.
+4. Datos estructurados Service y FAQPage por página.

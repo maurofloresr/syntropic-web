@@ -8,3 +8,4 @@ Guardarlas acá con estos nombres exactos:
 - 03-automatizaciones.jpg
 - 04-sistemas.jpg
 - 05-formulario.jpg
+- 06-mobile.jpg (las 5 secciones en celular)

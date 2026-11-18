@@ -9,7 +9,9 @@ Escrito con Mauro en Claude.ai el 18/11/2026. Es la guía de qué se construye y
 Toda la web cuenta esa historia con una sola animación que la recorre de punta a punta:
 galaxia de puntos (caos) > se ordena y forma la S > la S se desarma en 0 y 1 > los bytes viajan en espiral > forman el título de la siguiente sección > ese título se desarma y viaja al siguiente, y así hasta el final.
 
-Es una sola página (landing). El menú y los botones llevan a cada sección con scroll suave.
+**Versiones:**
+- **v1 (ahora, para la pauta):** una sola página (landing). El menú y los botones llevan a cada sección con scroll suave.
+- **v2 (después):** se suma una página por servicio (`/desarrollo-web`, `/automatizaciones`, `/sistemas`) con contenido propio, casos y preguntas frecuentes de ese servicio. Es la base del SEO: cada servicio es una búsqueda distinta y necesita su propia página. La v1 se construye pensando en esto (componentes reutilizables, menú preparado para links a páginas).
 
 ## 2. Marca
 
@@ -44,6 +46,7 @@ Es una sola página (landing). El menú y los botones llevan a cada sección con
 Referencia: `originales/mockups/01-hero.jpg`
 
 - **Izquierda (texto):**
+  - Etiqueta chica arriba del h1 (Inter, #A0D3FD, mayúsculas, espaciado): "Desarrollo web, automatizaciones y sistemas a medida · Argentina". Es lo que le dice a Google y a las IAs qué hacemos, porque el h1 es una frase de marca sin palabras de búsqueda.
   - h1 en dos líneas: "CREANDO SOLUCIONES" (blanco, Archivo Expanded Black) / "QUE TRABAJAN POR VOS" (#47ADFF, peso más liviano).
   - Bajada (#A0D3FD, Inter): "Webs, automatizaciones y sistemas para que tu negocio funcione mientras hacés lo importante."
   - Botón: "Hablemos" (lleva al formulario).
@@ -129,6 +132,14 @@ Referencia: `originales/mockups/04-sistemas.jpg`
   - Pantalla: dashboard de gestión en modo oscuro con los colores de la marca. Menú lateral: Ventas, Stock, Compras, Caja, Clientes. Tres tarjetas: "Ventas del día $ 485.300", "Productos en stock 1.248", "Caja $ 312.900". Gráfico de ventas semanal en #47ADFF y una tabla corta de ventas recientes. Datos inventados, nunca datos reales de clientes. Hecho en HTML/CSS (no imagen) para que se vea nítido.
   - Tarjeta flotante que aparece después de abrir: check verde + "Stock actualizado automáticamente".
 
+## 7b. Preguntas frecuentes (antes del formulario)
+
+- h2 normal (no forma parte de la cadena de bytes): "PREGUNTAS FRECUENTES".
+- Acordeón de 4 o 5 preguntas generales, las que filtran clientes. Propuestas: ¿Cuánto cuesta? ¿Cuánto tarda? ¿Qué necesito para empezar? ¿Trabajan con Tiendanube? ¿Qué pasa después de la entrega?
+- Respuestas: [FALTA: respuestas reales de Mauro]. No inventar.
+- Datos estructurados FAQPage con las mismas preguntas y respuestas.
+- En la v2, cada página de servicio tiene sus propias preguntas frecuentes.
+
 ## 8. Sección 5: Formulario y footer
 
 Referencia: `originales/mockups/05-formulario.jpg`
@@ -137,9 +148,9 @@ Referencia: `originales/mockups/05-formulario.jpg`
 - Frase (blanco): "Contanos qué necesitás y te respondemos en menos de 24 horas."
 - **Formulario por pasos** dentro de una tarjeta de vidrio oscuro: una pregunta por pantalla, barra de progreso #0040FF y "Paso X de N". Botones "Siguiente" y "Atrás".
 - **Paso 1: "¿Qué estás buscando?"** con la aclaración "Podés elegir más de uno." Tres tarjetas grandes seleccionables (se marcan y desmarcan):
-  1. Desarrollo web · "Una web profesional que te haga encontrar y vender."
-  2. Automatizaciones · "Que las tareas repetitivas se hagan solas."
-  3. Sistemas · "Un sistema a medida para ordenar tu negocio."
+  1. Desarrollo web · "Una web profesional que te haga encontrar y vender." Ícono de línea: una notebook con un celular al lado (como la imagen de la sección Desarrollo web, pero en ícono simple). No usar ícono de archivo ni de ventana.
+  2. Automatizaciones · "Que las tareas repetitivas se hagan solas." Ícono de nodos conectados.
+  3. Sistemas · "Un sistema a medida para ordenar tu negocio." Ícono de dashboard.
   - Tarjeta marcada: borde #0040FF de 2 px, glow y check en la esquina.
   - Si se marcan 2 o más, aparece la etiqueta "[combinación]: solución integral" (ejemplo "Web + Automatización: solución integral").
   - Hay que elegir al menos una para avanzar.
@@ -173,8 +184,36 @@ Es lo que hace única a la web. Especificación:
   - Objetivo: 90 o más en todas las categorías de PageSpeed (mobile y desktop).
 - **prefers-reduced-motion:** sin canvas animado; S y títulos estáticos.
 
+### Estrellas fugaces y luces al tocar (toda la web, mobile y desktop)
+
+Mantienen viva la idea de galaxia en toda la página. Se dibujan en el mismo canvas de las partículas.
+- **Estrellas fugaces:** chicas, finas y rápidas, con los colores de la marca. Una cada 6 a 10 segundos como máximo (intervalo al azar), nunca dos al mismo tiempo. Se pausan mientras los bytes están en una transición en espiral, para no distraer.
+- **Luces al tocar:** en mobile, al tocar la pantalla salen unos pocos puntos de luz (6 a 10) desde el punto tocado y se apagan en menos de un segundo. En desktop, lo mismo con el clic. Solo con un toque o clic, NUNCA al deslizar o scrollear. No deben bloquear el toque en botones, links ni el formulario.
+- Con `prefers-reduced-motion` no aparecen.
+
+## 9b. Mobile
+
+Referencia: `originales/mockups/06-mobile.jpg`. Todo pasa a una sola columna. Se construye primero a 390 px.
+
+- **Menú:** "Syntropic" (Tipo_Blanco) a la izquierda y menú hamburguesa a la derecha. Al abrirlo, pantalla completa navy con los links grandes.
+- **Hero:** la galaxia y la S ocupan la mitad de arriba de la pantalla; abajo, la etiqueta, el h1, la bajada y el botón "Hablemos" a todo el ancho.
+- **Desarrollo web:** título, textos y las 6 etiquetas en 2 columnas. Abajo, SOLO el celular (sin notebook) con la tarjeta de puntaje encima. Los nombres de clientes en una fila que se desliza con el dedo. Botón a todo el ancho.
+- **Automatizaciones:** título, textos y botón a todo el ancho. Después, el lienzo en vertical: los 3 disparadores arriba, la S al medio y las 5 acciones abajo, con cables verticales y la luz bajando. Los logos de "Y también conectamos" pasan solos en una fila en movimiento continuo.
+- **Sistemas:** título y frase, enseguida la notebook (más chica) abriéndose, después los 3 bloques y el botón a todo el ancho.
+- **Preguntas frecuentes:** acordeón a todo el ancho.
+- **Formulario:** las tarjetas del paso 1 una debajo de la otra; el botón "Siguiente" fijo abajo de la pantalla. Mientras el formulario está en pantalla, el botón flotante de WhatsApp se esconde para no tapar "Siguiente".
+- **Footer:** todo apilado y centrado.
+- Botones y zonas táctiles de al menos 44 px de alto.
+
 ## 10. SEO, GEO y medición
 
+Base: la guía oficial de Google de mayo 2026 dice que GEO es SEO bien hecho. No se usan llms.txt, contenido "en bloques para IA" ni schemas especiales. Lo que pesa: rastreo, estructura, mobile, velocidad, enlaces internos y contenido propio que no sea genérico.
+
+- Title: "Syntropic | Desarrollo web, automatizaciones y sistemas a medida en Argentina". Meta description con los tres servicios y la zona.
+- Zona de servicio: Argentina (`areaServed`). Textos de vos. Las versiones para otros países (Chile, Uruguay, Brasil) se harán más adelante como versiones aparte.
+- Casos y datos: SOLO reales y verificables (puntajes de PageSpeed medidos, URLs conservadas en Talar Maderas, testimonios de clientes con permiso). Nunca inventados.
+- `robots.txt` que permita los bots de IA (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended) además de los buscadores.
+- Pendientes del lanzamiento (Cloudflare, Search Console, Bing, Google Business): ver `docs/lanzamiento.md`.
 - Title, meta description, Open Graph (imagen con el logo sobre el fondo de la marca), favicon con la S.
 - Un solo h1 (hero), un h2 por sección.
 - Datos estructurados JSON-LD de tipo Organization y ProfessionalService (servicios, área: Argentina). [FALTA: dominio y datos de contacto]
@@ -192,3 +231,5 @@ Es lo que hace única a la web. Especificación:
 - [ ] Capturas de las webs de clientes y su permiso para aparecer.
 - [ ] Preguntas del formulario (pasos 2 a 4) y rangos de presupuesto.
 - [ ] URL del webhook de Make, base de Airtable e ID del Pixel de Meta.
+- [ ] Respuestas de las preguntas frecuentes.
+- [ ] Datos reales para casos: PageSpeed de las webs publicadas, URLs conservadas en Talar Maderas, testimonios de clientes.
