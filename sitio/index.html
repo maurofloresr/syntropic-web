@@ -7,6 +7,10 @@
   <link rel="preload" href="assets/fonts/archivo-expanded-black.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/componentes.css">
+  <link rel="stylesheet" href="assets/css/secciones.css">
+  <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -39,18 +43,21 @@
     <!-- ===================== Hero ===================== -->
     <section id="inicio" class="hero">
       <div class="hero-contenedor contenedor">
+        <!-- Lugar de la galaxia: se dibuja en el canvas en la Fase 2 -->
+        <div class="hero-visual" aria-hidden="true"></div>
+
         <div class="hero-texto">
           <p class="etiqueta">Desarrollo web, automatizaciones y sistemas a medida · Argentina</p>
           <h1>Creando soluciones <span class="titulo-linea-2">que trabajan por vos</span></h1>
           <p class="bajada">Webs, automatizaciones y sistemas para que tu negocio funcione mientras hacés lo importante.</p>
-          <a class="boton" href="#contacto">Hablemos</a>
+          <a class="boton boton-seccion" href="#contacto">Hablemos</a>
         </div>
-
-        <!-- Lugar de la galaxia: se dibuja en el canvas en la Fase 2 -->
-        <div class="hero-visual" aria-hidden="true"></div>
       </div>
 
-      <a class="hero-scroll" href="#desarrollo-web">Scrolleá <span class="hero-scroll-flecha" aria-hidden="true"></span></a>
+      <a class="hero-scroll" href="#desarrollo-web">
+        Scrolleá
+        <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-arrow-down"></use></svg>
+      </a>
     </section>
 
     <!-- ===================== Desarrollo web ===================== -->
@@ -62,24 +69,25 @@
           <p class="bajada">Diseño a medida, rápida en el celular y preparada para Google y para las inteligencias artificiales.</p>
 
           <ul class="pildoras">
-            <li class="pildora"><strong>SEO</strong> · Aparecé en Google</li>
-            <li class="pildora"><strong>GEO</strong> · Recomendado por las IAs</li>
-            <li class="pildora">Mobile first</li>
-            <li class="pildora">Carga ultra rápida</li>
-            <li class="pildora">Meta Pixel y Analytics</li>
-            <li class="pildora">Diseño a medida</li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-search"></use></svg><span><strong>SEO</strong> · Aparecé en Google</span></li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-bot"></use></svg><span><strong>GEO</strong> · Recomendado por las IAs</span></li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-smartphone"></use></svg><span>Mobile first</span></li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-zap"></use></svg><span>Carga ultra rápida</span></li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-chart-column"></use></svg><span>Meta Pixel y Analytics</span></li>
+            <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-palette"></use></svg><span>Diseño a medida</span></li>
           </ul>
-
-          <a class="boton" href="#contacto" data-servicio="web">Quiero mi web</a>
         </div>
 
         <div class="dw-visual">
-          <!-- Notebook y celular con la web del cliente: Fase 3 -->
-          <div class="dw-pantallas" aria-hidden="true"></div>
+          <div class="dw-pantallas">
+            <!-- Notebook y celular con la web del cliente: Fase 3. Por ahora, el espacio reservado. -->
+            <div class="marco marco-notebook" aria-hidden="true"></div>
+            <div class="marco marco-celular" aria-hidden="true"></div>
 
-          <div class="dw-puntaje tarjeta-vidrio">
-            <p class="dw-puntaje-numero">[FALTA: puntaje real]</p>
-            <p class="dw-puntaje-texto">Velocidad en Google</p>
+            <div class="dw-puntaje tarjeta-vidrio">
+              <p class="dw-puntaje-numero">[FALTA: puntaje real]</p>
+              <p class="dw-puntaje-texto">Velocidad en Google</p>
+            </div>
           </div>
 
           <div class="clientes">
@@ -91,6 +99,8 @@
             </ul>
           </div>
         </div>
+
+        <a class="boton boton-seccion dw-boton" href="#contacto" data-servicio="web">Quiero mi web</a>
       </div>
     </section>
 
@@ -101,44 +111,70 @@
           <h2 id="titulo-automatizaciones">Automatizaciones</h2>
           <p class="frase">Lo que hoy hacés a mano, mañana se hace solo.</p>
           <p class="bajada">Conectamos tus herramientas para que las tareas repetitivas se hagan solas, sin errores y las 24 horas.</p>
-          <a class="boton" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
+          <a class="boton boton-seccion" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
         </div>
 
         <!-- Lienzo de nodos. Cables y luces: Fase 3 -->
         <div class="lienzo">
           <ul class="nodos nodos-disparadores" aria-label="Lo que pasa en el negocio">
-            <li class="nodo"><strong>WhatsApp</strong> <span>Un cliente escribe</span></li>
-            <li class="nodo"><strong>Formulario web</strong> <span>Llega una consulta</span></li>
-            <li class="nodo"><strong>Tienda online</strong> <span>Entra una venta</span></li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-whatsapp"></use></svg>
+              <span class="nodo-texto"><strong>WhatsApp</strong> <span>Un cliente escribe</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-globe"></use></svg>
+              <span class="nodo-texto"><strong>Formulario web</strong> <span>Llega una consulta</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-shopping-bag"></use></svg>
+              <span class="nodo-texto"><strong>Tienda online</strong> <span>Entra una venta</span></span>
+            </li>
           </ul>
 
           <div class="nodo-central">
-            <img src="assets/img/isologo-blanco.webp" alt="Syntropic" width="800" height="815">
+            <div class="nodo-central-circulo">
+              <img src="assets/img/isologo-blanco.webp" alt="Syntropic" width="800" height="815">
+            </div>
             <p>IA que entiende y decide</p>
           </div>
 
           <ul class="nodos nodos-acciones" aria-label="Lo que se hace solo">
-            <li class="nodo"><strong>Responde al instante</strong> <span>WhatsApp</span></li>
-            <li class="nodo"><strong>Agenda el turno</strong> <span>Google Calendar</span></li>
-            <li class="nodo"><strong>Envía el presupuesto</strong> <span>Gmail</span></li>
-            <li class="nodo"><strong>Carga la venta</strong> <span>Google Sheets</span></li>
-            <li class="nodo"><strong>Avisa a tu equipo</strong> <span>Notificación</span></li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-whatsapp"></use></svg>
+              <span class="nodo-texto"><strong>Responde al instante</strong> <span>WhatsApp</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-calendar"></use></svg>
+              <span class="nodo-texto"><strong>Agenda el turno</strong> <span>Google Calendar</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-gmail"></use></svg>
+              <span class="nodo-texto"><strong>Envía el presupuesto</strong> <span>Gmail</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-file-spreadsheet"></use></svg>
+              <span class="nodo-texto"><strong>Carga la venta</strong> <span>Google Sheets</span></span>
+            </li>
+            <li class="nodo">
+              <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-bell"></use></svg>
+              <span class="nodo-texto"><strong>Avisa a tu equipo</strong> <span>Notificación</span></span>
+            </li>
           </ul>
         </div>
 
         <div class="conectamos">
           <p class="etiqueta">Y también conectamos</p>
           <ul class="conectamos-lista">
-            <li>Mercado Pago</li>
-            <li>Instagram</li>
-            <li>Facebook</li>
-            <li>Notion</li>
-            <li>Google Drive</li>
-            <li>Excel</li>
-            <li>Slack</li>
-            <li>Calendly</li>
-            <li>Trello</li>
-            <li>Zoom</li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-mercadopago"></use></svg><span class="sr-only">Mercado Pago</span></li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-instagram"></use></svg><span class="sr-only">Instagram</span></li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-facebook"></use></svg><span class="sr-only">Facebook</span></li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-notion"></use></svg><span class="sr-only">Notion</span></li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-googledrive"></use></svg><span class="sr-only">Google Drive</span></li>
+            <li class="conectamos-falta">Excel [FALTA: logo]</li>
+            <li class="conectamos-falta">Slack [FALTA: logo]</li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-calendly"></use></svg><span class="sr-only">Calendly</span></li>
+            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-trello"></use></svg><span class="sr-only">Trello</span></li>
+            <li><svg class="icono icono-ancho" aria-hidden="true"><use href="assets/img/iconos.svg#i-zoom"></use></svg><span class="sr-only">Zoom</span></li>
           </ul>
         </div>
       </div>
@@ -151,27 +187,38 @@
           <h2 id="titulo-sistemas">Sistemas</h2>
           <p class="frase">Un sistema que se adapta a tu negocio, no al revés.</p>
           <p class="bajada">Dejá las planillas sueltas y los cuadernos. Todo tu negocio en un solo lugar, ordenado y bajo control.</p>
-
-          <ul class="sis-bloques">
-            <li class="sis-bloque">
-              <h3>Seguro</h3>
-              <p>Tus datos protegidos, accesos por usuario y copias automáticas.</p>
-            </li>
-            <li class="sis-bloque">
-              <h3>Sencillo</h3>
-              <p>Tu equipo lo aprende en minutos, sin manuales.</p>
-            </li>
-            <li class="sis-bloque">
-              <h3>Personalizado</h3>
-              <p>Hecho a la medida de cómo trabajás vos.</p>
-            </li>
-          </ul>
-
-          <a class="boton" href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
         </div>
 
-        <!-- Notebook con el dashboard y la tarjeta "Stock actualizado": Fase 3 -->
-        <div class="sis-visual" aria-hidden="true"></div>
+        <!-- Notebook con el dashboard y la tarjeta "Stock actualizado": Fase 3. Por ahora, el espacio reservado. -->
+        <div class="sis-visual">
+          <div class="marco marco-notebook" aria-hidden="true"></div>
+        </div>
+
+        <ul class="sis-bloques">
+          <li class="bloque">
+            <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-shield"></use></svg>
+            <div>
+              <h3>Seguro</h3>
+              <p>Tus datos protegidos, accesos por usuario y copias automáticas.</p>
+            </div>
+          </li>
+          <li class="bloque">
+            <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-pointer"></use></svg>
+            <div>
+              <h3>Sencillo</h3>
+              <p>Tu equipo lo aprende en minutos, sin manuales.</p>
+            </div>
+          </li>
+          <li class="bloque">
+            <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-puzzle"></use></svg>
+            <div>
+              <h3>Personalizado</h3>
+              <p>Hecho a la medida de cómo trabajás vos.</p>
+            </div>
+          </li>
+        </ul>
+
+        <a class="boton boton-seccion sis-boton" href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
       </div>
     </section>
 
@@ -180,24 +227,24 @@
       <div class="contenedor">
         <h2 id="titulo-preguntas-frecuentes">Preguntas frecuentes</h2>
 
-        <div class="faq-lista">
-          <details class="faq-item">
+        <div class="acordeon">
+          <details class="acordeon-item">
             <summary>¿Cuánto cuesta?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
           </details>
-          <details class="faq-item">
+          <details class="acordeon-item">
             <summary>¿Cuánto tarda?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
           </details>
-          <details class="faq-item">
+          <details class="acordeon-item">
             <summary>¿Qué necesito para empezar?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
           </details>
-          <details class="faq-item">
+          <details class="acordeon-item">
             <summary>¿Trabajan con Tiendanube?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
           </details>
-          <details class="faq-item">
+          <details class="acordeon-item">
             <summary>¿Qué pasa después de la entrega?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
           </details>
@@ -213,8 +260,8 @@
 
         <form class="formulario tarjeta-vidrio" action="#" novalidate>
           <div class="formulario-progreso">
-            <p class="formulario-paso" id="formulario-paso">Paso 1 de 5</p>
             <progress class="formulario-barra" value="1" max="5" aria-labelledby="formulario-paso">Paso 1 de 5</progress>
+            <p class="formulario-paso" id="formulario-paso">Paso 1 de 5</p>
           </div>
 
           <!-- Paso 1 -->
@@ -222,34 +269,46 @@
             <legend>¿Qué estás buscando?</legend>
             <p class="formulario-aclaracion">Podés elegir más de uno.</p>
 
-            <div class="servicios">
-              <label class="servicio">
-                <input type="checkbox" name="servicio" value="web">
-                <span class="servicio-titulo">Desarrollo web</span>
-                <span class="servicio-texto">Una web profesional que te haga encontrar y vender.</span>
+            <div class="opciones">
+              <label class="opcion">
+                <input class="opcion-input" type="checkbox" name="servicio" value="web">
+                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-web-dispositivos"></use></svg>
+                <span class="opcion-titulo">Desarrollo web</span>
+                <span class="opcion-texto">Una web profesional que te haga encontrar y vender.</span>
+                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
               </label>
-              <label class="servicio">
-                <input type="checkbox" name="servicio" value="automatizaciones">
-                <span class="servicio-titulo">Automatizaciones</span>
-                <span class="servicio-texto">Que las tareas repetitivas se hagan solas.</span>
+              <label class="opcion">
+                <input class="opcion-input" type="checkbox" name="servicio" value="automatizaciones">
+                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-waypoints"></use></svg>
+                <span class="opcion-titulo">Automatizaciones</span>
+                <span class="opcion-texto">Que las tareas repetitivas se hagan solas.</span>
+                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
               </label>
-              <label class="servicio">
-                <input type="checkbox" name="servicio" value="sistemas">
-                <span class="servicio-titulo">Sistemas</span>
-                <span class="servicio-texto">Un sistema a medida para ordenar tu negocio.</span>
+              <label class="opcion">
+                <input class="opcion-input" type="checkbox" name="servicio" value="sistemas">
+                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-layout-dashboard"></use></svg>
+                <span class="opcion-titulo">Sistemas</span>
+                <span class="opcion-texto">Un sistema a medida para ordenar tu negocio.</span>
+                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
               </label>
             </div>
-
-            <!-- Etiqueta "solución integral": aparece con 2 o más servicios (Fase 4) -->
-            <p class="servicios-integral" aria-live="polite" hidden></p>
           </fieldset>
 
           <!-- Pasos 2 a 5 y pantalla de gracias: Fase 4 -->
           <p class="formulario-falta">[FALTA: preguntas de los pasos 2 a 4 y rangos de presupuesto]</p>
 
-          <div class="formulario-botones">
-            <button class="formulario-atras" type="button">Atrás</button>
-            <button class="boton" type="button">Siguiente</button>
+          <div class="formulario-pie">
+            <!-- Etiqueta "solución integral": aparece con 2 o más servicios (Fase 4) -->
+            <p class="etiqueta-integral" aria-live="polite" hidden></p>
+
+            <div class="formulario-botones">
+              <!-- "Atrás" no aplica en el paso 1: se muestra desde el paso 2 (Fase 4) -->
+              <button class="formulario-atras" type="button" hidden>Atrás</button>
+              <button class="boton formulario-siguiente" type="button">
+                Siguiente
+                <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-arrow-right"></use></svg>
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -273,10 +332,10 @@
       </nav>
 
       <ul class="footer-contacto">
-        <li>Instagram [FALTA: link de Instagram]</li>
-        <li>LinkedIn [FALTA: link de LinkedIn]</li>
-        <li>WhatsApp [FALTA: número de WhatsApp]</li>
-        <li>[FALTA: mail]</li>
+        <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-instagram"></use></svg> Instagram [FALTA: link]</li>
+        <li>LinkedIn [FALTA: link y logo]</li>
+        <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-whatsapp"></use></svg> WhatsApp [FALTA: número]</li>
+        <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-mail"></use></svg> [FALTA: mail]</li>
       </ul>
     </div>
 
@@ -285,11 +344,14 @@
 
   <!-- ===================== WhatsApp flotante ===================== -->
   <div class="whatsapp">
-    <a class="whatsapp-boton" aria-label="Escribinos por WhatsApp">WhatsApp</a>
     <span class="whatsapp-falta">[FALTA: número de WhatsApp]</span>
+    <a class="whatsapp-boton" aria-label="Escribinos por WhatsApp">
+      <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-whatsapp"></use></svg>
+    </a>
   </div>
 
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/interfaz.js" defer></script>
 </body>
 </html>

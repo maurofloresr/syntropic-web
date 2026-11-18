@@ -1,0 +1,340 @@
+/* ==========================================================================
+   Syntropic: componentes reutilizables
+   Piezas que se repiten en la landing y que se van a reusar en las páginas
+   de servicio de la v2. Registro en docs/componentes.md.
+   ========================================================================== */
+
+:root {
+  /* Botón flotante de WhatsApp: los botones de sección le dejan este lugar */
+  --whatsapp-tamano: 56px;
+  --whatsapp-margen: 16px;
+  --altura-menu: 72px;
+}
+
+/* --- Ícono (sprite: assets/img/iconos.svg) --- */
+.icono {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+  color: var(--celeste);
+  stroke-width: 2; /* grosor de los íconos de línea; se ajusta por componente */
+}
+
+/* --- Textos que se repiten en todas las secciones --- */
+.etiqueta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--celeste-claro);
+}
+
+.frase {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--blanco);
+}
+
+.bajada {
+  font-size: 1rem;
+  color: var(--celeste-claro);
+}
+
+@media (min-width: 1024px) {
+  .frase { font-size: 1.75rem; }
+  .bajada { font-size: 1.25rem; }
+}
+
+/* --- Botón de sección --- */
+/* En mobile ocupa todo el ancho menos el lugar del botón de WhatsApp,
+   para que nunca se superpongan. */
+.boton-seccion {
+  width: calc(100% - (var(--whatsapp-tamano) + var(--whatsapp-margen) + 8px - var(--margen-lateral)));
+}
+
+@media (min-width: 768px) {
+  .boton-seccion { width: auto; }
+}
+
+/* --- Píldora (etiqueta con ícono) --- */
+.pildora {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--celeste);
+  border-radius: var(--radio-pildora);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: var(--blanco);
+}
+
+.pildora strong { font-weight: 600; }
+
+@media (min-width: 1024px) {
+  .pildora { font-size: 0.9375rem; padding-inline: 1rem; }
+}
+
+/* --- Marco reservado (pantallas que llegan en la Fase 3) --- */
+.marco {
+  border: 1px solid var(--vidrio-borde);
+  background-color: var(--vidrio-fondo);
+  box-shadow: 0 0 80px rgba(0, 64, 255, 0.35);
+}
+
+.marco-notebook {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radio);
+}
+
+.marco-celular {
+  aspect-ratio: 9 / 19;
+  border-radius: 28px;
+}
+
+/* --- Nodo del lienzo de automatizaciones --- */
+.nodo {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--navy);
+  background-image: linear-gradient(var(--vidrio-fondo), var(--vidrio-fondo));
+  border: 1px solid var(--vidrio-borde);
+  border-radius: var(--radio);
+}
+
+.nodo .icono { width: 1.5rem; height: 1.5rem; }
+
+.nodo-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.nodo-texto strong {
+  font-weight: 600;
+  color: var(--blanco);
+}
+
+.nodo-texto span {
+  font-size: 0.875rem;
+  color: var(--celeste-claro);
+}
+
+/* --- Bloque con ícono, título y una línea --- */
+.bloque {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.bloque .icono {
+  width: 2.25rem;
+  height: 2.25rem;
+  stroke-width: 1.5;
+}
+
+.bloque h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.bloque p { color: var(--celeste-claro); }
+
+@media (min-width: 1024px) {
+  .bloque .icono { width: 2.75rem; height: 2.75rem; }
+  .bloque h3 { font-size: 1.25rem; }
+  .bloque p { font-size: 1.125rem; }
+}
+
+/* --- Acordeón (desplegable nativo) --- */
+.acordeon-item {
+  border-bottom: 1px solid var(--vidrio-borde);
+}
+
+.acordeon-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 56px;
+  padding-block: 1rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.acordeon-item summary::-webkit-details-marker { display: none; }
+
+/* Signo + que gira a × al abrir */
+.acordeon-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--celeste);
+  transition: transform 0.25s ease;
+}
+
+.acordeon-item[open] summary::after { transform: rotate(45deg); }
+
+.acordeon-item p {
+  padding-bottom: 1.25rem;
+  color: var(--celeste-claro);
+}
+
+/* --- Opción seleccionable (tarjeta del formulario) --- */
+.opcion {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icono titulo"
+    "icono texto";
+  align-items: center;
+  column-gap: 1rem;
+  min-height: 88px;
+  padding: 1rem 2.75rem 1rem 1rem;
+  border: 1px solid var(--vidrio-borde);
+  border-radius: var(--radio);
+  background-color: var(--vidrio-fondo);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* El checkbox real queda accesible pero invisible: la tarjeta es el control */
+.opcion-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.opcion-icono {
+  grid-area: icono;
+  width: 2.5rem;
+  height: 2.5rem;
+  stroke-width: 1.5;
+}
+
+.opcion-titulo {
+  grid-area: titulo;
+  align-self: end;
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.opcion-texto {
+  grid-area: texto;
+  align-self: start;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--celeste-claro);
+}
+
+.opcion-check {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+  background-color: var(--azul);
+  color: var(--blanco);
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.opcion:hover { border-color: var(--celeste); }
+
+.opcion:has(.opcion-input:checked) {
+  border: 2px solid var(--azul);
+  padding: calc(1rem - 1px) calc(2.75rem - 1px) calc(1rem - 1px) calc(1rem - 1px);
+  box-shadow: var(--glow-azul);
+}
+
+.opcion:has(.opcion-input:checked) .opcion-check { opacity: 1; }
+
+.opcion:has(.opcion-input:focus-visible) {
+  outline: 2px solid var(--celeste);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .opcion {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "icono"
+      "titulo"
+      "texto";
+    justify-items: center;
+    row-gap: 0.25rem;
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+  }
+
+  .opcion:has(.opcion-input:checked) {
+    padding: calc(1.75rem - 1px) calc(1.25rem - 1px);
+  }
+
+  .opcion-icono { width: 3rem; height: 3rem; margin-bottom: 0.5rem; }
+  .opcion-titulo { font-size: 1.25rem; }
+  .opcion-texto { font-size: 0.9375rem; }
+}
+
+/* --- Botón flotante de WhatsApp --- */
+.whatsapp {
+  position: fixed;
+  right: var(--whatsapp-margen);
+  bottom: var(--whatsapp-margen);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.whatsapp.oculto {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.whatsapp-boton {
+  display: grid;
+  place-items: center;
+  width: var(--whatsapp-tamano);
+  height: var(--whatsapp-tamano);
+  border-radius: 50%;
+  background-color: var(--whatsapp);
+  box-shadow: 0 4px 16px rgba(11, 21, 36, 0.5);
+}
+
+.whatsapp-boton .icono {
+  width: 30px;
+  height: 30px;
+  color: var(--blanco);
+}
+
+/* Marcador temporal: del mismo ancho que el botón, para no tapar nada */
+.whatsapp-falta {
+  width: var(--whatsapp-tamano);
+  padding: 0.25rem 0.125rem;
+  border-radius: 6px;
+  background-color: var(--navy);
+  border: 1px solid var(--vidrio-borde);
+  font-size: 0.5625rem;
+  text-align: center;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+  color: var(--celeste-claro);
+}
