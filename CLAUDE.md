@@ -27,6 +27,7 @@ Web propia de Syntropic (webs, automatizaciones y sistemas). Es la vidriera de l
 - HTML + CSS + JavaScript sin framework. Sitio estático en `sitio/`.
 - GSAP + ScrollTrigger para animaciones atadas al scroll (archivos locales en `sitio/assets/js/vendor/`, no CDN).
 - Canvas 2D para la galaxia y las partículas de bytes (un solo canvas fijo para todo el sitio).
+- Servidor local (desde `web/`): `python -m http.server 8000 --directory sitio --bind 0.0.0.0`. Se ve en `http://localhost:8000` y en el celu con la IP local de la PC (misma red WiFi).
 - Deploy: Cloudflare Pages. Se sube una carpeta `publicar/` con todo minificado y sin comentarios. `sitio/` queda como versión legible.
 
 ## Estructura
@@ -46,6 +47,7 @@ web/
 ## Al cerrar cada paso
 
 - Actualizar `docs/progress.md`: qué se hizo, qué quedó pendiente, qué decisión necesita Mauro.
+- Commit y push a GitHub (`origin`, repo privado maurofloresr/syntropic-web, rama `main`). En este proyecto Mauro autorizó el push al cerrar cada paso, sin pedirlo cada vez.
 - Contarle a Mauro en palabras qué cambió y cómo verlo (qué sección, en qué ancho de pantalla). No mostrarle código salvo que lo pida.
 - Avisar aparte si un cambio afecta cómo funciona el proyecto de ahí en adelante.
 - Si algo del brief no se puede hacer o hay una forma mejor, avisar antes de cambiarlo. Las decisiones las toma Mauro.
