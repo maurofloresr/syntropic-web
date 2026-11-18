@@ -7,41 +7,287 @@
   <link rel="preload" href="assets/fonts/archivo-expanded-black.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/base.css">
-  <style>
-    /* Estilos solo de la página de prueba de la Fase 0. Se reemplaza en la Fase 1. */
-    .prueba-header { padding-block: 24px; }
-    .prueba-header img { width: 140px; height: auto; }
-    .prueba-main { display: grid; gap: 2rem; padding-block: 48px 80px; }
-    .prueba-main h1 { font-size: clamp(1.75rem, 7vw, 4rem); }
-    .prueba-bajada { font-size: 1.125rem; max-width: 34em; }
-    .prueba-muestra p + p { margin-top: 0.5rem; }
-    .prueba-peso-500 { font-weight: 500; }
-    .prueba-peso-600 { font-weight: 600; }
-    .prueba-footer img { width: 96px; height: auto; }
-  </style>
 </head>
 <body>
-  <header class="prueba-header contenedor">
-    <img src="assets/img/logo-tipo-blanco.webp" alt="Syntropic" width="640" height="143">
+
+  <!-- ===================== Menú ===================== -->
+  <header class="menu">
+    <div class="menu-contenedor contenedor">
+      <a class="menu-logo" href="#inicio">
+        <img src="assets/img/logo-tipo-blanco.webp" alt="Syntropic" width="640" height="143">
+      </a>
+
+      <button class="menu-hamburguesa" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menú">
+        <span class="menu-hamburguesa-linea"></span>
+        <span class="menu-hamburguesa-linea"></span>
+        <span class="menu-hamburguesa-linea"></span>
+      </button>
+
+      <nav id="menu-principal" class="menu-nav" aria-label="Principal">
+        <ul class="menu-lista">
+          <li><a href="#desarrollo-web">Desarrollo web</a></li>
+          <li><a href="#automatizaciones">Automatizaciones</a></li>
+          <li><a href="#sistemas">Sistemas</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main class="prueba-main contenedor">
-    <h1>Creando soluciones <span class="titulo-linea-2">que trabajan por vos</span></h1>
+  <main>
 
-    <p class="prueba-bajada texto-secundario">Webs, automatizaciones y sistemas para que tu negocio funcione mientras hacés lo importante.</p>
+    <!-- ===================== Hero ===================== -->
+    <section id="inicio" class="hero">
+      <div class="hero-contenedor contenedor">
+        <div class="hero-texto">
+          <p class="etiqueta">Desarrollo web, automatizaciones y sistemas a medida · Argentina</p>
+          <h1>Creando soluciones <span class="titulo-linea-2">que trabajan por vos</span></h1>
+          <p class="bajada">Webs, automatizaciones y sistemas para que tu negocio funcione mientras hacés lo importante.</p>
+          <a class="boton" href="#contacto">Hablemos</a>
+        </div>
 
-    <p><a class="boton" href="#">Hablemos</a></p>
+        <!-- Lugar de la galaxia: se dibuja en el canvas en la Fase 2 -->
+        <div class="hero-visual" aria-hidden="true"></div>
+      </div>
 
-    <div class="tarjeta-vidrio prueba-muestra">
-      <p>Inter Regular: áéíóú üñ ÁÉÍÓÚ ÜÑ ¿¡ $ % @ « » 0123456789</p>
-      <p class="prueba-peso-500">Inter Medium: áéíóú üñ ÁÉÍÓÚ ÜÑ ¿¡ $ % @ « »</p>
-      <p class="prueba-peso-600">Inter SemiBold: áéíóú üñ ÁÉÍÓÚ ÜÑ ¿¡ $ % @ « »</p>
-    </div>
+      <a class="hero-scroll" href="#desarrollo-web">Scrolleá <span class="hero-scroll-flecha" aria-hidden="true"></span></a>
+    </section>
+
+    <!-- ===================== Desarrollo web ===================== -->
+    <section id="desarrollo-web" class="seccion dw" aria-labelledby="titulo-desarrollo-web">
+      <div class="dw-contenedor contenedor">
+        <div class="dw-texto">
+          <h2 id="titulo-desarrollo-web">Desarrollo web</h2>
+          <p class="frase">Tu web, lista para que te encuentren.</p>
+          <p class="bajada">Diseño a medida, rápida en el celular y preparada para Google y para las inteligencias artificiales.</p>
+
+          <ul class="pildoras">
+            <li class="pildora"><strong>SEO</strong> · Aparecé en Google</li>
+            <li class="pildora"><strong>GEO</strong> · Recomendado por las IAs</li>
+            <li class="pildora">Mobile first</li>
+            <li class="pildora">Carga ultra rápida</li>
+            <li class="pildora">Meta Pixel y Analytics</li>
+            <li class="pildora">Diseño a medida</li>
+          </ul>
+
+          <a class="boton" href="#contacto" data-servicio="web">Quiero mi web</a>
+        </div>
+
+        <div class="dw-visual">
+          <!-- Notebook y celular con la web del cliente: Fase 3 -->
+          <div class="dw-pantallas" aria-hidden="true"></div>
+
+          <div class="dw-puntaje tarjeta-vidrio">
+            <p class="dw-puntaje-numero">[FALTA: puntaje real]</p>
+            <p class="dw-puntaje-texto">Velocidad en Google</p>
+          </div>
+
+          <div class="clientes">
+            <p class="etiqueta">Ya confiaron en nosotros</p>
+            <ul class="clientes-lista">
+              <li><button class="cliente" type="button" aria-pressed="true">Talar Maderas</button></li>
+              <li><button class="cliente" type="button" aria-pressed="false">Je t'aime Alfajores</button></li>
+              <li><button class="cliente" type="button" aria-pressed="false">The Mei</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Automatizaciones ===================== -->
+    <section id="automatizaciones" class="seccion auto" aria-labelledby="titulo-automatizaciones">
+      <div class="contenedor">
+        <div class="auto-texto">
+          <h2 id="titulo-automatizaciones">Automatizaciones</h2>
+          <p class="frase">Lo que hoy hacés a mano, mañana se hace solo.</p>
+          <p class="bajada">Conectamos tus herramientas para que las tareas repetitivas se hagan solas, sin errores y las 24 horas.</p>
+          <a class="boton" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
+        </div>
+
+        <!-- Lienzo de nodos. Cables y luces: Fase 3 -->
+        <div class="lienzo">
+          <ul class="nodos nodos-disparadores" aria-label="Lo que pasa en el negocio">
+            <li class="nodo"><strong>WhatsApp</strong> <span>Un cliente escribe</span></li>
+            <li class="nodo"><strong>Formulario web</strong> <span>Llega una consulta</span></li>
+            <li class="nodo"><strong>Tienda online</strong> <span>Entra una venta</span></li>
+          </ul>
+
+          <div class="nodo-central">
+            <img src="assets/img/isologo-blanco.webp" alt="Syntropic" width="800" height="815">
+            <p>IA que entiende y decide</p>
+          </div>
+
+          <ul class="nodos nodos-acciones" aria-label="Lo que se hace solo">
+            <li class="nodo"><strong>Responde al instante</strong> <span>WhatsApp</span></li>
+            <li class="nodo"><strong>Agenda el turno</strong> <span>Google Calendar</span></li>
+            <li class="nodo"><strong>Envía el presupuesto</strong> <span>Gmail</span></li>
+            <li class="nodo"><strong>Carga la venta</strong> <span>Google Sheets</span></li>
+            <li class="nodo"><strong>Avisa a tu equipo</strong> <span>Notificación</span></li>
+          </ul>
+        </div>
+
+        <div class="conectamos">
+          <p class="etiqueta">Y también conectamos</p>
+          <ul class="conectamos-lista">
+            <li>Mercado Pago</li>
+            <li>Instagram</li>
+            <li>Facebook</li>
+            <li>Notion</li>
+            <li>Google Drive</li>
+            <li>Excel</li>
+            <li>Slack</li>
+            <li>Calendly</li>
+            <li>Trello</li>
+            <li>Zoom</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Sistemas ===================== -->
+    <section id="sistemas" class="seccion sis" aria-labelledby="titulo-sistemas">
+      <div class="sis-contenedor contenedor">
+        <div class="sis-texto">
+          <h2 id="titulo-sistemas">Sistemas</h2>
+          <p class="frase">Un sistema que se adapta a tu negocio, no al revés.</p>
+          <p class="bajada">Dejá las planillas sueltas y los cuadernos. Todo tu negocio en un solo lugar, ordenado y bajo control.</p>
+
+          <ul class="sis-bloques">
+            <li class="sis-bloque">
+              <h3>Seguro</h3>
+              <p>Tus datos protegidos, accesos por usuario y copias automáticas.</p>
+            </li>
+            <li class="sis-bloque">
+              <h3>Sencillo</h3>
+              <p>Tu equipo lo aprende en minutos, sin manuales.</p>
+            </li>
+            <li class="sis-bloque">
+              <h3>Personalizado</h3>
+              <p>Hecho a la medida de cómo trabajás vos.</p>
+            </li>
+          </ul>
+
+          <a class="boton" href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
+        </div>
+
+        <!-- Notebook con el dashboard y la tarjeta "Stock actualizado": Fase 3 -->
+        <div class="sis-visual" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ===================== Preguntas frecuentes ===================== -->
+    <section id="preguntas-frecuentes" class="seccion faq" aria-labelledby="titulo-preguntas-frecuentes">
+      <div class="contenedor">
+        <h2 id="titulo-preguntas-frecuentes">Preguntas frecuentes</h2>
+
+        <div class="faq-lista">
+          <details class="faq-item">
+            <summary>¿Cuánto cuesta?</summary>
+            <p>[FALTA: respuesta de Mauro]</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cuánto tarda?</summary>
+            <p>[FALTA: respuesta de Mauro]</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué necesito para empezar?</summary>
+            <p>[FALTA: respuesta de Mauro]</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Trabajan con Tiendanube?</summary>
+            <p>[FALTA: respuesta de Mauro]</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué pasa después de la entrega?</summary>
+            <p>[FALTA: respuesta de Mauro]</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Hablemos (formulario) ===================== -->
+    <section id="contacto" class="seccion contacto" aria-labelledby="titulo-contacto">
+      <div class="contenedor">
+        <h2 id="titulo-contacto">Hablemos</h2>
+        <p class="frase">Contanos qué necesitás y te respondemos en menos de 24 horas.</p>
+
+        <form class="formulario tarjeta-vidrio" action="#" novalidate>
+          <div class="formulario-progreso">
+            <p class="formulario-paso" id="formulario-paso">Paso 1 de 5</p>
+            <progress class="formulario-barra" value="1" max="5" aria-labelledby="formulario-paso">Paso 1 de 5</progress>
+          </div>
+
+          <!-- Paso 1 -->
+          <fieldset class="formulario-pregunta">
+            <legend>¿Qué estás buscando?</legend>
+            <p class="formulario-aclaracion">Podés elegir más de uno.</p>
+
+            <div class="servicios">
+              <label class="servicio">
+                <input type="checkbox" name="servicio" value="web">
+                <span class="servicio-titulo">Desarrollo web</span>
+                <span class="servicio-texto">Una web profesional que te haga encontrar y vender.</span>
+              </label>
+              <label class="servicio">
+                <input type="checkbox" name="servicio" value="automatizaciones">
+                <span class="servicio-titulo">Automatizaciones</span>
+                <span class="servicio-texto">Que las tareas repetitivas se hagan solas.</span>
+              </label>
+              <label class="servicio">
+                <input type="checkbox" name="servicio" value="sistemas">
+                <span class="servicio-titulo">Sistemas</span>
+                <span class="servicio-texto">Un sistema a medida para ordenar tu negocio.</span>
+              </label>
+            </div>
+
+            <!-- Etiqueta "solución integral": aparece con 2 o más servicios (Fase 4) -->
+            <p class="servicios-integral" aria-live="polite" hidden></p>
+          </fieldset>
+
+          <!-- Pasos 2 a 5 y pantalla de gracias: Fase 4 -->
+          <p class="formulario-falta">[FALTA: preguntas de los pasos 2 a 4 y rangos de presupuesto]</p>
+
+          <div class="formulario-botones">
+            <button class="formulario-atras" type="button">Atrás</button>
+            <button class="boton" type="button">Siguiente</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="prueba-footer contenedor">
-    <img src="assets/img/logo-blanco.webp" alt="Syntropic" width="480" height="475">
+  <!-- ===================== Footer ===================== -->
+  <footer class="footer">
+    <div class="footer-contenedor contenedor">
+      <a class="footer-logo" href="#inicio">
+        <img src="assets/img/logo-blanco.webp" alt="Syntropic" width="480" height="475">
+      </a>
+
+      <nav class="footer-nav" aria-label="Secciones">
+        <ul>
+          <li><a href="#desarrollo-web">Desarrollo web</a></li>
+          <li><a href="#automatizaciones">Automatizaciones</a></li>
+          <li><a href="#sistemas">Sistemas</a></li>
+        </ul>
+      </nav>
+
+      <ul class="footer-contacto">
+        <li>Instagram [FALTA: link de Instagram]</li>
+        <li>LinkedIn [FALTA: link de LinkedIn]</li>
+        <li>WhatsApp [FALTA: número de WhatsApp]</li>
+        <li>[FALTA: mail]</li>
+      </ul>
+    </div>
+
+    <p class="footer-legal contenedor">© 2026 Syntropic. Todos los derechos reservados.</p>
   </footer>
+
+  <!-- ===================== WhatsApp flotante ===================== -->
+  <div class="whatsapp">
+    <a class="whatsapp-boton" aria-label="Escribinos por WhatsApp">WhatsApp</a>
+    <span class="whatsapp-falta">[FALTA: número de WhatsApp]</span>
+  </div>
 
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
