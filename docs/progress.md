@@ -4,7 +4,18 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- Mauro revisó las Fases 1 y 2 (le encantaron) y pidió 6 ajustes, ya hechos el 19/11. Esperando que Mauro los vea en celu y en compu. No arrancar la Fase 3 sin su confirmación.
+- **Fase 3, paso 1 (Desarrollo web): hecho, esperando la revisión de Mauro.** No arrancar el paso 2 sin su confirmación. Fases 1 y 2 aprobadas por Mauro el 19/11 (los detalles de la galaxia se pulen más adelante).
+- Pregunta abierta para Mauro: entre 1024 y ~1280 px la columna de las pantallas de Desarrollo web queda angosta (unos 250 px, porque "DESARROLLO" ocupa casi todo el ancho): la tarjeta del puntaje tapa la notebook y los nombres de clientes se parten en dos líneas. Propuesta: usar la disposición de tablet (pantallas debajo del texto) hasta 1280 px. Es maquetación aprobada en la Fase 1: no se toca sin su OK.
+- Decisiones tomadas en el paso 1 (revisar): rotación cada 5 segundos; con movimiento reducido no rota (se cambia solo tocando); al rotar en mobile, la fila de nombres se desliza sola para mostrar el activo; las pantallas suben con un fundido al entrar y la tarjeta llega después; en desktop la notebook es más grande y la tarjeta se corre hacia el espacio entre columnas.
+- Decisiones de Mauro para la Fase 3 (19/11):
+  - Clientes de Desarrollo web: Novo Hair | Talar Maderas | ATR (cambio en el brief). Capturas sacadas por Claude Code de las webs publicadas, quietas (solo la primera pantalla), desktop 1440x900 y mobile 390x844.
+  - Los clientes rotan solos cada unos segundos; la rotación se corta apenas el usuario toca un nombre y se pausa fuera de pantalla.
+  - La tarjeta "Velocidad en Google" sigue con `[FALTA: puntaje real]` hasta el deploy.
+  - Check de "Stock actualizado" en #25D366 (excepción a la paleta: el verde de WhatsApp también en ese check).
+  - Dashboard de Sistemas con datos demo y productos genéricos de cualquier comercio, nada que remita a un cliente real.
+  - La notebook de Sistemas se abre una vez y queda abierta.
+  - Los textos de cada sección aparecen solos al entrar en pantalla (no esperan al título de bytes).
+  - Las entradas se disparan cuando cada elemento aparece en pantalla (no por posiciones de scroll calculadas), así el pin del hero y el parallax no las corren.
 - **Excepción a la paleta aprobada por Mauro:** violeta #B49CF0 (tomado de la referencia `originales/mockups/07-galaxia-referencia.png`), SOLO en algunas estrellas sueltas de la galaxia del hero (alrededor del 3% de las estrellas de campo). En títulos y en el resto de la web, solo la paleta del brief.
 - Decisiones de Mauro en la revisión de las Fases 1 y 2:
   - Galaxia del hero con brazos en espiral como la referencia 07, núcleo más denso blanco y celeste claro con brillo azul eléctrico (sin el amarillo de la referencia) y estrellas que llenan toda la sección del hero.
@@ -54,12 +65,17 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Pendiente
 
-- Todo el roadmap desde la Fase 1.
+- Fase 3, paso 2: Automatizaciones (aparición de los nodos, cables, loop de luz y versión vertical para mobile).
+- Fase 3, paso 3: Sistemas (notebook que se abre sola, dashboard en HTML/CSS y tarjeta "Stock actualizado").
+- Fase 3, paso 4: entradas suaves de textos y botones.
+- Rehacer la captura de Talar Maderas cuando esté en su dominio real.
+- Confirmar el permiso de Novo Hair, Talar Maderas y ATR antes de publicar.
 - Pendientes de Mauro: ver `docs/brief.md`, sección 11.
 - [FALTA] links de TikTok y Facebook de Syntropic (footer): se suman cuando estén creadas las cuentas.
 
 ## Hecho
 
+- 19/11: Fase 3, paso 1: Desarrollo web. Capturas de Novo Hair, Talar Maderas (link provisorio) y ATR sacadas con Chrome sin ventana y pasadas a WebP (37 a 100 KB). Notebook y celular hechos en CSS, cambio de cliente con fundido, rotación automática que se corta al tocar un nombre y se pausa fuera de pantalla o con la pestaña oculta, carga diferida de las capturas (en mobile no se bajan las de la notebook), indicador circular listo para el puntaje real. Nuevo `secciones.js`. Probado con Chrome en 375x667, 390x844, 768x1024, 1024x768, 1440x900, 1920x1080 y con movimiento reducido: sin errores de consola (solo falta el favicon, que es de la Fase 5) ni scroll horizontal. No probado en un celu real.
 - 19/11: ajustes de la revisión de las Fases 1 y 2 (6 puntos): galaxia del hero más real con violetas sueltas, pin del hero con la formación de la S más rica, supernova sobre la galaxia, fugaces fuera del hero, títulos que se forman apenas asoma su sección y caen en bytes al irse, S que no toca la etiqueta en pantallas bajas. Probado con Chrome en 375x667, 390x664, 390x844, 768x1024, 1024x768 y 1440x900: sin errores de consola ni scroll horizontal, links del menú frenando 40 px debajo del menú, movimiento reducido sin pin, mobile a ~60 cuadros por segundo con la CPU frenada 4 veces. No probado en un celu real.
 - 18/11: Fase 2 completa. Canvas fijo y motor de partículas (`particulas.js`), galaxia del hero en movimiento lento, S muestreada de una copia del isologo sin "DEV", títulos de 0 y 1 muestreados de cada h2, transición en espiral atada al scroll que rebobina al subir, cadena galaxia > S > DESARROLLO WEB > AUTOMATIZACIONES > SISTEMAS > HABLEMOS, cruce con el h2 real, 900/2500 partículas, pausa con pestaña oculta, versión con movimiento reducido, estrellas fugaces cada 6 a 10 s (nunca durante una espiral) y luces al tocar o hacer clic (no al deslizar, sin bloquear botones). Probado en 375x667, 390x844, 768x1024, 1024x768 y 1440x900 con Chrome sin placa de video: sin errores de consola ni scroll horizontal; mobile a ~60 cuadros por segundo con la CPU frenada 4 veces.
 - 18/11: Fase 1, paso 4: h2 con tamaño y estilo finales. Medidos en 320, 360, 390, 768, 1024 y 1440 px: sin desbordes ni scroll horizontal, "DESARROLLO / WEB" en dos líneas en todos los anchos.

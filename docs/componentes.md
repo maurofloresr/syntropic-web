@@ -7,7 +7,9 @@ Lo mantiene Claude Code. Registro de las piezas reutilizables, para usarlas en l
 - `sitio/assets/css/base.css`: fuentes, paleta, reset, botón, tarjeta de vidrio, foco, movimiento reducido.
 - `sitio/assets/css/componentes.css`: los componentes de abajo.
 - `sitio/assets/css/secciones.css`: disposición de cada sección de la landing (no se reutiliza).
-- `sitio/assets/js/interfaz.js`: menú hamburguesa, elección de cliente, WhatsApp que se esconde con el formulario en mobile.
+- `sitio/assets/js/interfaz.js`: menú hamburguesa y WhatsApp que se esconde con el formulario en mobile.
+- `sitio/assets/js/secciones.js`: animaciones de cada sección (Fase 3). Funciones de ayuda `alEntrar` (una vez, al aparecer en pantalla), `alVer` (cada vez que entra o sale) y `cuandoLibre`. Las entradas se disparan con IntersectionObserver y no con posiciones de scroll, para que el pin del hero y el parallax no las corran. Desarrollo web: cambio de cliente, rotación automática, carga diferida de capturas, entrada de las pantallas e indicador del puntaje.
+- `sitio/assets/img/clientes/`: capturas de las webs de clientes en WebP, `<cliente>-desktop.webp` (1280x800) y `<cliente>-mobile.webp` (600x1298, sacada a 390x844 con pantalla retina). Solo la primera pantalla de cada web.
 - `sitio/assets/img/iconos.svg`: todos los íconos en un solo archivo.
 - `sitio/assets/js/particulas.js`: sistema de partículas (galaxia, S, títulos de 0 y 1, espiral atada al scroll, estrellas fugaces, luces al tocar). Ver "Partículas" abajo.
 - `sitio/assets/img/isologo-s-muestreo.png`: copia del isologo blanco SIN el "DEV", recortada a la S y a 400 px de ancho. Solo se usa para muestrear la forma de la S (el original de `../branding/` no se tocó).
@@ -33,7 +35,11 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Etiqueta | `.etiqueta` | componentes.css | Arriba del h1, "Ya confiaron en nosotros", "Y también conectamos" |
 | Frase y bajada | `.frase`, `.bajada` | componentes.css | Debajo de cada h2 |
 | Píldora | `.pildora` | componentes.css | Desarrollo web (6 etiquetas) |
-| Marco reservado | `.marco .marco-notebook`, `.marco .marco-celular` | componentes.css | Lugar de las pantallas de Desarrollo web y Sistemas hasta la Fase 3 |
+| Marco reservado | `.marco .marco-notebook` | componentes.css | Lugar de la notebook de Sistemas hasta el paso 3 de la Fase 3 |
+| Notebook | `.notebook` > `.notebook-tapa` > `.pantalla`, más `.notebook-base` | componentes.css | Desarrollo web (desde tablet). Hecha en CSS, medidas en % para que escale con el ancho. El aluminio es celeste claro con transparencia |
+| Celular | `.celular` > `.pantalla` | componentes.css | Desarrollo web. Con la isla de la cámara en `::after` |
+| Pantalla con capturas | `.pantalla` + `.pantalla-captura` (`.activa` la que se ve) | componentes.css | Dentro de la notebook y el celular. Las capturas van apiladas y cambian con un fundido. Las que llevan `data-src` se cargan después |
+| Indicador circular | `.indicador` (SVG con `.indicador-fondo` y `.indicador-arco`) | componentes.css | Tarjeta del puntaje. Con `data-puntaje` (0 a 100), el arco se llena al entrar en pantalla (clase `.lleno`). Sin puntaje queda solo el aro de fondo |
 | Nodo | `.nodo` + `.nodo-texto` | componentes.css | Lienzo de Automatizaciones |
 | Bloque | `.bloque` | componentes.css | Seguro, Sencillo, Personalizado |
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |

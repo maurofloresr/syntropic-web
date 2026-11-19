@@ -296,18 +296,62 @@ body.menu-abierto { overflow: hidden; }
 }
 
 /* Mobile: solo el celular (sin notebook), con la tarjeta del puntaje encima */
-.dw-pantallas .marco-notebook { display: none; }
+.dw-pantallas {
+  isolation: isolate; /* el brillo de atrás queda debajo de las pantallas */
+}
 
-.dw-pantallas .marco-celular { width: 56%; }
+/* Brillo azul detrás de las pantallas (se recorta a los costados para no generar scroll horizontal) */
+.dw-pantallas::before {
+  content: "";
+  position: absolute;
+  inset: -8% 0;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(0, 64, 255, 0.5), rgba(0, 64, 255, 0.18) 60%, rgba(0, 64, 255, 0));
+  pointer-events: none;
+}
+
+.dw-pantallas .notebook { display: none; }
+
+.dw-pantallas .celular { width: 56%; }
 
 .dw-puntaje {
   position: absolute;
+  z-index: 2;
   top: 12%;
   left: 0;
   width: 9.5rem;
   padding: 1rem;
   text-align: center;
   background-color: rgba(11, 21, 36, 0.85);
+}
+
+/* Entrada: las pantallas suben con un fundido y la tarjeta llega después */
+.js .dw-pantallas .notebook,
+.js .dw-pantallas .celular,
+.js .dw-puntaje {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.js .dw-pantallas .celular { transition-delay: 0.15s; }
+.js .dw-puntaje { transition-delay: 0.4s; }
+
+.js .dw-pantallas.visible .notebook,
+.js .dw-pantallas.visible .celular,
+.js .dw-pantallas.visible .dw-puntaje {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .dw-pantallas .notebook,
+  .js .dw-pantallas .celular,
+  .js .dw-puntaje {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
 }
 
 .dw-puntaje-numero {
@@ -391,18 +435,18 @@ body.menu-abierto { overflow: hidden; }
     padding-top: 3rem;
   }
 
-  .dw-pantallas .marco-notebook {
+  .dw-pantallas .notebook {
     display: block;
-    width: 88%;
+    width: 82%;
     margin-right: 12%;
   }
 
-  .dw-pantallas .marco-celular {
+  .dw-pantallas .celular {
     position: absolute;
+    z-index: 1;
     right: 0;
     bottom: -1rem;
     width: 22%;
-    border-radius: 20px;
   }
 
   .dw-puntaje { top: 0; left: -1.5rem; }
@@ -434,6 +478,12 @@ body.menu-abierto { overflow: hidden; }
   .dw-boton { grid-area: boton; align-self: start; }
 
   .dw-pantallas { max-width: none; }
+
+  /* La columna visual es angosta (el h2 ocupa mucho): notebook más grande
+     y la tarjeta del puntaje corrida hacia el espacio entre columnas */
+  .dw-pantallas .notebook { width: 90%; margin-right: 7%; }
+  .dw-pantallas .celular { width: 23%; bottom: -1.5rem; }
+  .dw-puntaje { top: 0.5rem; left: -3rem; width: 8.5rem; padding: 0.875rem; }
 
   .cliente { font-size: 1rem; padding-inline: 0.875rem; }
 }

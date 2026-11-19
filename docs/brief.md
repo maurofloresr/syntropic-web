@@ -79,7 +79,7 @@ Referencia: `originales/mockups/02-desarrollo-web.jpg`
 - **Derecha:**
   - Notebook y celular mostrando una web de cliente, con glow #0040FF detrás.
   - Tarjeta flotante con un indicador circular y el número del puntaje de rendimiento de Google (PageSpeed) de ESTA web, con el texto "Velocidad en Google". El número tiene que ser el real, medido después del deploy. Mientras tanto: [FALTA: puntaje real].
-  - Debajo: "YA CONFIARON EN NOSOTROS" (#A0D3FD, mayúsculas, espaciado) y los nombres de los clientes: Talar Maderas | Je t'aime Alfajores | The Mei. Al tocar un nombre, las pantallas muestran la web de ese cliente (capturas en `sitio/assets/img/clientes/`). [FALTA: capturas desktop y mobile de cada web, y confirmación de Mauro de que cada cliente acepta aparecer].
+  - Debajo: "YA CONFIARON EN NOSOTROS" (#A0D3FD, mayúsculas, espaciado) y los nombres de los clientes: Novo Hair | Talar Maderas | ATR. Al tocar un nombre, las pantallas muestran la web de ese cliente (capturas en `sitio/assets/img/clientes/`). [FALTA: capturas desktop y mobile de cada web, y confirmación de Mauro de que cada cliente acepta aparecer].
 
 ## 6. Sección 3: Automatizaciones
 

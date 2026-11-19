@@ -80,11 +80,35 @@
 
         <div class="dw-visual">
           <div class="dw-pantallas">
-            <!-- Notebook y celular con la web del cliente: Fase 3. Por ahora, el espacio reservado. -->
-            <div class="marco marco-notebook" aria-hidden="true"></div>
-            <div class="marco marco-celular" aria-hidden="true"></div>
+            <!-- Notebook (desde tablet) y celular con la web del cliente elegido.
+                 Solo la captura del cliente activo se carga al principio; las otras
+                 tienen data-src y se cargan cuando la página queda libre (secciones.js).
+                 La notebook es decorativa (repite lo del celular): aria-hidden. -->
+            <div class="notebook" aria-hidden="true">
+              <div class="notebook-tapa">
+                <div class="pantalla">
+                  <img class="pantalla-captura activa" data-cliente="novo-hair" src="assets/img/clientes/novo-hair-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+                  <img class="pantalla-captura" data-cliente="talar-maderas" data-src="assets/img/clientes/talar-maderas-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+                  <img class="pantalla-captura" data-cliente="atr" data-src="assets/img/clientes/atr-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+                </div>
+              </div>
+              <div class="notebook-base"></div>
+            </div>
+
+            <div class="celular">
+              <div class="pantalla">
+                <img class="pantalla-captura activa" data-cliente="novo-hair" src="assets/img/clientes/novo-hair-mobile.webp" alt="Web de Novo Hair en el celular" width="600" height="1298" loading="lazy" decoding="async">
+                <img class="pantalla-captura" data-cliente="talar-maderas" data-src="assets/img/clientes/talar-maderas-mobile.webp" alt="Web de Talar Maderas en el celular" width="600" height="1298" loading="lazy" decoding="async" aria-hidden="true">
+                <img class="pantalla-captura" data-cliente="atr" data-src="assets/img/clientes/atr-mobile.webp" alt="Web de ATR en el celular" width="600" height="1298" loading="lazy" decoding="async" aria-hidden="true">
+              </div>
+            </div>
 
             <div class="dw-puntaje tarjeta-vidrio">
+              <!-- Indicador circular: cuando haya puntaje real, va en data-puntaje (0 a 100) y el arco se llena al entrar en pantalla -->
+              <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" data-puntaje="">
+                <circle class="indicador-fondo" cx="32" cy="32" r="28"></circle>
+                <circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle>
+              </svg>
               <p class="dw-puntaje-numero">[FALTA: puntaje real]</p>
               <p class="dw-puntaje-texto">Velocidad en Google</p>
             </div>
@@ -93,9 +117,9 @@
           <div class="clientes">
             <p class="etiqueta">Ya confiaron en nosotros</p>
             <ul class="clientes-lista">
-              <li><button class="cliente" type="button" aria-pressed="true">Talar Maderas</button></li>
-              <li><button class="cliente" type="button" aria-pressed="false">Je t'aime Alfajores</button></li>
-              <li><button class="cliente" type="button" aria-pressed="false">The Mei</button></li>
+              <li><button class="cliente" type="button" data-cliente="novo-hair" aria-pressed="true">Novo Hair</button></li>
+              <li><button class="cliente" type="button" data-cliente="talar-maderas" aria-pressed="false">Talar Maderas</button></li>
+              <li><button class="cliente" type="button" data-cliente="atr" aria-pressed="false">ATR</button></li>
             </ul>
           </div>
         </div>
@@ -355,6 +379,7 @@
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/interfaz.js" defer></script>
+  <script src="assets/js/secciones.js" defer></script>
   <script src="assets/js/particulas.js" defer></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 /* ==========================================================================
    Syntropic: comportamiento de la interfaz (sin animaciones)
    - Menú hamburguesa de pantalla completa (mobile y tablet).
-   - Elección del cliente en Desarrollo web (el cambio de pantallas es de la Fase 3).
    - En mobile, el botón de WhatsApp se esconde mientras se ve el formulario.
    ========================================================================== */
 (function () {
@@ -41,16 +40,6 @@
       if (e.matches) abrirMenu(false);
     });
   }
-
-  /* --- Clientes de Desarrollo web --- */
-  var clientes = document.querySelectorAll('.cliente');
-  clientes.forEach(function (cliente) {
-    cliente.addEventListener('click', function () {
-      clientes.forEach(function (otro) {
-        otro.setAttribute('aria-pressed', String(otro === cliente));
-      });
-    });
-  });
 
   /* --- WhatsApp: se esconde en mobile mientras se ve el formulario --- */
   var whatsapp = document.querySelector('.whatsapp');
