@@ -4,7 +4,8 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- **Fase 3, paso 1 (Desarrollo web): hecho, esperando la revisión de Mauro.** No arrancar el paso 2 sin su confirmación. Fases 1 y 2 aprobadas por Mauro el 19/11 (los detalles de la galaxia se pulen más adelante).
+- **Fase 3, paso 2 (Automatizaciones): hecho, esperando la revisión de Mauro.** No arrancar el paso 3 sin su confirmación. El paso 1 (Desarrollo web) tiene una pregunta abierta (ver abajo). Fases 1 y 2 aprobadas por Mauro el 19/11 (los detalles de la galaxia se pulen más adelante).
+- Decisiones tomadas en el paso 2 (revisar): ciclo de 2,7 segundos: se ilumina un disparador, la luz viaja a la S (1,1 s), la S late y salen dos luces escalonadas a dos acciones que se iluminan al llegar; disparadores y acciones van rotando para que se usen todos. El loop arranca 2 segundos después de que aparecen los nodos y se trazan los cables, y se frena fuera de pantalla o con la pestaña oculta (sigue donde quedó). En mobile y tablet (hasta 1024 px) los cables bajan por carriles a la izquierda de los nodos; las acciones 4 y 5 comparten carril con la 1 y la 2. La fila de logos de mobile da una vuelta cada 28 segundos, con los bordes desvanecidos, y se frena fuera de pantalla. Con movimiento reducido: nodos y cables quietos y visibles, sin luces ni fila en movimiento.
 - Correcciones de Mauro al paso 1 (19/11), hechas: celular más grande (más que la proporción física, para que la web se lea) superpuesto a la esquina de la notebook; capturas mobile sin franja de la sección siguiente; tarjeta con el PageSpeed real de cada cliente que cambia con la rotación; disposición de tablet hasta 1280 px.
 - Decisiones de Mauro en la segunda revisión del paso 1 (19/11): ATR queda como está (asoma su sección blanca: es su web real). Desde 1280 px, "DESARROLLO WEB" arriba a todo el ancho y debajo textos a la izquierda y pantallas a la derecha. Número del puntaje que sube contando: aprobado.
 - Pregunta abierta para Mauro: pidió el contenido del celular al doble de tamaño. Con el marco del mismo tamaño, el doble corta el título o el botón de cada web (a los costados y abajo). Se hizo lo que entra sin cortar nada: capturas como un celular de 320 px de ancho (contenido 1,22 veces más grande, con título, botón y menú enteros). Si quiere más, hay que elegir qué se pierde.
@@ -67,7 +68,6 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Pendiente
 
-- Fase 3, paso 2: Automatizaciones (aparición de los nodos, cables, loop de luz y versión vertical para mobile).
 - Fase 3, paso 3: Sistemas (notebook que se abre sola, dashboard en HTML/CSS y tarjeta "Stock actualizado").
 - Fase 3, paso 4: entradas suaves de textos y botones.
 - Rehacer la captura de Talar Maderas cuando esté en su dominio real.
@@ -77,6 +77,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 19/11: Fase 3, paso 2: Automatizaciones. Cables en SVG que se arman según dónde quedan los nodos (horizontales en desktop, verticales hasta 1024 px) y se rehacen al cambiar el tamaño; nodos que aparecen en orden y cables que se trazan; loop de luz con la S que late y nodos que se iluminan; fila de logos que se desliza sola en mobile. Probado con Chrome en 375x667, 390x844, 768x1024, 1024x768, 1440x900, 1920x1080 y con movimiento reducido: sin errores ni scroll horizontal; ~60 cuadros por segundo en mobile con la CPU frenada 4 veces. No probado en un celu real.
 - 19/11: segunda revisión del paso 1 de la Fase 3: desde 1280 px el título va arriba a todo el ancho (notebook de 323 a 445 px, celular de 109 a 150 px), los bytes forman "DESARROLLO WEB" en una línea en su lugar nuevo; capturas mobile rehechas a 320 px de ancho para que el contenido del celular se vea más grande. Probado en 390x844, 1180x820, 1280x800, 1440x900 y 1920x1080: sin errores ni scroll horizontal.
 - 19/11: correcciones del paso 1 de la Fase 3: celular más grande, captura mobile de Novo Hair sin franja, tarjeta con el PageSpeed real de cada cliente (Novo Hair 100 y SEO 100, Talar Maderas 99, ATR 100 y SEO 100) que cambia con la rotación y sin `[FALTA]`, disposición de tablet hasta 1280 px. Probado con Chrome en 375x667, 390x844, 768x1024, 1024x768, 1180x820, 1280x800, 1440x900 y con movimiento reducido: sin errores ni scroll horizontal. No probado en un celu real.
 - 19/11: Fase 3, paso 1: Desarrollo web. Capturas de Novo Hair, Talar Maderas (link provisorio) y ATR sacadas con Chrome sin ventana y pasadas a WebP (37 a 100 KB). Notebook y celular hechos en CSS, cambio de cliente con fundido, rotación automática que se corta al tocar un nombre y se pausa fuera de pantalla o con la pestaña oculta, carga diferida de las capturas (en mobile no se bajan las de la notebook), indicador circular listo para el puntaje real. Nuevo `secciones.js`. Probado con Chrome en 375x667, 390x844, 768x1024, 1024x768, 1440x900, 1920x1080 y con movimiento reducido: sin errores de consola (solo falta el favicon, que es de la Fase 5) ni scroll horizontal. No probado en un celu real.

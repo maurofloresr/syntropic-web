@@ -586,6 +586,86 @@ body.menu-abierto { overflow: hidden; }
 
 .nodo-central-circulo img { width: 46%; height: auto; }
 
+/* --- Cables y luces (los dibuja secciones.js) ---
+   El SVG cubre todo el lienzo por detrás de los nodos. Cada cable tiene una
+   línea base, un brillo que la recorre y un punto de luz. */
+.lienzo { position: relative; }
+
+.lienzo-cables {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nodos,
+.nodo-central { position: relative; z-index: 1; }
+
+.cable {
+  fill: none;
+  stroke: rgba(71, 173, 255, 0.45);
+  stroke-width: 1.5;
+}
+
+.cable-brillo {
+  fill: none;
+  stroke: var(--celeste-claro);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(71, 173, 255, 0.9));
+}
+
+.cable-punto {
+  fill: var(--blanco);
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(71, 173, 255, 1));
+}
+
+/* Mobile y tablet: los cables bajan por la izquierda de los nodos */
+.lienzo .nodos { padding-left: 2.75rem; max-width: 24.75rem; }
+
+/* Entrada: los nodos aparecen en orden y después se trazan los cables.
+   El orden (--orden) lo pone secciones.js. */
+.js .lienzo .nodo,
+.js .lienzo .nodo-central {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--orden, 0) * 90ms);
+}
+
+.js .lienzo.visible .nodo,
+.js .lienzo.visible .nodo-central {
+  opacity: 1;
+  transform: none;
+}
+
+.js .lienzo .cable {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.1s ease-in-out;
+  transition-delay: calc(0.75s + var(--orden, 0) * 60ms);
+}
+
+.js .lienzo.visible .cable { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .lienzo .nodo,
+  .js .lienzo .nodo-central {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .js .lienzo .cable {
+    stroke-dashoffset: 0;
+    transition-delay: 0s;
+  }
+}
+
 .conectamos {
   display: grid;
   gap: 1.5rem;
@@ -593,13 +673,41 @@ body.menu-abierto { overflow: hidden; }
   text-align: center;
 }
 
-/* Mobile: fila que se desplaza sola (el movimiento llega en la Fase 3) */
+/* Mobile: fila que se desliza sola (con JavaScript y sin movimiento reducido).
+   secciones.js duplica los logos y agrega .en-movimiento: la fila corre la
+   mitad de su largo y vuelve a empezar sin salto. Los bordes se desvanecen. */
 .conectamos-lista {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 1.5rem 2rem;
+}
+
+.conectamos-lista .clon { display: none; }
+
+@media (max-width: 767px) {
+  .conectamos-marquesina.en-movimiento {
+    overflow: hidden;
+    margin-inline: calc(var(--margen-lateral) * -1);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .en-movimiento .conectamos-lista {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: max-content;
+    gap: 0;
+    animation: marquesina 28s linear infinite;
+  }
+
+  .en-movimiento .conectamos-lista li { padding-inline: 1rem; }
+  .en-movimiento .conectamos-lista .clon { display: flex; }
+}
+
+@keyframes marquesina {
+  to { transform: translateX(-50%); }
 }
 
 .conectamos-lista .icono {
@@ -647,6 +755,7 @@ body.menu-abierto { overflow: hidden; }
   }
 
   .nodos { max-width: 20rem; }
+  .lienzo .nodos { padding-left: 0; max-width: 20rem; }
   .nodos-disparadores { justify-self: start; }
   .nodos-acciones { justify-self: end; }
 

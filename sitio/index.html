@@ -145,8 +145,10 @@
           <a class="boton boton-seccion" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
         </div>
 
-        <!-- Lienzo de nodos. Cables y luces: Fase 3 -->
+        <!-- Lienzo de nodos. Los cables y las luces los dibuja secciones.js en el SVG
+             según dónde quedan los nodos (horizontales en desktop, verticales hasta 1024 px). -->
         <div class="lienzo">
+          <svg class="lienzo-cables" aria-hidden="true" focusable="false"></svg>
           <ul class="nodos nodos-disparadores" aria-label="Lo que pasa en el negocio">
             <li class="nodo">
               <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-whatsapp"></use></svg>
@@ -195,19 +197,22 @@
 
         <div class="conectamos">
           <p class="etiqueta">Y también conectamos</p>
-          <ul class="conectamos-lista">
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-mercadopago"></use></svg><span class="sr-only">Mercado Pago</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-instagram"></use></svg><span class="sr-only">Instagram</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-facebook"></use></svg><span class="sr-only">Facebook</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-notion"></use></svg><span class="sr-only">Notion</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-googledrive"></use></svg><span class="sr-only">Google Drive</span></li>
-            <li class="conectamos-con-nombre"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-file-spreadsheet"></use></svg><span>Excel</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-make"></use></svg><span class="sr-only">Make</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-airtable"></use></svg><span class="sr-only">Airtable</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-calendly"></use></svg><span class="sr-only">Calendly</span></li>
-            <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-trello"></use></svg><span class="sr-only">Trello</span></li>
-            <li><svg class="icono icono-ancho" aria-hidden="true"><use href="assets/img/iconos.svg#i-zoom"></use></svg><span class="sr-only">Zoom</span></li>
-          </ul>
+          <!-- En mobile la fila se desliza sola: secciones.js duplica los logos (copias ocultas para lectores de pantalla) -->
+          <div class="conectamos-marquesina">
+            <ul class="conectamos-lista">
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-mercadopago"></use></svg><span class="sr-only">Mercado Pago</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-instagram"></use></svg><span class="sr-only">Instagram</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-facebook"></use></svg><span class="sr-only">Facebook</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-notion"></use></svg><span class="sr-only">Notion</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-googledrive"></use></svg><span class="sr-only">Google Drive</span></li>
+              <li class="conectamos-con-nombre"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-file-spreadsheet"></use></svg><span>Excel</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-make"></use></svg><span class="sr-only">Make</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-airtable"></use></svg><span class="sr-only">Airtable</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-calendly"></use></svg><span class="sr-only">Calendly</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-trello"></use></svg><span class="sr-only">Trello</span></li>
+              <li><svg class="icono icono-ancho" aria-hidden="true"><use href="assets/img/iconos.svg#i-zoom"></use></svg><span class="sr-only">Zoom</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
