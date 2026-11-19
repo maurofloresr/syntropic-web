@@ -78,23 +78,6 @@
   .pildora { font-size: 0.9375rem; padding-inline: 1rem; }
 }
 
-/* --- Marco reservado (lugar de la notebook de Sistemas hasta el paso 3 de la Fase 3) --- */
-.marco {
-  border: 1px solid var(--vidrio-borde);
-  background-color: var(--vidrio-fondo);
-  box-shadow: 0 0 80px rgba(0, 64, 255, 0.35);
-}
-
-.marco-notebook {
-  aspect-ratio: 16 / 10;
-  border-radius: var(--radio);
-}
-
-.marco-celular {
-  aspect-ratio: 9 / 19;
-  border-radius: 28px;
-}
-
 /* --- Dispositivos: notebook y celular hechos en CSS ---
    Los colores salen de la paleta con transparencia: el "aluminio" es celeste
    claro sobre navy. Las medidas van en % para que escalen con el ancho. */

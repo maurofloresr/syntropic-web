@@ -226,9 +226,81 @@
           <p class="bajada">Dejá las planillas sueltas y los cuadernos. Todo tu negocio en un solo lugar, ordenado y bajo control.</p>
         </div>
 
-        <!-- Notebook con el dashboard y la tarjeta "Stock actualizado": Fase 3. Por ahora, el espacio reservado. -->
+        <!-- Notebook que se abre sola al entrar la sección, con un dashboard de
+             ejemplo hecho en HTML/CSS (datos demo inventados, de un comercio
+             cualquiera: nunca datos de clientes). Es decorativo: aria-hidden.
+             La apertura y el orden de aparición están en secciones.js y secciones.css. -->
         <div class="sis-visual">
-          <div class="marco marco-notebook" aria-hidden="true"></div>
+          <div class="sis-pantallas">
+            <div class="notebook notebook-sis" aria-hidden="true">
+              <div class="notebook-tapa">
+                <div class="pantalla">
+                  <div class="dash">
+                    <div class="dash-lateral">
+                      <img class="dash-logo" src="assets/img/isologo-blanco.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
+                      <ul class="dash-menu">
+                        <li class="activo"><svg class="icono"><use href="assets/img/iconos.svg#i-receipt"></use></svg>Ventas</li>
+                        <li><svg class="icono"><use href="assets/img/iconos.svg#i-package"></use></svg>Stock</li>
+                        <li><svg class="icono"><use href="assets/img/iconos.svg#i-shopping-cart"></use></svg>Compras</li>
+                        <li><svg class="icono"><use href="assets/img/iconos.svg#i-wallet"></use></svg>Caja</li>
+                        <li><svg class="icono"><use href="assets/img/iconos.svg#i-users"></use></svg>Clientes</li>
+                      </ul>
+                    </div>
+
+                    <div class="dash-principal">
+                      <div class="dash-cabecera">
+                        <p class="dash-titulo">Dashboard</p>
+                        <svg class="icono"><use href="assets/img/iconos.svg#i-bell"></use></svg>
+                        <span class="dash-avatar"></span>
+                      </div>
+
+                      <div class="dash-tarjetas">
+                        <div class="dash-tarjeta"><p>Ventas del día</p><p class="dash-valor">$ 485.300</p></div>
+                        <div class="dash-tarjeta"><p>Productos en stock</p><p class="dash-valor">1.248</p></div>
+                        <div class="dash-tarjeta"><p>Caja</p><p class="dash-valor">$ 312.900</p></div>
+                      </div>
+
+                      <div class="dash-abajo">
+                        <div class="dash-tarjeta dash-grafico">
+                          <p>Ventas de la semana</p>
+                          <!-- Lunes a domingo, valores demo -->
+                          <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+                            <defs>
+                              <linearGradient id="dash-relleno" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#47ADFF" stop-opacity="0.35"></stop>
+                                <stop offset="1" stop-color="#47ADFF" stop-opacity="0"></stop>
+                              </linearGradient>
+                            </defs>
+                            <path class="dash-grilla" d="M0 30H300M0 60H300M0 90H300"></path>
+                            <path class="dash-area" d="M0 72 L50 58 L100 80 L150 44 L200 54 L250 22 L300 30 L300 120 L0 120Z" fill="url(#dash-relleno)"></path>
+                            <path class="dash-linea" d="M0 72 L50 58 L100 80 L150 44 L200 54 L250 22 L300 30" pathLength="100"></path>
+                          </svg>
+                          <div class="dash-dias"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+                        </div>
+
+                        <div class="dash-tarjeta dash-tabla">
+                          <p>Ventas recientes</p>
+                          <ul>
+                            <li><span>Auriculares</span><span>$ 38.400</span></li>
+                            <li><span>Mochila urbana</span><span>$ 45.900</span></li>
+                            <li><span>Taza de cerámica</span><span>$ 21.000</span></li>
+                            <li><span>Lámpara LED</span><span>$ 27.600</span></li>
+                            <li><span>Botella térmica</span><span>$ 19.800</span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="notebook-base"></div>
+            </div>
+
+            <div class="sis-stock tarjeta-vidrio">
+              <span class="sis-stock-check"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg></span>
+              <p>Stock actualizado automáticamente</p>
+            </div>
+          </div>
         </div>
 
         <ul class="sis-bloques">

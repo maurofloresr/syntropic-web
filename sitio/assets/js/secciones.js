@@ -18,6 +18,9 @@
      se está viendo, tomado de data-rendimiento y data-seo de cada botón.
      La primera vez que aparece, el arco se llena y el número sube contando;
      después cambia junto con el cliente. Sin data-seo, no hay línea de SEO.
+
+   Sistemas:
+   - La notebook se abre sola una vez al entrar en pantalla y queda abierta.
    ========================================================================== */
 (function () {
   'use strict';
@@ -411,5 +414,15 @@
         logos.style.animationPlayState = visible ? 'running' : 'paused';
       });
     }
+  }
+
+  /* ======================= Sistemas ======================= */
+  // La notebook aparece cerrada y se abre una sola vez cuando entra en
+  // pantalla; queda abierta. Todo el orden (tapa, pantalla que se prende,
+  // gráfico y tarjeta del stock) está en las transiciones de secciones.css.
+  var sisPantallas = document.querySelector('.sis-pantallas');
+  if (sisPantallas) {
+    if (reducido) sisPantallas.classList.add('abierta');
+    else alEntrar(sisPantallas, function () { sisPantallas.classList.add('abierta'); }, 0.4);
   }
 })();
