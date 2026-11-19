@@ -4,13 +4,27 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- Fase 2 completa (sistema de partículas, pasos 1 a 9), hecha de corrido junto con el paso 4 de la Fase 1 mientras Mauro no estaba. Esperando revisión de Mauro de las Fases 1 y 2. No arrancar la Fase 3 sin su confirmación.
+- Mauro revisó las Fases 1 y 2 (le encantaron) y pidió 6 ajustes, ya hechos el 19/11. Esperando que Mauro los vea en celu y en compu. No arrancar la Fase 3 sin su confirmación.
+- **Excepción a la paleta aprobada por Mauro:** violeta #B49CF0 (tomado de la referencia `originales/mockups/07-galaxia-referencia.png`), SOLO en algunas estrellas sueltas de la galaxia del hero (alrededor del 3% de las estrellas de campo). En títulos y en el resto de la web, solo la paleta del brief.
+- Decisiones de Mauro en la revisión de las Fases 1 y 2:
+  - Galaxia del hero con brazos en espiral como la referencia 07, núcleo más denso blanco y celeste claro con brillo azul eléctrico (sin el amarillo de la referencia) y estrellas que llenan toda la sección del hero.
+  - Pin del hero durante el 60% del alto de pantalla: las estrellas se enroscan siguiendo los brazos, llegan del centro hacia afuera, la S se arma primero en contorno y después se llena, pulso de brillo al completarse y un instante quieta. Al soltarse el hero, la S se desarma en los bytes que forman "DESARROLLO WEB".
+  - Supernova solo sobre la zona densa de la galaxia suelta (núcleo y brazos). Fuera de esa zona, las luces al tocar de siempre; nunca los dos efectos en el mismo lugar.
+  - Estrellas fugaces: nunca sobre el hero.
+  - Títulos: el nuevo se forma apenas asoma su sección y queda completo con el h2 al 60% de la pantalla en mobile y al 40% en desktop; el anterior, al acercarse al menú, cae en bytes que se pierden.
+- Decisiones tomadas en los ajustes de la revisión (revisar):
+  - Tablet: el título queda completo con el h2 al 50% de la pantalla (punto medio entre mobile y desktop).
+  - En desktop las secciones son más cortas que la pantalla y la siguiente asoma con el título anterior todavía a la vista. En ese caso el título anterior igual cae recién cuando se acerca al menú (con una caída más corta) y el nuevo arranca apenas termina esa caída, un poco después de asomar. Así ningún h2 desaparece mientras se lee su sección. Consecuencia: en desktop cada título se ve completo durante unos 150 a 200 px de scroll.
+  - Los bytes del título nuevo arrancan desde donde se perdieron los del anterior (por eso se entiende que vienen de ahí).
+  - Mobile y tablet: la S se achica y se centra en el espacio libre entre el menú y la etiqueta del h1, y el parallax de la galaxia y la S pasó a la mitad de la velocidad de la página (antes un quinto). La S formada nunca toca la etiqueta; al soltarse el hero, sus bytes en espiral sí pasan por encima del texto mientras viajan al título.
+  - Nebulosa: además de los puntos, un brillo difuso de los brazos (azul eléctrico, celeste y blanco con transparencia) que gira con la galaxia y se apaga cuando se forma la S.
+- Fase 2 completa (sistema de partículas, pasos 1 a 9), hecha de corrido junto con el paso 4 de la Fase 1 mientras Mauro no estaba.
 - Decisiones tomadas en la Fase 2 (Mauro no estaba disponible, revisar):
   - El título de bytes queda completo un momento (último 20% de cada tramo) y después aparece el h2 real con fade mientras las partículas se apagan, como dice el brief. Los h2 que todavía no se formaron quedan con opacidad 0 (siguen en el HTML y para lectores de pantalla).
   - Los 0 y 1 de los títulos van en celeste, celeste claro y blanco (el azul eléctrico sobre navy no se lee); los puntos de la galaxia y la S usan los cuatro colores. Tipografía de los 0 y 1: Inter SemiBold.
   - Las partículas que sobran en cada título quedan como polvo fino dentro de las letras y como estrellas de fondo fijas (titilan) en toda la web.
-  - En secciones largas el título anterior queda muy arriba: los bytes arrancan la espiral desde apenas arriba de la pantalla en vez de desde el título original.
-  - Galaxia y S con parallax (suben más lento que la página). En mobile y tablet la S se forma con el primer pedacito de scroll para que el texto del hero no la pise.
+  - (Reemplazada en la revisión de las Fases 1 y 2: ahora el título anterior cae en bytes y el nuevo se forma desde ahí.) En secciones largas el título anterior queda muy arriba: los bytes arrancan la espiral desde apenas arriba de la pantalla en vez de desde el título original.
+  - (Reemplazada por el pin del hero en la revisión de las Fases 1 y 2.) Galaxia y S con parallax (suben más lento que la página). En mobile y tablet la S se forma con el primer pedacito de scroll para que el texto del hero no la pise.
   - Brillo de la S y de los puntos hecho con transparencia de los colores de la paleta (sin mezclas que generen colores nuevos).
 - Decisiones tomadas en el paso 4 (Mauro no estaba disponible, revisar):
   - Un solo tamaño para los h2 de la cadena: 9.4% del ancho de pantalla con tope de 72 px. En 390 px "DESARROLLO WEB" pasa a dos líneas (como el mockup mobile) y queda a 37 px; Automatizaciones mantiene su tamaño ajustado al ancho. Preguntas frecuentes no cambia.
@@ -46,6 +60,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 19/11: ajustes de la revisión de las Fases 1 y 2 (6 puntos): galaxia del hero más real con violetas sueltas, pin del hero con la formación de la S más rica, supernova sobre la galaxia, fugaces fuera del hero, títulos que se forman apenas asoma su sección y caen en bytes al irse, S que no toca la etiqueta en pantallas bajas. Probado con Chrome en 375x667, 390x664, 390x844, 768x1024, 1024x768 y 1440x900: sin errores de consola ni scroll horizontal, links del menú frenando 40 px debajo del menú, movimiento reducido sin pin, mobile a ~60 cuadros por segundo con la CPU frenada 4 veces. No probado en un celu real.
 - 18/11: Fase 2 completa. Canvas fijo y motor de partículas (`particulas.js`), galaxia del hero en movimiento lento, S muestreada de una copia del isologo sin "DEV", títulos de 0 y 1 muestreados de cada h2, transición en espiral atada al scroll que rebobina al subir, cadena galaxia > S > DESARROLLO WEB > AUTOMATIZACIONES > SISTEMAS > HABLEMOS, cruce con el h2 real, 900/2500 partículas, pausa con pestaña oculta, versión con movimiento reducido, estrellas fugaces cada 6 a 10 s (nunca durante una espiral) y luces al tocar o hacer clic (no al deslizar, sin bloquear botones). Probado en 375x667, 390x844, 768x1024, 1024x768 y 1440x900 con Chrome sin placa de video: sin errores de consola ni scroll horizontal; mobile a ~60 cuadros por segundo con la CPU frenada 4 veces.
 - 18/11: Fase 1, paso 4: h2 con tamaño y estilo finales. Medidos en 320, 360, 390, 768, 1024 y 1440 px: sin desbordes ni scroll horizontal, "DESARROLLO / WEB" en dos líneas en todos los anchos.
 - 18/11: Fase 1, paso 3: cada link (menú, menú hamburguesa, logo, Scrolleá, botones de sección, footer) baja con scroll suave y el título frena 40 px debajo del menú fijo, en las dos alturas del menú. Con movimiento reducido salta directo. Galaxia mobile al 35% y menú desktop a 72 px. Probado en 390x844, 390x664, 375x667, 768 y 1440 px.
