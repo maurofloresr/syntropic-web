@@ -77,6 +77,11 @@
      y sin orden visible). Devuelve coordenadas del documento. */
   function muestrearS(img, cx, cy, alto, presupuesto) {
     var ancho = Math.round(alto * img.width / img.height);
+    function lleno(px, py) {
+      var ix = Math.round(px), iy = Math.round(py);
+      if (ix < 0 || iy < 0 || ix >= ancho || iy >= alto) return false;
+      return datos[(iy * ancho + ix) * 4 + 3] > 128;
+    }
     alto = Math.round(alto);
     var c = document.createElement('canvas');
     c.width = ancho; c.height = alto;
@@ -87,23 +92,24 @@
     var area = 0;
     for (var p = 3; p < datos.length; p += 4) if (datos[p] > 128) area++;
     var paso = Math.max(2.5, Math.sqrt(area / presupuesto));
-    var puntos;
+    var puntos, borde;
     do {
-      puntos = [];
+      puntos = []; borde = [];
       for (var gy = paso / 2; gy < alto; gy += paso) {
         for (var gx = paso / 2; gx < ancho; gx += paso) {
           var px = gx + (Math.random() - 0.5) * paso;
           var py = gy + (Math.random() - 0.5) * paso;
-          var ix = limitar(Math.round(px), 0, ancho - 1);
-          var iy = limitar(Math.round(py), 0, alto - 1);
-          if (datos[(iy * ancho + ix) * 4 + 3] > 128) {
+          if (lleno(px, py)) {
             puntos.push(cx - ancho / 2 + px, cy - alto / 2 + py);
+            // Contorno: algún vecino cercano cae fuera de la S
+            var r = paso * 1.3;
+            borde.push(!lleno(px + r, py) || !lleno(px - r, py) || !lleno(px, py + r) || !lleno(px, py - r) ? 1 : 0);
           }
         }
       }
       paso *= 1.06;
     } while (puntos.length / 2 > presupuesto);
-    return { puntos: puntos, cx: cx, cy: cy, alto: alto };
+    return { puntos: puntos, borde: borde, cx: cx, cy: cy, alto: alto };
   }
 
   /* Título: se dibuja cada palabra del h2 en un canvas oculto, en la misma
@@ -278,6 +284,7 @@
     var apertura = new Float32Array(N);
     var galR = new Float32Array(N), galA = new Float32Array(N), galW = new Float32Array(N), galAlfa = new Float32Array(N);
     var estX = new Float32Array(N), estY = new Float32Array(N);
+    var inicioS = new Float32Array(N); // cuándo arranca cada una hacia la S (0 a 0.6)
     var rango = new Uint32Array(N); // orden al azar: define quién va a cada lugar
 
     for (var i = 0; i < N; i++) {
@@ -377,10 +384,14 @@
     }
     var galaxia = nuevoEstado('galaxia');
     var estadoS = nuevoEstado('s');
+    galaxia.heroico = estadoS.heroico = true; // anclados al hero (pin y parallax)
     var estadosTitulo = titulos.map(function (h2) { var e = nuevoEstado('titulo'); e.h2 = h2; return e; });
     var estados = [galaxia, estadoS].concat(estadosTitulo);
 
     var hero = { cx: 0, cy: 0, R: 0, alto: 0 };
+    var usaGsap = !!(window.gsap && window.ScrollTrigger);
+    var P = 0; // largo del pin del hero, en píxeles de scroll
+    function largoPin() { return Math.round(altoPantalla() * 0.6); }
     var nebulosa = null;
 
     /* Nebulosa: el brillo difuso de los brazos (la "nube" de la referencia).
@@ -478,10 +489,24 @@
       var nS = formaS.puntos.length / 2;
       estadoS.cx = hero.cx; estadoS.cy = hero.cy; estadoS.ck = K_HERO;
       estadoS.altoS = altoS;
+      // Quién va a cada punto de la S: las estrellas más cercanas al centro
+      // de la galaxia llegan primero y dibujan el contorno; las de más afuera
+      // llegan después y la rellenan; las del borde quedan como halo.
+      var ordenS = [], porRadio = [];
+      for (i = 0; i < nS; i++) ordenS.push(i);
+      for (i = nS - 1; i > 0; i--) { var jj = Math.floor(Math.random() * (i + 1)); var tt = ordenS[i]; ordenS[i] = ordenS[jj]; ordenS[jj] = tt; }
+      ordenS.sort(function (p, q) { return formaS.borde[q] - formaS.borde[p]; }); // contorno primero
+      for (i = 0; i < N; i++) porRadio.push(i);
+      porRadio.sort(function (p, q) { return galR[p] - galR[q]; });
+      var destinoS = new Int32Array(N);
+      for (var j = 0; j < N; j++) {
+        destinoS[porRadio[j]] = j < nS ? ordenS[j] : -1;
+        inicioS[porRadio[j]] = 0.6 * j / N;
+      }
       for (i = 0; i < N; i++) {
-        var k = rango[i];
+        var k = destinoS[i];
         estadoS.K[i] = K_HERO; estadoS.G[i] = 0; estadoS.T[i] = 0;
-        if (k < nS) {
+        if (k >= 0) {
           estadoS.X[i] = formaS.puntos[k * 2];
           estadoS.Y[i] = formaS.puntos[k * 2 + 1];
           estadoS.A[i] = 0.75 + 0.25 * ((fase[i] / 6.283) % 1);
@@ -524,14 +549,19 @@
         return h2.getBoundingClientRect().top + sy - reposo;
       });
       tramos = [];
+      // Hero fijo (pin) durante P píxeles de scroll: la galaxia se convierte
+      // en la S y la S queda quieta un instante antes de que la página siga
+      P = usaGsap ? largoPin() : 0;
       var a0 = H * 0.02;
-      // En columna la S se forma con el primer pedacito de scroll, antes de
-      // que el texto del hero suba y la pise
-      var a1 = Math.min(H * (enColumna ? 0.14 : 0.3), listos[0] * 0.4);
+      var a1 = a0 + Math.max(P - a0, H * 0.3) * 0.78;
       tramos.push({ a: 0, b: 0, s0: -Infinity, s1: a0 });
-      tramos.push({ a: 0, b: 1, s0: a0, s1: a1 });
-      var b0 = Math.min(Math.max(a1 + H * 0.05, listos[0] - H * 0.95), listos[0] - H * 0.25);
+      tramos.push({ a: 0, b: 1, s0: a0, s1: a1, tipo: 'galaxiaS' });
+      var seccionDW = document.getElementById('desarrollo-web');
+      var asomaDW = seccionDW ? seccionDW.getBoundingClientRect().top + sy - H : P;
+      var b0 = Math.max(a1 + H * 0.1, P, asomaDW);
+      b0 = Math.min(b0, listos[0] - H * 0.25);
       b0 = Math.max(b0, a1);
+      finFormacionS = a1;
       tramos.push({ a: 1, b: 1, s0: a1, s1: b0 });
       tramos.push({ a: 1, b: 2, s0: b0, s1: listos[0] });
       for (var t = 0; t < listos.length - 1; t++) {
@@ -554,13 +584,28 @@
       listo = true;
     }
     var minimoPantalla = 0;
+    var finFormacionS = 0;
+
+    /* Cuánto subió en pantalla algo anclado al hero: nada mientras el hero
+       está fijo por el pin; después, lo que se scrolleó de más */
+    function despHero(s) { return s > P ? s - P : 0; }
+    function desp(e, s) { return e.heroico ? despHero(s) : s; }
 
     /* --- Scroll con scrub (ScrollTrigger) --- */
     var proxy = { p: 0 };
-    var usaGsap = window.gsap && window.ScrollTrigger;
     if (usaGsap) {
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.config({ ignoreMobileResize: true });
+      // Pin del hero: la página no avanza mientras se forma la S (el scroll
+      // nunca se bloquea: el hero queda fijo y el resto espera debajo)
+      ScrollTrigger.create({
+        trigger: heroEl,
+        start: 'top top',
+        end: function () { return '+=' + largoPin(); },
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      });
       gsap.to(proxy, {
         p: 1,
         ease: 'none',
@@ -709,6 +754,7 @@
 
     /* --- Cuadro a cuadro --- */
     var inicio = performance.now();
+    var tramoPrevio = null, pulsoInicio = -10;
     var anterior = inicio;
     var idCuadro = 0;
     var corriendo = false;
@@ -731,12 +777,12 @@
     /* Estrellas de campo: se mueven con el hero (están en la sección) y no se
        dibujan fuera de ella */
     function dibujarCampo(scroll, tiempo, peso) {
-      var desp = scroll; // cuánto subió el hero en pantalla
-      var techo = -desp, piso = hero.alto - desp;
+      var dh = despHero(scroll); // cuánto subió el hero en pantalla
+      var techo = -dh, piso = hero.alto - dh;
       if (piso < 0 || peso < 0.01) return;
       for (var i = 0; i < M; i++) {
         if (!campoVisible[i]) continue;
-        var y = campoY[i] - desp;
+        var y = campoY[i] - dh;
         if (y < techo || y > piso || y < -10 || y > H + 10) continue;
         var al = campoA[i] * peso * (0.65 + 0.35 * Math.sin(tiempo * 0.8 + campoFase[i]));
         if (al < 0.01) continue;
@@ -767,6 +813,12 @@
       var t = enTransicion ? limitar((v - tramo.s0) / (tramo.s1 - tramo.s0), 0, 1) : 0;
       var A = estados[tramo.a], B = estados[tramo.b];
       var aparicion = suave(0, 1.2, tiempo);
+      var dH = despHero(scroll) * K_HERO; // cuánto subieron la galaxia y la S
+
+      // Pulso de brillo suave cuando la S termina de formarse (bajando)
+      if (tramo.a === 1 && tramo.b === 1 && tramoPrevio && tramoPrevio.tipo === 'galaxiaS') pulsoInicio = tiempo;
+      tramoPrevio = tramo;
+      var pulso = tiempo - pulsoInicio < 0.9 ? Math.sin(Math.PI * (tiempo - pulsoInicio) / 0.9) : 0;
 
       if (A.tipo !== 'titulo' || B.tipo !== 'titulo') actualizarGalaxia(tiempo);
       opacidadesTitulos(tramo, t);
@@ -777,12 +829,12 @@
       // Estrellas de campo del hero (más tenues cuando ya está la S)
       var pesoGalaxia = 0;
       if (tramo.a === 0 && tramo.b === 0) pesoGalaxia = 1;
-      else if (tramo.a === 0) pesoGalaxia = 1 - suave(0, 1, t);
+      else if (tramo.a === 0) pesoGalaxia = 1 - suave(0, 0.75, t);
       dibujarCampo(scroll, tiempo, (0.45 + 0.55 * pesoGalaxia) * aparicion);
 
       // Brillo del núcleo de la galaxia (azul eléctrico, por detrás)
       if (pesoGalaxia > 0.01) {
-        var nx = hero.cx, ny = hero.cy - scroll * K_HERO, nr = hero.R * 0.42;
+        var nx = hero.cx, ny = hero.cy - dH, nr = hero.R * 0.42;
         var gn = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr);
         gn.addColorStop(0, rgba(PALETA[0], 0.32 * pesoGalaxia * aparicion));
         gn.addColorStop(0.35, rgba(PALETA[0], 0.14 * pesoGalaxia * aparicion));
@@ -799,10 +851,10 @@
       else if (tramo.b === 1) pesoS = suave(0.3, 1, t);
       else if (tramo.a === 1) pesoS = 1 - suave(0, 0.4, t);
       if (pesoS > 0.01) {
-        var gx = estadoS.cx, gy = estadoS.cy - scroll * K_HERO;
+        var gx = estadoS.cx, gy = estadoS.cy - dH;
         var gr = estadoS.altoS * 0.75;
         var g = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
-        g.addColorStop(0, rgba(PALETA[0], 0.3 * pesoS * aparicion));
+        g.addColorStop(0, rgba(PALETA[0], Math.min(0.7, 0.3 * pesoS * (1 + 1.3 * pulso)) * aparicion));
         g.addColorStop(1, rgba(PALETA[0], 0));
         ctx.globalAlpha = 1;
         ctx.fillStyle = g;
@@ -816,17 +868,47 @@
 
       var i;
       if (!enTransicion) {
+        var dA = desp(A, scroll);
+        var brillo = A === estadoS ? 1 + 0.4 * pulso : 1;
+        var crece = A === estadoS ? 1 + 0.25 * pulso : 1;
         for (i = 0; i < N; i++) {
-          var al = alfaDe(A, i, tiempo) * aparicion;
+          var al = Math.min(1, alfaDe(A, i, tiempo) * brillo) * aparicion;
           if (al < 0.01) continue;
-          dibujarParticula(i, A.X[i], A.Y[i] - scroll * A.K[i], al, A.G[i], A.Z[i], A.tamDigito);
+          dibujarParticula(i, A.X[i], A.Y[i] - dA * A.K[i], al, A.G[i], A.Z[i] * crece, A.tamDigito);
+        }
+      } else if (tramo.tipo === 'galaxiaS') {
+        // Galaxia a S: cada estrella se enrosca alrededor del centro en el
+        // sentido de giro de los brazos mientras se acerca a su lugar. Salen
+        // escalonadas: las del centro primero (dibujan el contorno), las de
+        // los bordes al final (rellenan la S).
+        var hx = hero.cx, hy = hero.cy - dH;
+        for (i = 0; i < N; i++) {
+          var uS = limitar((t - inicioS[i]) / 0.4, 0, 1);
+          var gxp = galaxia.X[i], gyp = galaxia.Y[i] - dH;
+          if (uS <= 0) {
+            var al0 = alfaDe(galaxia, i, tiempo) * aparicion;
+            if (al0 >= 0.01) dibujarParticula(i, gxp, gyp, al0, 0, 1, 0);
+            continue;
+          }
+          var sxp = estadoS.X[i], syp = estadoS.Y[i] - dH;
+          var eR = entradaSalida(uS), eA = 1 - (1 - uS) * (1 - uS);
+          var r0s = Math.hypot(gxp - hx, gyp - hy), r1s = Math.hypot(sxp - hx, syp - hy);
+          var a0s = Math.atan2(gyp - hy, gxp - hx), a1s = Math.atan2(syp - hy, sxp - hx);
+          var giroS = ((a1s - a0s) % 6.2832 + 6.2832) % 6.2832 + (galR[i] > 0.55 ? 6.2832 : 0);
+          var rrS = mezclar(r0s, r1s, eR), aaS = a0s + giroS * eA;
+          var alS = mezclar(alfaDe(galaxia, i, tiempo), alfaDe(estadoS, i, tiempo), eR);
+          alS = Math.min(1, alS * (1 + 0.35 * Math.sin(Math.PI * uS))) * aparicion; // brillan un poco en viaje
+          if (alS < 0.01) continue;
+          dibujarParticula(i, hx + Math.cos(aaS) * rrS, hy + Math.sin(aaS) * rrS, alS, 0, mezclar(1, estadoS.Z[i], eR), 0);
         }
       } else {
         // Transición en espiral (coordenadas polares alrededor de un centro
         // que viaja de una forma a la otra)
         var corr = tramo.corrimiento;
-        var cfx = A.cx, cfy = A.cy - tramo.s0 * A.ck + (A.ck === 1 ? corr : 0);
-        var cdx = B.cx, cty = B.cy - tramo.s1 * B.ck;
+        var dA0 = desp(A, tramo.s0), dB1 = desp(B, tramo.s1);
+        var dAs = desp(A, scroll) - dA0, dBs = desp(B, scroll) - dB1;
+        var cfx = A.cx, cfy = A.cy - dA0 * A.ck + (A.ck === 1 ? corr : 0);
+        var cdx = B.cx, cty = B.cy - dB1 * B.ck;
         var abre = minimoPantalla * 0.17;
         var tamDigito = A.tamDigito && B.tamDigito ? null : (A.tamDigito || B.tamDigito);
 
@@ -836,8 +918,8 @@
           var u = limitar((t - demora[i]) / 0.55, 0, 1);
           var e = entradaSalida(u);
 
-          var fx = A.X[i], fy = A.Y[i] - tramo.s0 * A.K[i] + (A.K[i] === 1 ? corr : 0);
-          var tx = B.X[i], ty = B.Y[i] - tramo.s1 * B.K[i];
+          var fx = A.X[i], fy = A.Y[i] - dA0 * A.K[i] + (A.K[i] === 1 ? corr : 0);
+          var tx = B.X[i], ty = B.Y[i] - dB1 * B.K[i];
 
           var lx = mezclar(fx, tx, e), ly = mezclar(fy, ty, e);
           var distancia = Math.hypot(tx - fx, ty - fy);
@@ -858,7 +940,7 @@
           // Al salir y al llegar, cada partícula queda pegada a su forma
           // (se mueve con el scroll real, igual que el h2); en el medio del
           // viaje la corrección se anula y la espiral queda en pantalla
-          py -= (scroll - tramo.s1) * B.K[i] * e + (scroll - tramo.s0) * A.K[i] * (1 - e);
+          py -= dBs * B.K[i] * e + dAs * A.K[i] * (1 - e);
 
           var alfa = mezclar(alfaDe(A, i, tiempo), alfaDe(B, i, tiempo), e) * aparicion;
           if (alfa < 0.01) continue;
