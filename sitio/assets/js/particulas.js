@@ -705,6 +705,85 @@
       ctx.drawImage(spritesPunto[3], f.x - 4, f.y - 4, 8, 8);
     }
 
+    /* --- Supernova: luz blanca que aparta las estrellas de la galaxia ---
+       Solo mientras la galaxia está suelta (antes de que empiece la S) y solo
+       cerca o sobre la zona densa (núcleo y brazos). En compu sigue al mouse;
+       en celu aparece debajo del dedo apoyado. Los eventos son pasivos: nunca
+       frenan el scroll. Fuera de esa zona siguen las luces al tocar. */
+    var ofX = new Float32Array(N), ofY = new Float32Array(N), ovX = new Float32Array(N), ovY = new Float32Array(N);
+    var cofX = new Float32Array(M), cofY = new Float32Array(M), covX = new Float32Array(M), covY = new Float32Array(M);
+    var luz = { x: -999, y: -999, mouse: false, dedo: false, fuerza: 0 };
+    var hayOnda = false;      // quedan estrellas fuera de su lugar
+    var galaxiaSuelta = true; // se actualiza en cada cuadro
+    var RADIO_ONDA = esMobile ? 85 : 115;
+
+    function enZonaGalaxia(x, y) {
+      var dx = (x - hero.cx) / hero.R;
+      var dy = (y - (hero.cy - despHero(window.scrollY) * K_HERO)) / (hero.R * 0.9);
+      return dx * dx + dy * dy < 1.1;
+    }
+    function supernovaEn(x, y) { return galaxiaSuelta && enZonaGalaxia(x, y); }
+
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'mouse') { luz.mouse = true; luz.x = e.clientX; luz.y = e.clientY; }
+      else if (luz.dedo && e.isPrimary) { luz.x = e.clientX; luz.y = e.clientY; }
+    }, { passive: true });
+    window.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' && e.isPrimary) { luz.dedo = true; luz.x = e.clientX; luz.y = e.clientY; }
+    }, { passive: true });
+    function soltarDedo(e) { if (e.pointerType !== 'mouse') luz.dedo = false; }
+    window.addEventListener('pointerup', soltarDedo, { passive: true });
+    window.addEventListener('pointercancel', soltarDedo, { passive: true }); // el navegador empezó a scrollear
+    document.addEventListener('mouseleave', function () { luz.mouse = false; });
+
+    /* Resorte: cada estrella cerca de la luz se corre hacia afuera (como una
+       onda de energía) y, cuando la luz se aleja, vuelve sola a su lugar */
+    function moverOnda(dt, bx, by, oX, oY, vX, vY, i, maximo) {
+      var tx = 0, ty = 0;
+      if (luz.fuerza > 0.001) {
+        var dx = bx - luz.x, dy = by - luz.y;
+        var d = Math.hypot(dx, dy);
+        if (d < RADIO_ONDA && d > 0.01) {
+          var k = 1 - d / RADIO_ONDA;
+          var empuje = RADIO_ONDA * 0.55 * k * k * luz.fuerza;
+          tx = dx / d * empuje; ty = dy / d * empuje;
+        }
+      }
+      vX[i] += ((tx - oX[i]) * 90 - vX[i] * 12) * dt;
+      vY[i] += ((ty - oY[i]) * 90 - vY[i] * 12) * dt;
+      oX[i] += vX[i] * dt; oY[i] += vY[i] * dt;
+      var m = Math.abs(oX[i]) + Math.abs(oY[i]) + Math.abs(vX[i]) * 0.05 + Math.abs(vY[i]) * 0.05;
+      return m > maximo ? m : maximo;
+    }
+
+    function actualizarOnda(dt, dH, scroll) {
+      var objetivo = galaxiaSuelta && (luz.mouse || luz.dedo) && enZonaGalaxia(luz.x, luz.y) ? 1 : 0;
+      luz.fuerza += (objetivo - luz.fuerza) * Math.min(1, dt * 8);
+      if (luz.fuerza < 0.001 && !hayOnda) return;
+      var maximo = 0, i;
+      for (i = 0; i < N; i++) maximo = moverOnda(dt, galaxia.X[i], galaxia.Y[i] - dH, ofX, ofY, ovX, ovY, i, maximo);
+      var dh = despHero(scroll);
+      for (i = 0; i < M; i++) {
+        if (campoVisible[i]) maximo = moverOnda(dt, campoX[i], campoY[i] - dh, cofX, cofY, covX, covY, i, maximo);
+      }
+      hayOnda = maximo > 0.05;
+      if (!hayOnda) { ofX.fill(0); ofY.fill(0); ovX.fill(0); ovY.fill(0); cofX.fill(0); cofY.fill(0); covX.fill(0); covY.fill(0); }
+    }
+
+    function dibujarLuz() {
+      if (luz.fuerza < 0.01) return;
+      var r = esMobile ? 34 : 42;
+      var g = ctx.createRadialGradient(luz.x, luz.y, 0, luz.x, luz.y, r);
+      g.addColorStop(0, rgba(PALETA[3], 0.95));
+      g.addColorStop(0.08, rgba(PALETA[3], 0.85));
+      g.addColorStop(0.25, rgba(PALETA[3], 0.28));
+      g.addColorStop(0.6, rgba(PALETA[2], 0.08));
+      g.addColorStop(1, rgba(PALETA[2], 0));
+      ctx.globalAlpha = luz.fuerza;
+      ctx.fillStyle = g;
+      ctx.fillRect(luz.x - r, luz.y - r, r * 2, r * 2);
+    }
+
     /* --- Luces al tocar (solo toque o clic, nunca al deslizar) --- */
     var chispas = [];
     var toque = null;
@@ -716,7 +795,8 @@
       if (!toque || !e.isPrimary) return;
       var lejos = Math.hypot(e.clientX - toque.x, e.clientY - toque.y) > 10;
       var largo = performance.now() - toque.t > 500;
-      if (!lejos && !largo) crearChispas(e.clientX, e.clientY);
+      // Sobre la galaxia suelta va la supernova: nunca los dos efectos juntos
+      if (!lejos && !largo && !supernovaEn(e.clientX, e.clientY)) crearChispas(e.clientX, e.clientY);
       toque = null;
     }, { passive: true });
     window.addEventListener('pointercancel', function () { toque = null; }, { passive: true });
@@ -788,7 +868,7 @@
         if (al < 0.01) continue;
         var d = campoTam[i] * 4;
         ctx.globalAlpha = al;
-        ctx.drawImage(spritesPunto[campoColor[i]], campoX[i] - d / 2, y - d / 2, d, d);
+        ctx.drawImage(spritesPunto[campoColor[i]], campoX[i] + cofX[i] - d / 2, y + cofY[i] - d / 2, d, d);
       }
     }
 
@@ -819,9 +899,11 @@
       if (tramo.a === 1 && tramo.b === 1 && tramoPrevio && tramoPrevio.tipo === 'galaxiaS') pulsoInicio = tiempo;
       tramoPrevio = tramo;
       var pulso = tiempo - pulsoInicio < 0.9 ? Math.sin(Math.PI * (tiempo - pulsoInicio) / 0.9) : 0;
+      galaxiaSuelta = tramo.a === 0 && tramo.b === 0 && scroll < tramo.s1 + 4;
 
       if (A.tipo !== 'titulo' || B.tipo !== 'titulo') actualizarGalaxia(tiempo);
       opacidadesTitulos(tramo, t);
+      actualizarOnda(dt, dH, scroll);
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
@@ -874,7 +956,8 @@
         for (i = 0; i < N; i++) {
           var al = Math.min(1, alfaDe(A, i, tiempo) * brillo) * aparicion;
           if (al < 0.01) continue;
-          dibujarParticula(i, A.X[i], A.Y[i] - dA * A.K[i], al, A.G[i], A.Z[i] * crece, A.tamDigito);
+          var ox = A === galaxia ? ofX[i] : 0, oy = A === galaxia ? ofY[i] : 0;
+          dibujarParticula(i, A.X[i] + ox, A.Y[i] - dA * A.K[i] + oy, al, A.G[i], A.Z[i] * crece, A.tamDigito);
         }
       } else if (tramo.tipo === 'galaxiaS') {
         // Galaxia a S: cada estrella se enrosca alrededor del centro en el
@@ -884,7 +967,7 @@
         var hx = hero.cx, hy = hero.cy - dH;
         for (i = 0; i < N; i++) {
           var uS = limitar((t - inicioS[i]) / 0.4, 0, 1);
-          var gxp = galaxia.X[i], gyp = galaxia.Y[i] - dH;
+          var gxp = galaxia.X[i] + ofX[i], gyp = galaxia.Y[i] - dH + ofY[i];
           if (uS <= 0) {
             var al0 = alfaDe(galaxia, i, tiempo) * aparicion;
             if (al0 >= 0.01) dibujarParticula(i, gxp, gyp, al0, 0, 1, 0);
@@ -959,6 +1042,7 @@
         if (enTransicion && t > 0 && t < 1) proximaFugaz = tiempo + 2 + Math.random() * 3;
         else { crearFugaz(); programarFugaz(tiempo); }
       }
+      dibujarLuz();
       if (fugaz) dibujarFugaz(dt);
       if (chispas.length) dibujarChispas(dt);
       ctx.globalAlpha = 1;
