@@ -40,6 +40,11 @@
   // Los 0 y 1 de los títulos van en celeste, celeste claro y blanco
   // (el azul eléctrico sobre navy no se lee): el azul pasa a celeste.
   var COLOR_DIGITO = [1, 1, 2, 3];
+  // Excepción aprobada por Mauro: violeta #B49CF0 SOLO en algunas estrellas
+  // sueltas de la galaxia del hero (tono tomado de la referencia 07).
+  // Nunca en títulos ni en el resto de la web.
+  var VIOLETA = [180, 156, 240];
+  var C_VIOLETA = 4; // índice en spritesPunto
 
   var TITULOS = ['titulo-desarrollo-web', 'titulo-automatizaciones', 'titulo-sistemas', 'titulo-contacto'];
   var IMAGEN_S = 'assets/img/isologo-s-muestreo.png';
@@ -242,12 +247,21 @@
   function iniciarAnimado() {
     var titulos = TITULOS.map(function (id) { return document.getElementById(id); });
     var visual = document.querySelector('.hero-visual');
-    if (titulos.some(function (t) { return !t; }) || !visual) return;
+    var heroEl = document.querySelector('.hero');
+    var textoHero = document.querySelector('.hero-texto');
+    if (titulos.some(function (t) { return !t; }) || !visual || !heroEl || !textoHero) return;
 
     var esMobile = anchoPantalla() < 768;
     var N = esMobile ? 900 : 2500;
     if (!esMobile && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) N = 1800;
     var N_ESTRELLAS = esMobile ? 90 : 220;
+    var GIRO_GALAXIA = 0.05; // velocidad de giro de la galaxia (radianes por segundo)
+    // Brazos en espiral logarítmica (como las galaxias reales): cerrados
+    // cerca del núcleo y cada vez más abiertos hacia afuera
+    function anguloBrazo(r) { return Math.log(Math.max(r, 0.04) / 0.06) * 2.45; }
+    // Estrellas de campo: solo del hero, llenan la sección hasta los bordes.
+    // No viajan a la S ni a los títulos (se quedan en el hero).
+    var M_CANDIDATAS = esMobile ? 700 : 1700;
     // Galaxia y S suben más lento que la página. En el diseño en columna
     // (mobile y tablet) la galaxia está arriba del texto: más lento todavía,
     // para que la S formada no quede debajo del menú.
@@ -276,27 +290,52 @@
       vueltas[i] = Math.random() < 0.55 ? 1 : 0;
       apertura[i] = 0.5 + Math.random() * 0.8;
 
-      // Galaxia: núcleo denso, dos brazos en espiral y polvo suelto
+      // Galaxia (referencia 07): núcleo denso, dos brazos principales bien
+      // enroscados, pedazos de brazos secundarios y polvo suelto. Los brazos
+      // son angostos para que entre ellos queden franjas oscuras.
       var radio, angulo, tipo = Math.random();
-      if (tipo < 0.2) {
-        radio = Math.pow(Math.random(), 1.6) * 0.3;
+      if (tipo < 0.28) {
+        radio = Math.pow(Math.random(), 2.4) * 0.27;
         angulo = Math.random() * Math.PI * 2;
-      } else if (tipo < 0.78) {
-        radio = 0.08 + Math.pow(Math.random(), 1.1) * 0.92;
-        angulo = (Math.random() < 0.5 ? 0 : Math.PI) + radio * 4.2 + gauss() * (0.25 + radio * 0.35);
+        // Núcleo blanco y celeste claro (el brillo azul va por detrás)
+        if (color[i] < 2 && Math.random() < 0.7) color[i] = Math.random() < 0.5 ? 2 : 3;
+      } else if (tipo < 0.8) {
+        radio = 0.07 + Math.pow(Math.random(), 1.05) * 0.93;
+        angulo = (Math.random() < 0.5 ? 0 : Math.PI) + anguloBrazo(radio) + gauss() * (0.3 + radio * 0.3);
+        radio *= 1 + gauss() * 0.09;
+      } else if (tipo < 0.9) {
+        radio = 0.3 + Math.random() * 0.6;
+        angulo = (Math.random() < 0.5 ? 0.5 : 1.5) * Math.PI + anguloBrazo(radio) + gauss() * 0.35;
       } else {
-        radio = Math.pow(Math.random(), 0.7) * 1.1;
+        radio = Math.pow(Math.random(), 0.7) * 1.12;
         angulo = Math.random() * Math.PI * 2;
       }
       galR[i] = radio;
       galA[i] = angulo;
-      galW[i] = 0.035 + 0.09 * (1 - Math.min(radio, 1));
-      galAlfa[i] = (0.45 + Math.random() * 0.55) * (1 - 0.4 * Math.min(radio, 1));
+      // Ondulación propia, chica y acotada (los brazos no se deforman con el
+      // tiempo): más amplia cerca del centro, que se ve girar apenas más rápido
+      galW[i] = 0.05 + 0.07 * (1 - Math.min(radio, 1));
+      galAlfa[i] = (0.5 + Math.random() * 0.5) * (1 - 0.35 * Math.min(radio, 1));
 
       estX[i] = Math.random();
       estY[i] = Math.random();
       rango[i] = i;
     }
+    // Estrellas de campo: datos al azar fijos; dónde caen se calcula con el
+    // tamaño del hero (así no cambian de lugar si se recalcula la página)
+    var M = M_CANDIDATAS;
+    var campoU = new Float32Array(M), campoV = new Float32Array(M), campoSorteo = new Float32Array(M);
+    var campoColor = new Uint8Array(M), campoTam = new Float32Array(M), campoFase = new Float32Array(M);
+    var campoX = new Float32Array(M), campoY = new Float32Array(M), campoA = new Float32Array(M);
+    var campoVisible = new Uint8Array(M);
+    for (i = 0; i < M; i++) {
+      campoU[i] = Math.random(); campoV[i] = Math.random(); campoSorteo[i] = Math.random();
+      var rc = Math.random();
+      campoColor[i] = rc < 0.03 ? C_VIOLETA : rc < 0.22 ? 0 : rc < 0.52 ? 1 : rc < 0.82 ? 2 : 3;
+      campoTam[i] = 0.45 + Math.pow(Math.random(), 2) * 0.9 + (campoColor[i] === C_VIOLETA ? 0.35 : 0);
+      campoFase[i] = Math.random() * Math.PI * 2;
+    }
+
     for (i = N - 1; i > 0; i--) { // mezcla de Fisher-Yates
       var j = Math.floor(Math.random() * (i + 1));
       var tmp = rango[i]; rango[i] = rango[j]; rango[j] = tmp;
@@ -319,7 +358,7 @@
     }
     ajustarLienzo();
 
-    var spritesPunto = PALETA.map(crearSpritePunto);
+    var spritesPunto = PALETA.concat([VIOLETA]).map(crearSpritePunto);
     var spritesDigito = PALETA.map(function (c) { return [crearSpriteDigito(c, '0'), crearSpriteDigito(c, '1')]; });
 
     /* --- Estados --- */
@@ -341,7 +380,54 @@
     var estadosTitulo = titulos.map(function (h2) { var e = nuevoEstado('titulo'); e.h2 = h2; return e; });
     var estados = [galaxia, estadoS].concat(estadosTitulo);
 
-    var hero = { cx: 0, cy: 0, R: 0 };
+    var hero = { cx: 0, cy: 0, R: 0, alto: 0 };
+    var nebulosa = null;
+
+    /* Nebulosa: el brillo difuso de los brazos (la "nube" de la referencia).
+       Se dibuja una sola vez en un canvas aparte con muchas manchas suaves
+       muy transparentes, y en cada cuadro se pega girada junto con las
+       estrellas. Solo azul eléctrico y celeste (y blanco en el núcleo). */
+    function crearNebulosa(R) {
+      var lado = Math.min(640, Math.ceil(R * 2.5));
+      var c = document.createElement('canvas');
+      c.width = c.height = lado;
+      var x = c.getContext('2d');
+      var esc = lado / 2.5; // 1 unidad de radio de la galaxia en píxeles del canvas
+      var m = lado / 2;
+      var manchas = [crearSpritePunto(PALETA[0]), crearSpritePunto(PALETA[1]), crearSpritePunto(PALETA[2])];
+      for (var k = 0; k < 3400; k++) {
+        var secundario = Math.random() < 0.22;
+        var r = secundario ? 0.3 + Math.random() * 0.6 : 0.05 + Math.pow(Math.random(), 1.1) * 1.0;
+        var base = secundario ? (Math.random() < 0.5 ? 0.5 : 1.5) * Math.PI : (Math.random() < 0.5 ? 0 : Math.PI);
+        var a = base + anguloBrazo(r) + gauss() * (secundario ? 0.4 : 0.3 + r * 0.32);
+        var px = m + Math.cos(a) * r * esc, py = m + Math.sin(a) * r * esc;
+        var d = (0.12 + Math.random() * 0.16) * esc;
+        x.globalAlpha = (secundario ? 0.02 : 0.034) * (1 - 0.62 * r);
+        x.drawImage(manchas[r < 0.35 ? (Math.random() < 0.5 ? 2 : 1) : (Math.random() < 0.6 ? 0 : 1)], px - d / 2, py - d / 2, d, d);
+      }
+      // Núcleo: blanco y celeste claro
+      var g = x.createRadialGradient(m, m, 0, m, m, esc * 0.3);
+      g.addColorStop(0, rgba(PALETA[3], 0.75));
+      g.addColorStop(0.12, rgba(PALETA[3], 0.45));
+      g.addColorStop(0.35, rgba(PALETA[2], 0.2));
+      g.addColorStop(1, rgba(PALETA[1], 0));
+      x.globalAlpha = 1;
+      x.fillStyle = g;
+      x.fillRect(0, 0, lado, lado);
+      return { lienzo: c, radio: 1.25 };
+    }
+
+    function dibujarNebulosa(cx, cy, tiempo, alfa) {
+      if (!nebulosa || alfa < 0.01) return;
+      var lado = nebulosa.radio * 2 * hero.R;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(1, 0.9);
+      ctx.rotate(GIRO_GALAXIA * tiempo);
+      ctx.globalAlpha = alfa;
+      ctx.drawImage(nebulosa.lienzo, -lado / 2, -lado / 2, lado, lado);
+      ctx.restore();
+    }
     var tramos = [];
     var imagenS = null;
     var listo = false;
@@ -354,11 +440,31 @@
       var sy = window.scrollY;
       var minimo = Math.min(W, H);
 
-      // Hero: centro y tamaño de la galaxia
+      // Hero: centro y tamaño de la galaxia. El hero es lo primero de la
+      // página, así que sus medidas se toman relativas a su borde de arriba
+      // (sirve igual si está fijado por el pin o no).
+      var rh = heroEl.getBoundingClientRect();
       var rv = visual.getBoundingClientRect();
+      hero.alto = rh.height;
       hero.cx = rv.left + rv.width / 2;
-      hero.cy = rv.top + sy + rv.height / 2;
+      hero.cy = rv.top - rh.top + rv.height / 2;
       hero.R = W >= 1024 ? Math.min(H * 0.42, 380) : Math.min(rv.width, rv.height) * 0.62;
+
+      // Estrellas de campo: toda la sección, más juntas cerca de la galaxia y
+      // más chicas y tenues detrás del texto
+      var rt = textoHero.getBoundingClientRect();
+      var tx0 = rt.left - 8, tx1 = rt.right + 8, ty0 = rt.top - rh.top - 8, ty1 = rt.bottom - rh.top + 8;
+      var densidad = Math.min(1, (W * hero.alto) / (esMobile ? 390 * 844 : 1440 * 900));
+      for (i = 0; i < M; i++) {
+        var fx = campoU[i] * W, fy = campoV[i] * hero.alto;
+        var d = Math.hypot(fx - hero.cx, (fy - hero.cy) / 0.9) / hero.R;
+        var prob = (0.22 + 0.78 * Math.exp(-d * d / 2.2)) * (0.45 + 0.55 * densidad);
+        campoVisible[i] = campoSorteo[i] < prob ? 1 : 0;
+        campoX[i] = fx; campoY[i] = fy;
+        var detrasTexto = fx > tx0 && fx < tx1 && fy > ty0 && fy < ty1;
+        campoA[i] = (0.45 + 0.5 * (campoTam[i] - 0.45) / 1.25) * (detrasTexto ? 0.4 : 1);
+      }
+      nebulosa = crearNebulosa(hero.R);
 
       // Galaxia (las posiciones se calculan en cada cuadro porque gira)
       galaxia.cx = hero.cx; galaxia.cy = hero.cy; galaxia.ck = K_HERO;
@@ -470,10 +576,14 @@
     /* --- Galaxia en el tiempo --- */
     function actualizarGalaxia(tiempo) {
       var R = hero.R;
+      var giro = GIRO_GALAXIA * tiempo;
       for (var i = 0; i < N; i++) {
-        var a = galA[i] + galW[i] * tiempo;
-        var x = hero.cx + Math.cos(a) * galR[i] * R;
-        var y = hero.cy + Math.sin(a) * galR[i] * R * 0.9;
+        // Giro de toda la galaxia junta (los brazos mantienen la forma) más
+        // una ondulación chica propia de cada estrella
+        var a = galA[i] + giro + 0.6 * galW[i] * Math.sin(tiempo * 0.25 + fase[i]);
+        var rr = galR[i] * (1 + 0.025 * Math.sin(tiempo * 0.4 + fase[i] * 1.7));
+        var x = hero.cx + Math.cos(a) * rr * R;
+        var y = hero.cy + Math.sin(a) * rr * R * 0.9;
         galaxia.X[i] = x; galaxia.Y[i] = y;
         if (estadoS.Z[i] !== 1) { // halo alrededor de la S
           estadoS.X[i] = hero.cx + (x - hero.cx) * 1.18;
@@ -618,6 +728,24 @@
       }
     }
 
+    /* Estrellas de campo: se mueven con el hero (están en la sección) y no se
+       dibujan fuera de ella */
+    function dibujarCampo(scroll, tiempo, peso) {
+      var desp = scroll; // cuánto subió el hero en pantalla
+      var techo = -desp, piso = hero.alto - desp;
+      if (piso < 0 || peso < 0.01) return;
+      for (var i = 0; i < M; i++) {
+        if (!campoVisible[i]) continue;
+        var y = campoY[i] - desp;
+        if (y < techo || y > piso || y < -10 || y > H + 10) continue;
+        var al = campoA[i] * peso * (0.65 + 0.35 * Math.sin(tiempo * 0.8 + campoFase[i]));
+        if (al < 0.01) continue;
+        var d = campoTam[i] * 4;
+        ctx.globalAlpha = al;
+        ctx.drawImage(spritesPunto[campoColor[i]], campoX[i] - d / 2, y - d / 2, d, d);
+      }
+    }
+
     function alfaDe(e, i, tiempo) {
       var a = e.A[i];
       if (e.T[i]) a *= 1 - e.h2op;
@@ -645,6 +773,25 @@
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
+
+      // Estrellas de campo del hero (más tenues cuando ya está la S)
+      var pesoGalaxia = 0;
+      if (tramo.a === 0 && tramo.b === 0) pesoGalaxia = 1;
+      else if (tramo.a === 0) pesoGalaxia = 1 - suave(0, 1, t);
+      dibujarCampo(scroll, tiempo, (0.45 + 0.55 * pesoGalaxia) * aparicion);
+
+      // Brillo del núcleo de la galaxia (azul eléctrico, por detrás)
+      if (pesoGalaxia > 0.01) {
+        var nx = hero.cx, ny = hero.cy - scroll * K_HERO, nr = hero.R * 0.42;
+        var gn = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr);
+        gn.addColorStop(0, rgba(PALETA[0], 0.32 * pesoGalaxia * aparicion));
+        gn.addColorStop(0.35, rgba(PALETA[0], 0.14 * pesoGalaxia * aparicion));
+        gn.addColorStop(1, rgba(PALETA[0], 0));
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = gn;
+        ctx.fillRect(nx - nr, ny - nr, nr * 2, nr * 2);
+        dibujarNebulosa(nx, ny, tiempo, pesoGalaxia * aparicion);
+      }
 
       // Glow suave detrás de la S
       var pesoS = 0;
