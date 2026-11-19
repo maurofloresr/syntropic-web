@@ -312,14 +312,17 @@ body.menu-abierto { overflow: hidden; }
 
 .dw-pantallas .notebook { display: none; }
 
-/* Corrido a la derecha para que la tarjeta del puntaje tape lo menos posible */
-.dw-pantallas .celular { width: 62%; margin-left: 30%; }
+/* Mobile: celular grande, corrido a la derecha. La tarjeta del puntaje va
+   abajo a la izquierda y apenas pisa el borde de abajo del celular (arriba
+   taparía el logo y el título de cada web); el padding le hace lugar. */
+.dw-pantallas .celular { width: 80%; margin-left: 20%; }
+.dw-pantallas { padding-bottom: 9.5rem; }
 
 /* Tarjeta del puntaje: muestra el PageSpeed del cliente que se está viendo */
 .dw-puntaje {
   position: absolute;
   z-index: 2;
-  top: 10%;
+  bottom: 0;
   left: 0;
   width: 8.75rem;
   padding: 0.875rem 0.75rem;
@@ -457,31 +460,41 @@ body.menu-abierto { overflow: hidden; }
   /* Desde tablet: notebook con el celular adelante, superpuesto a la esquina
      de abajo a la derecha. El celular va grande (más que la proporción
      física) para que la web de adentro se lea. */
+  /* Todo se mide contra --c (el ancho del conjunto), para que la proporción
+     sea la misma en tablet y desktop. El celular mide 36% (unos 200 px en
+     desktop, 45% de la notebook) y arranca al 60% del alto de la pantalla
+     de la notebook: así se superpone a la esquina de abajo a la derecha sin
+     tapar el título ni el botón de ninguna web (el logo de ATR baja hasta el
+     59% y llega hasta el 92% del ancho). Por eso cuelga por debajo de la
+     notebook, y el padding de abajo le reserva ese lugar. */
+  .dw-visual { container-type: inline-size; }
+
   .dw-pantallas {
-    align-items: flex-end;
-    width: 100%;
-    max-width: 40rem;
+    --c: min(100cqw, 40rem);
+    align-items: flex-start;
+    width: var(--c);
     margin-inline: auto;
     padding-top: 3rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: calc(var(--c) * 0.49);
   }
 
   .dw-pantallas .notebook {
     display: block;
     width: 80%;
-    margin-right: 17%;
+    margin-right: 20%;
   }
 
   .dw-pantallas .celular {
     position: absolute;
     z-index: 1;
+    top: calc(3rem + var(--c) * 0.305);
     right: 0;
-    bottom: 0;
-    width: 27%;
+    width: 36%;
     margin-left: 0;
+    padding: calc(var(--c) * 0.022);
   }
 
-  .dw-puntaje { top: 0; left: -1.5rem; }
+  .dw-puntaje { top: 0; bottom: auto; left: -1.5rem; }
 
   /* Fuera del celular, los clientes entran en una o dos líneas, sin deslizar */
   .clientes-lista {
@@ -520,7 +533,7 @@ body.menu-abierto { overflow: hidden; }
   .dw-visual { grid-area: visual; align-self: center; }
   .dw-boton { grid-area: boton; align-self: start; margin-top: 2.5rem; }
 
-  .dw-pantallas { max-width: none; }
+  .dw-pantallas { --c: 100cqw; }
 
   /* La tarjeta del puntaje se corre hacia el espacio entre columnas */
   .dw-puntaje { top: 0.5rem; left: -3rem; }
