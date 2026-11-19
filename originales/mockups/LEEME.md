@@ -9,3 +9,4 @@ Guardarlas acá con estos nombres exactos:
 - 04-sistemas.jpg
 - 05-formulario.jpg
 - 06-mobile.jpg (las 5 secciones en celular)
+- 07-galaxia-referencia.png (referencia de forma y tonos para la galaxia del hero; no se copia tal cual)
