@@ -666,13 +666,17 @@
     var proximaFugaz = 0;
     function programarFugaz(ahora) { proximaFugaz = ahora + 6 + Math.random() * 4; }
 
-    function crearFugaz() {
+    /* Borde de abajo del hero en pantalla: las fugaces nunca pasan por la
+       zona de la galaxia del hero (en el resto de la web siguen igual) */
+    function pisoHero() { return hero.alto - despHero(window.scrollY); }
+
+    function crearFugaz(libre) {
       var abajo = 0.3 + Math.random() * 0.35;
       var dir = Math.random() < 0.5 ? 1 : -1;
       var vel = (0.8 + Math.random() * 0.5) * Math.max(W, H) * 0.95;
       fugaz = {
         x: W * (0.15 + Math.random() * 0.7),
-        y: H * (0.06 + Math.random() * 0.4),
+        y: libre + (H - libre) * (0.06 + Math.random() * 0.4),
         vx: Math.cos(abajo) * vel * dir,
         vy: Math.sin(abajo) * vel,
         largo: (esMobile ? 55 : 90) + Math.random() * (esMobile ? 35 : 60),
@@ -687,12 +691,16 @@
       f.edad += dt;
       if (f.edad >= f.vida) { fugaz = null; return; }
       f.x += f.vx * dt; f.y += f.vy * dt;
+      var piso = pisoHero();
+      if (f.y < piso) { fugaz = null; return; } // si el hero baja y la alcanza, se apaga
       var alfa = Math.sin(Math.PI * f.edad / f.vida);
       var v = Math.hypot(f.vx, f.vy);
       var colaX = f.x - f.vx / v * f.largo, colaY = f.y - f.vy / v * f.largo;
       var g = ctx.createLinearGradient(f.x, f.y, colaX, colaY);
       g.addColorStop(0, rgba(f.color, 0.9 * alfa));
       g.addColorStop(1, rgba(f.color, 0));
+      ctx.save();
+      if (piso > 0) { ctx.beginPath(); ctx.rect(0, piso, W, H - piso); ctx.clip(); }
       ctx.globalAlpha = 1;
       ctx.strokeStyle = g;
       ctx.lineWidth = 1.2;
@@ -703,6 +711,7 @@
       ctx.stroke();
       ctx.globalAlpha = alfa;
       ctx.drawImage(spritesPunto[3], f.x - 4, f.y - 4, 8, 8);
+      ctx.restore();
     }
 
     /* --- Supernova: luz blanca que aparta las estrellas de la galaxia ---
@@ -1040,7 +1049,12 @@
       // Estrellas fugaces: una cada 6 a 10 segundos, nunca en una transición
       if (!fugaz && tiempo >= proximaFugaz) {
         if (enTransicion && t > 0 && t < 1) proximaFugaz = tiempo + 2 + Math.random() * 3;
-        else { crearFugaz(); programarFugaz(tiempo); }
+        else {
+          var libre = Math.max(0, pisoHero());
+          // Si el hero ocupa casi toda la pantalla, se espera un poco
+          if (H - libre < H * 0.35) proximaFugaz = tiempo + 1.5 + Math.random() * 2;
+          else { crearFugaz(libre); programarFugaz(tiempo); }
+        }
       }
       dibujarLuz();
       if (fugaz) dibujarFugaz(dt);
