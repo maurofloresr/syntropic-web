@@ -494,22 +494,31 @@ body.menu-abierto { overflow: hidden; }
   .clientes-lista li:last-child { margin-right: 0; }
 }
 
-/* Dos columnas recién desde 1280 px: antes, "DESARROLLO" deja muy angosta
-   la columna de las pantallas y se usa la disposición de tablet */
+/* Desde 1280 px: el título arriba a todo el ancho y debajo dos columnas,
+   textos a la izquierda y pantallas a la derecha. .dw-texto se "disuelve"
+   (display: contents) para que el h2, la frase, la bajada y las píldoras
+   se ubiquen solos en la grilla. Antes de 1280 se usa la disposición de tablet. */
 @media (min-width: 1280px) {
   .dw-contenedor {
-    grid-template-columns: 1fr 1.1fr;
+    grid-template-columns: 1fr 1.15fr;
+    grid-template-rows: auto auto auto auto 1fr;
     grid-template-areas:
-      "texto visual"
+      "titulo titulo"
+      "frase visual"
+      "bajada visual"
+      "pildoras visual"
       "boton visual";
-    align-items: center;
-    column-gap: 4rem;
-    row-gap: 2rem;
+    column-gap: 5rem;
+    row-gap: 0;
   }
 
-  .dw-texto { grid-area: texto; align-self: end; }
-  .dw-visual { grid-area: visual; }
-  .dw-boton { grid-area: boton; align-self: start; }
+  .dw-texto { display: contents; }
+  .dw-texto h2 { grid-area: titulo; }
+  .dw-texto .frase { grid-area: frase; }
+  .dw-texto .bajada { grid-area: bajada; }
+  .dw-texto .pildoras { grid-area: pildoras; align-self: start; }
+  .dw-visual { grid-area: visual; align-self: center; }
+  .dw-boton { grid-area: boton; align-self: start; margin-top: 2.5rem; }
 
   .dw-pantallas { max-width: none; }
 
