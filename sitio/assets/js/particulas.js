@@ -285,6 +285,7 @@
     var galR = new Float32Array(N), galA = new Float32Array(N), galW = new Float32Array(N), galAlfa = new Float32Array(N);
     var estX = new Float32Array(N), estY = new Float32Array(N);
     var inicioS = new Float32Array(N); // cuándo arranca cada una hacia la S (0 a 0.6)
+    var caidaY = new Float32Array(N), derivaX = new Float32Array(N); // caída de los bytes
     var rango = new Uint32Array(N); // orden al azar: define quién va a cada lugar
 
     for (var i = 0; i < N; i++) {
@@ -294,6 +295,8 @@
       fase[i] = Math.random() * Math.PI * 2;
       digito[i] = Math.random() < 0.5 ? 0 : 1;
       demora[i] = Math.random() * 0.25;
+      caidaY[i] = 0.22 + Math.random() * 0.33;
+      derivaX[i] = (Math.random() - 0.5) * 40;
       vueltas[i] = Math.random() < 0.55 ? 1 : 0;
       apertura[i] = 0.5 + Math.random() * 0.8;
 
@@ -386,7 +389,8 @@
     var estadoS = nuevoEstado('s');
     galaxia.heroico = estadoS.heroico = true; // anclados al hero (pin y parallax)
     var estadosTitulo = titulos.map(function (h2) { var e = nuevoEstado('titulo'); e.h2 = h2; return e; });
-    var estados = [galaxia, estadoS].concat(estadosTitulo);
+    var estadosCaida = titulos.slice(0, -1).map(function () { return nuevoEstado('caido'); });
+    var estados = [galaxia, estadoS].concat(estadosTitulo, estadosCaida);
 
     var hero = { cx: 0, cy: 0, R: 0, alto: 0 };
     var usaGsap = !!(window.gsap && window.ScrollTrigger);
@@ -544,10 +548,16 @@
 
       // Tramos del scroll
       var menu = parseFloat(getComputedStyle(raiz).getPropertyValue('--altura-menu')) || 56;
-      var reposo = Math.max(menu + 40, H * 0.2); // dónde queda el título formado
-      var listos = titulos.map(function (h2) {
-        return h2.getBoundingClientRect().top + sy - reposo;
+      var arriba = titulos.map(function (h2) { return h2.getBoundingClientRect().top + sy; });
+      var asoma = titulos.map(function (h2) { // la sección asoma por abajo de la pantalla
+        var sec = h2.closest('section') || h2;
+        return sec.getBoundingClientRect().top + sy - H;
       });
+      // Cuándo queda completo cada título: con el h2 a esta altura de la
+      // pantalla (mobile bastante antes, desktop un poco antes)
+      var alturaFin = esMobile ? 0.6 : (enColumna ? 0.5 : 0.4);
+      function finDe(k, desde) { return Math.max(arriba[k] - alturaFin * H, desde + H * 0.25); }
+
       tramos = [];
       // Hero fijo (pin) durante P píxeles de scroll: la galaxia se convierte
       // en la S y la S queda quieta un instante antes de que la página siga
@@ -556,35 +566,60 @@
       var a1 = a0 + Math.max(P - a0, H * 0.3) * 0.78;
       tramos.push({ a: 0, b: 0, s0: -Infinity, s1: a0 });
       tramos.push({ a: 0, b: 1, s0: a0, s1: a1, tipo: 'galaxiaS' });
-      var seccionDW = document.getElementById('desarrollo-web');
-      var asomaDW = seccionDW ? seccionDW.getBoundingClientRect().top + sy - H : P;
-      var b0 = Math.max(a1 + H * 0.1, P, asomaDW);
-      b0 = Math.min(b0, listos[0] - H * 0.25);
-      b0 = Math.max(b0, a1);
-      finFormacionS = a1;
+      // Al soltarse el hero, la S se desarma en bytes que forman el primer título
+      var b0 = Math.max(a1 + H * 0.1, P, asoma[0]);
       tramos.push({ a: 1, b: 1, s0: a1, s1: b0 });
-      tramos.push({ a: 1, b: 2, s0: b0, s1: listos[0] });
-      for (var t = 0; t < listos.length - 1; t++) {
-        var c0 = Math.max(listos[t] + H * 0.08, listos[t + 1] - H * 0.95);
-        tramos.push({ a: 2 + t, b: 2 + t, s0: listos[t], s1: c0 });
-        tramos.push({ a: 2 + t, b: 3 + t, s0: c0, s1: listos[t + 1] });
-      }
-      tramos.push({ a: 5, b: 5, s0: listos[listos.length - 1], s1: Infinity });
+      var finPrevio = finDe(0, b0);
+      tramos.push({ a: 1, b: 2, s0: b0, s1: finPrevio });
 
-      // Si el título anterior quedó muy arriba (secciones largas), las
-      // partículas arrancan apenas por encima de la pantalla
-      tramos.forEach(function (tr) {
-        tr.corrimiento = 0;
-        if (tr.a === tr.b || estados[tr.a].ck !== 1) return;
-        var centroPantalla = estados[tr.a].cy - tr.s0;
-        if (centroPantalla < -H * 0.3) tr.corrimiento = -H * 0.3 - centroPantalla;
-      });
+      // Entre títulos, dos momentos:
+      // 1. Se va: cuando el título se acerca al menú (nunca queda debajo),
+      //    el h2 real se apaga y sus bytes se sueltan, caen y se pierden.
+      // 2. Llega: cuando la sección siguiente asoma por abajo, los bytes
+      //    reaparecen donde se perdieron y viajan en espiral al título nuevo.
+      // Si la sección es corta (la siguiente asoma mientras el título todavía
+      // se ve), la caída es más corta y el título nuevo arranca apenas termina.
+      var largoCaida = H * 0.22;
+      for (var k = 0; k < titulos.length - 1; k++) {
+        var idx = 2 + k, idxCaida = 2 + titulos.length + k;
+        var cae0 = Math.max(arriba[k] - menu - H * 0.1, finPrevio + H * 0.04); // antes de llegar al menú
+        var largo = cae0 + largoCaida > asoma[k + 1] ? H * 0.15 : largoCaida;
+        var cae1 = cae0 + largo;
+        var llega = Math.max(asoma[k + 1], cae1);
+        var fin = finDe(k + 1, llega);
+        tramos.push({ a: idx, b: idx, s0: finPrevio, s1: cae0 });
+        tramos.push({ a: idx, b: idxCaida, s0: cae0, s1: cae1, tipo: 'cae' });
+        tramos.push({ a: idxCaida, b: idxCaida, s0: cae1, s1: llega });
+        tramos.push({ a: idxCaida, b: idx + 1, s0: llega, s1: fin });
+        armarCaida(estadosTitulo[k], estadosCaida[k], cae0, cae1);
+        finPrevio = fin;
+      }
+      tramos.push({ a: 1 + titulos.length, b: 1 + titulos.length, s0: finPrevio, s1: Infinity });
 
       minimoPantalla = minimo;
       listo = true;
     }
     var minimoPantalla = 0;
-    var finFormacionS = 0;
+
+    /* Dónde termina cada byte al caer (coordenadas de pantalla). Cada uno
+       se suelta en su momento, cae y se apaga. Desde ahí arranca después
+       hacia el título siguiente. */
+    function armarCaida(src, e, cae0, cae1) {
+      e.cx = src.cx; e.cy = src.cy - cae0 + H * 0.35; e.ck = 0;
+      e.tamDigito = src.tamDigito;
+      var sueltaEn = e.suelta || (e.suelta = new Float32Array(N)); // scroll en que cada byte se suelta
+      for (var i = 0; i < N; i++) {
+        e.G[i] = src.G[i]; e.Z[i] = src.Z[i];
+        if (src.K[i] === 0) { // estrellas de fondo: siguen iguales
+          e.X[i] = src.X[i]; e.Y[i] = src.Y[i]; e.K[i] = 0; e.T[i] = 0; e.A[i] = src.A[i];
+          continue;
+        }
+        sueltaEn[i] = cae0 + (cae1 - cae0) * demora[i] * 0.8;
+        e.X[i] = src.X[i] + derivaX[i];
+        e.Y[i] = src.Y[i] - sueltaEn[i] + caidaY[i] * H;
+        e.K[i] = 0; e.T[i] = 1; e.A[i] = 0; // perdidos: no se ven
+      }
+    }
 
     /* Cuánto subió en pantalla algo anclado al hero: nada mientras el hero
        está fijo por el pin; después, lo que se scrolleó de más */
@@ -910,7 +945,7 @@
       var pulso = tiempo - pulsoInicio < 0.9 ? Math.sin(Math.PI * (tiempo - pulsoInicio) / 0.9) : 0;
       galaxiaSuelta = tramo.a === 0 && tramo.b === 0 && scroll < tramo.s1 + 4;
 
-      if (A.tipo !== 'titulo' || B.tipo !== 'titulo') actualizarGalaxia(tiempo);
+      if (A.heroico || B.heroico) actualizarGalaxia(tiempo);
       opacidadesTitulos(tramo, t);
       actualizarOnda(dt, dH, scroll);
 
@@ -953,7 +988,7 @@
       }
 
       // Los 0 y 1 cambian de vez en cuando (se ven "vivos")
-      if (A.tipo === 'titulo' || B.tipo === 'titulo') {
+      if (A.tipo !== 'galaxia' && A.tipo !== 's' || B.tipo === 'titulo') {
         for (var f = 0; f < 4; f++) digito[(Math.random() * N) | 0] ^= 1;
       }
 
@@ -967,6 +1002,28 @@
           if (al < 0.01) continue;
           var ox = A === galaxia ? ofX[i] : 0, oy = A === galaxia ? ofY[i] : 0;
           dibujarParticula(i, A.X[i] + ox, A.Y[i] - dA * A.K[i] + oy, al, A.G[i], A.Z[i] * crece, A.tamDigito);
+        }
+      } else if (tramo.tipo === 'cae') {
+        var sueltaEn = B.suelta;
+        // El título se desarma: cada byte se suelta (en orden al azar), cae
+        // y se apaga. Las estrellas de fondo siguen en su lugar.
+        for (i = 0; i < N; i++) {
+          if (A.K[i] === 0) {
+            var alF = alfaDe(A, i, tiempo) * aparicion;
+            if (alF >= 0.01) dibujarParticula(i, A.X[i], A.Y[i], alF, A.G[i], A.Z[i], A.tamDigito);
+            continue;
+          }
+          var xC = A.X[i], yC, alC = alfaDe(A, i, tiempo);
+          if (scroll < sueltaEn[i]) yC = A.Y[i] - scroll;
+          else {
+            var uC = limitar((t - demora[i] * 0.8) / 0.8, 0, 1);
+            yC = A.Y[i] - sueltaEn[i] + caidaY[i] * H * uC * uC;
+            xC += derivaX[i] * uC;
+            alC *= 1 - suave(0.2, 1, uC);
+          }
+          alC *= aparicion;
+          if (alC < 0.01) continue;
+          dibujarParticula(i, xC, yC, alC, A.G[i], A.Z[i], A.tamDigito);
         }
       } else if (tramo.tipo === 'galaxiaS') {
         // Galaxia a S: cada estrella se enrosca alrededor del centro en el
@@ -996,10 +1053,9 @@
       } else {
         // Transición en espiral (coordenadas polares alrededor de un centro
         // que viaja de una forma a la otra)
-        var corr = tramo.corrimiento;
         var dA0 = desp(A, tramo.s0), dB1 = desp(B, tramo.s1);
         var dAs = desp(A, scroll) - dA0, dBs = desp(B, scroll) - dB1;
-        var cfx = A.cx, cfy = A.cy - dA0 * A.ck + (A.ck === 1 ? corr : 0);
+        var cfx = A.cx, cfy = A.cy - dA0 * A.ck;
         var cdx = B.cx, cty = B.cy - dB1 * B.ck;
         var abre = minimoPantalla * 0.17;
         var tamDigito = A.tamDigito && B.tamDigito ? null : (A.tamDigito || B.tamDigito);
@@ -1010,7 +1066,7 @@
           var u = limitar((t - demora[i]) / 0.55, 0, 1);
           var e = entradaSalida(u);
 
-          var fx = A.X[i], fy = A.Y[i] - dA0 * A.K[i] + (A.K[i] === 1 ? corr : 0);
+          var fx = A.X[i], fy = A.Y[i] - dA0 * A.K[i];
           var tx = B.X[i], ty = B.Y[i] - dB1 * B.K[i];
 
           var lx = mezclar(fx, tx, e), ly = mezclar(fy, ty, e);
