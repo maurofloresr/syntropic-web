@@ -13,7 +13,8 @@ Se repasa con Mauro en la Fase 6, antes de publicar. Claude Code tiene que recor
 
 - [ ] Google Search Console: verificar el dominio y enviar el sitemap.
 - [ ] Bing Webmaster Tools: verificar y enviar el sitemap (ChatGPT usa el índice de Bing). Se puede importar desde Search Console.
-- [ ] Medir PageSpeed real y cargar el número en la tarjeta de Desarrollo web.
+- [ ] Medir PageSpeed de la web de Syntropic (objetivo 90+ en todo).
+- [ ] Cuando Talar Maderas esté en su dominio real: rehacer su captura, volver a medir PageSpeed y sumar su SEO a la tarjeta.
 - [ ] Probar el formulario en producción (llega a Airtable y dispara el evento del Pixel).
 
 ## Fuera de la web (cuando se pueda)

@@ -69,7 +69,7 @@ Orden de construcción. Una fase a la vez; cada fase termina con Mauro revisando
 0. Repasar con Mauro `docs/lanzamiento.md` y no publicar hasta que esté completo.
 1. Generar `publicar/` con HTML, CSS y JS minificados y sin comentarios.
 2. Deploy en Cloudflare Pages y conexión del dominio.
-3. Medir el puntaje real de PageSpeed y ponerlo en la tarjeta de la sección Desarrollo web.
+3. Medir el PageSpeed real de la web publicada (objetivo 90+ en todo).
 4. Prueba final del formulario en producción.
 
 ## Fase 7: v2, páginas por servicio

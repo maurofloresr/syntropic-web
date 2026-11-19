@@ -103,23 +103,30 @@
               </div>
             </div>
 
+            <!-- PageSpeed (computadora) del cliente que se está viendo. Los puntajes
+                 van en data-rendimiento y data-seo de cada botón de cliente; acá
+                 queda escrito el del primero (se ve igual sin JavaScript). -->
             <div class="dw-puntaje tarjeta-vidrio">
-              <!-- Indicador circular: cuando haya puntaje real, va en data-puntaje (0 a 100) y el arco se llena al entrar en pantalla -->
-              <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" data-puntaje="">
-                <circle class="indicador-fondo" cx="32" cy="32" r="28"></circle>
-                <circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle>
-              </svg>
-              <p class="dw-puntaje-numero">[FALTA: puntaje real]</p>
-              <p class="dw-puntaje-texto">Velocidad en Google</p>
+              <div class="dw-puntaje-circulo">
+                <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" style="--puntaje: 100">
+                  <circle class="indicador-fondo" cx="32" cy="32" r="28"></circle>
+                  <circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle>
+                </svg>
+                <p class="dw-puntaje-numero">100</p>
+              </div>
+              <p class="dw-puntaje-titulo">Rendimiento</p>
+              <p class="dw-puntaje-fuente">Google PageSpeed · computadora</p>
+              <p class="dw-puntaje-seo">SEO <span class="dw-puntaje-seo-numero">100</span></p>
             </div>
           </div>
 
           <div class="clientes">
             <p class="etiqueta">Ya confiaron en nosotros</p>
             <ul class="clientes-lista">
-              <li><button class="cliente" type="button" data-cliente="novo-hair" aria-pressed="true">Novo Hair</button></li>
-              <li><button class="cliente" type="button" data-cliente="talar-maderas" aria-pressed="false">Talar Maderas</button></li>
-              <li><button class="cliente" type="button" data-cliente="atr" aria-pressed="false">ATR</button></li>
+              <!-- Puntajes reales medidos por Mauro (nov 2026). Talar Maderas sin SEO hasta que esté en su dominio real. -->
+              <li><button class="cliente" type="button" data-cliente="novo-hair" data-rendimiento="100" data-seo="100" aria-pressed="true">Novo Hair</button></li>
+              <li><button class="cliente" type="button" data-cliente="talar-maderas" data-rendimiento="99" data-seo="" aria-pressed="false">Talar Maderas</button></li>
+              <li><button class="cliente" type="button" data-cliente="atr" data-rendimiento="100" data-seo="100" aria-pressed="false">ATR</button></li>
             </ul>
           </div>
         </div>

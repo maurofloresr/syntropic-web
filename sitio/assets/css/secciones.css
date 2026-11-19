@@ -312,18 +312,60 @@ body.menu-abierto { overflow: hidden; }
 
 .dw-pantallas .notebook { display: none; }
 
-.dw-pantallas .celular { width: 56%; }
+/* Corrido a la derecha para que la tarjeta del puntaje tape lo menos posible */
+.dw-pantallas .celular { width: 62%; margin-left: 30%; }
 
+/* Tarjeta del puntaje: muestra el PageSpeed del cliente que se está viendo */
 .dw-puntaje {
   position: absolute;
   z-index: 2;
-  top: 12%;
+  top: 10%;
   left: 0;
-  width: 9.5rem;
-  padding: 1rem;
+  width: 8.75rem;
+  padding: 0.875rem 0.75rem;
   text-align: center;
   background-color: rgba(11, 21, 36, 0.85);
 }
+
+.dw-puntaje-circulo {
+  position: relative;
+  width: 5rem;
+  margin: 0 auto 0.5rem;
+}
+
+.dw-puntaje-circulo .indicador {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.dw-puntaje-numero {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.375rem;
+  line-height: 1;
+  color: var(--blanco);
+}
+
+.dw-puntaje-titulo {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--blanco);
+}
+
+.dw-puntaje-fuente,
+.dw-puntaje-seo {
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--celeste-claro);
+}
+
+.dw-puntaje-seo { font-weight: 600; color: var(--celeste); }
 
 /* Entrada: las pantallas suben con un fundido y la tarjeta llega después */
 .js .dw-pantallas .notebook,
@@ -352,20 +394,6 @@ body.menu-abierto { overflow: hidden; }
     transform: none;
     transition-delay: 0s;
   }
-}
-
-.dw-puntaje-numero {
-  font-family: var(--fuente-titulos);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  color: var(--celeste);
-}
-
-.dw-puntaje-texto {
-  margin-top: 0.5rem;
-  font-size: 0.8125rem;
-  color: var(--celeste-claro);
 }
 
 .clientes {
@@ -426,27 +454,31 @@ body.menu-abierto { overflow: hidden; }
   .dw-boton,
   .sis-boton { justify-self: start; }
 
-  /* Desde tablet: notebook con el celular adelante */
+  /* Desde tablet: notebook con el celular adelante, superpuesto a la esquina
+     de abajo a la derecha. El celular va grande (más que la proporción
+     física) para que la web de adentro se lea. */
   .dw-pantallas {
     align-items: flex-end;
     width: 100%;
-    max-width: 36rem;
+    max-width: 40rem;
     margin-inline: auto;
     padding-top: 3rem;
+    padding-bottom: 2.5rem;
   }
 
   .dw-pantallas .notebook {
     display: block;
-    width: 82%;
-    margin-right: 12%;
+    width: 80%;
+    margin-right: 17%;
   }
 
   .dw-pantallas .celular {
     position: absolute;
     z-index: 1;
     right: 0;
-    bottom: -1rem;
-    width: 22%;
+    bottom: 0;
+    width: 27%;
+    margin-left: 0;
   }
 
   .dw-puntaje { top: 0; left: -1.5rem; }
@@ -462,7 +494,9 @@ body.menu-abierto { overflow: hidden; }
   .clientes-lista li:last-child { margin-right: 0; }
 }
 
-@media (min-width: 1024px) {
+/* Dos columnas recién desde 1280 px: antes, "DESARROLLO" deja muy angosta
+   la columna de las pantallas y se usa la disposición de tablet */
+@media (min-width: 1280px) {
   .dw-contenedor {
     grid-template-columns: 1fr 1.1fr;
     grid-template-areas:
@@ -479,11 +513,8 @@ body.menu-abierto { overflow: hidden; }
 
   .dw-pantallas { max-width: none; }
 
-  /* La columna visual es angosta (el h2 ocupa mucho): notebook más grande
-     y la tarjeta del puntaje corrida hacia el espacio entre columnas */
-  .dw-pantallas .notebook { width: 90%; margin-right: 7%; }
-  .dw-pantallas .celular { width: 23%; bottom: -1.5rem; }
-  .dw-puntaje { top: 0.5rem; left: -3rem; width: 8.5rem; padding: 0.875rem; }
+  /* La tarjeta del puntaje se corre hacia el espacio entre columnas */
+  .dw-puntaje { top: 0.5rem; left: -3rem; }
 
   .cliente { font-size: 1rem; padding-inline: 0.875rem; }
 }

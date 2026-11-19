@@ -78,7 +78,11 @@ Referencia: `originales/mockups/02-desarrollo-web.jpg`
   - Botón: "Quiero mi web" (lleva al formulario con "Desarrollo web" ya marcado).
 - **Derecha:**
   - Notebook y celular mostrando una web de cliente, con glow #0040FF detrás.
-  - Tarjeta flotante con un indicador circular y el número del puntaje de rendimiento de Google (PageSpeed) de ESTA web, con el texto "Velocidad en Google". El número tiene que ser el real, medido después del deploy. Mientras tanto: [FALTA: puntaje real].
+  - Tarjeta flotante con un indicador circular: muestra el puntaje de Google PageSpeed (versión computadora) DEL CLIENTE QUE SE ESTÁ VIENDO y cambia junto con la rotación de clientes. Texto: el número grande, "Rendimiento" y abajo, chico, "Google PageSpeed · computadora". Si el cliente tiene SEO medido, una segunda línea chica "SEO 100". Puntajes reales medidos por Mauro (nov 2026):
+    - Novo Hair: rendimiento 100, SEO 100.
+    - Talar Maderas: rendimiento 99. SEO no se muestra hasta que esté en su dominio real (en el link provisorio da 54 por el robots.txt); ahí se vuelve a medir.
+    - ATR: rendimiento 100, SEO 100.
+    - Los puntajes de celular son menores (76 y 77) y no se muestran. Nunca inventar ni redondear números.
   - Debajo: "YA CONFIARON EN NOSOTROS" (#A0D3FD, mayúsculas, espaciado) y los nombres de los clientes: Novo Hair | Talar Maderas | ATR. Al tocar un nombre, las pantallas muestran la web de ese cliente (capturas en `sitio/assets/img/clientes/`). [FALTA: capturas desktop y mobile de cada web, y confirmación de Mauro de que cada cliente acepta aparecer].
 
 ## 6. Sección 3: Automatizaciones

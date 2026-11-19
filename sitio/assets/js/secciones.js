@@ -14,8 +14,10 @@
    - Los clientes rotan solos cada ROTACION_MS mientras la sección está en
      pantalla. La rotación se corta para siempre apenas el usuario toca un
      nombre. Con movimiento reducido no rota.
-   - Indicador circular del puntaje: si tiene data-puntaje, el arco se llena
-     al entrar en pantalla.
+   - Tarjeta del puntaje: muestra el PageSpeed (computadora) del cliente que
+     se está viendo, tomado de data-rendimiento y data-seo de cada botón.
+     La primera vez que aparece, el arco se llena y el número sube contando;
+     después cambia junto con el cliente. Sin data-seo, no hay línea de SEO.
    ========================================================================== */
 (function () {
   'use strict';
@@ -69,8 +71,40 @@
       if (visible) cuandoLibre(cargarCapturas);
     }, '400px 0px');
 
+    // Tarjeta del puntaje
+    var indicador = dw.querySelector('.indicador');
+    var numero = dw.querySelector('.dw-puntaje-numero');
+    var lineaSeo = dw.querySelector('.dw-puntaje-seo');
+    var numeroSeo = dw.querySelector('.dw-puntaje-seo-numero');
+    var puntajeVisto = false; // hasta que la tarjeta aparece, no se anima nada
+    var conteo = null;
+
+    function contar(hasta) {
+      cancelAnimationFrame(conteo);
+      if (reducido) { numero.textContent = hasta; return; }
+      var inicio = performance.now();
+      (function paso(ahora) {
+        var t = Math.min((ahora - inicio) / 1400, 1);
+        numero.textContent = Math.round(hasta * (1 - Math.pow(1 - t, 3)));
+        if (t < 1) conteo = requestAnimationFrame(paso);
+      })(inicio);
+    }
+
+    function mostrarPuntaje(boton) {
+      if (!indicador || !numero) return;
+      var rendimiento = boton.dataset.rendimiento;
+      var seo = boton.dataset.seo;
+      indicador.style.setProperty('--puntaje', rendimiento);
+      if (puntajeVisto) { cancelAnimationFrame(conteo); numero.textContent = rendimiento; }
+      if (lineaSeo) {
+        lineaSeo.hidden = !seo;
+        if (seo && numeroSeo) numeroSeo.textContent = seo;
+      }
+    }
+
     function mostrar(indice, desdeRotacion) {
       activo = indice;
+      mostrarPuntaje(botones[indice]);
       var id = botones[indice].dataset.cliente;
       botones.forEach(function (b, i) { b.setAttribute('aria-pressed', String(i === indice)); });
       capturas.forEach(function (img) {
@@ -114,12 +148,17 @@
     var visual = dw.querySelector('.dw-pantallas');
     alEntrar(visual, function () { visual.classList.add('visible'); }, 0.2);
 
-    // Indicador circular del puntaje (cuando exista el puntaje real)
-    var indicador = dw.querySelector('.indicador');
-    var puntaje = indicador ? parseFloat(indicador.dataset.puntaje) : NaN;
-    if (indicador && puntaje >= 0) {
-      indicador.style.setProperty('--puntaje', String(Math.min(puntaje, 100)));
-      alEntrar(indicador, function () { indicador.classList.add('lleno'); }, 0.6);
+    // La primera vez que se ve la tarjeta: el arco se llena y el número cuenta
+    if (indicador && numero) {
+      numero.textContent = reducido ? botones[activo].dataset.rendimiento : '0';
+      alEntrar(indicador, function () {
+        // espera a que la tarjeta termine de entrar (llega después de las pantallas)
+        setTimeout(function () {
+          puntajeVisto = true;
+          indicador.classList.add('lleno');
+          contar(+botones[activo].dataset.rendimiento);
+        }, reducido ? 0 : 700);
+      }, 0.6);
     }
   }
 })();

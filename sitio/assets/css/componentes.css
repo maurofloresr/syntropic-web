@@ -198,7 +198,8 @@
 }
 
 /* --- Indicador circular (puntaje) ---
-   El arco se llena hasta --puntaje (0 a 100) cuando recibe la clase .lleno */
+   El arco llega hasta --puntaje (0 a 100). Con JavaScript arranca vacío y se
+   llena al recibir la clase .lleno; sin JavaScript se ve lleno de entrada. */
 .indicador {
   display: block;
   width: 3.5rem;
@@ -217,15 +218,14 @@
 .indicador-arco {
   stroke: var(--celeste);
   stroke-linecap: round;
-  stroke-dasharray: 0 100;
-  opacity: 0;
+  stroke-dasharray: var(--puntaje, 0) 100;
   filter: drop-shadow(0 0 4px rgba(71, 173, 255, 0.7));
   transition: stroke-dasharray 1.4s ease-out, opacity 0.3s ease;
 }
 
-.indicador.lleno .indicador-arco {
-  stroke-dasharray: var(--puntaje) 100;
-  opacity: 1;
+.js .indicador:not(.lleno) .indicador-arco {
+  stroke-dasharray: 0 100;
+  opacity: 0;
 }
 
 /* --- Nodo del lienzo de automatizaciones --- */
