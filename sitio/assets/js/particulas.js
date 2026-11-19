@@ -268,11 +268,12 @@
     // Estrellas de campo: solo del hero, llenan la sección hasta los bordes.
     // No viajan a la S ni a los títulos (se quedan en el hero).
     var M_CANDIDATAS = esMobile ? 700 : 1700;
-    // Galaxia y S suben más lento que la página. En el diseño en columna
-    // (mobile y tablet) la galaxia está arriba del texto: más lento todavía,
-    // para que la S formada no quede debajo del menú.
+    // Galaxia y S suben más lento que la página (parallax) una vez que se
+    // suelta el pin. En columna (mobile y tablet) a mitad de velocidad: el
+    // texto se acerca a la S tan rápido como la S al menú, así la S se
+    // desarma antes de tocar cualquiera de los dos.
     var enColumna = anchoPantalla() < 1024;
-    var K_HERO = enColumna ? 0.2 : 0.45;
+    var K_HERO = enColumna ? 0.5 : 0.45;
 
     /* --- Datos fijos de cada partícula --- */
     var color = new Uint8Array(N);
@@ -489,9 +490,21 @@
 
       // S: la mayoría de las partículas forman la S, el resto queda como halo
       var altoS = Math.min(hero.R * 1.05, rv.height * 0.85);
-      var formaS = muestrearS(imagenS, hero.cx, hero.cy, altoS, Math.floor(N * 0.78));
+      var centroS = hero.cy;
+      if (enColumna) {
+        // En columna la S nunca toca el menú ni la etiqueta del h1: en
+        // pantallas bajas (iPhone SE) se achica y se centra en el lugar libre
+        var alturaMenu = parseFloat(getComputedStyle(raiz).getPropertyValue('--altura-menu')) || 56;
+        var etiqueta = textoHero.querySelector('.etiqueta') || textoHero;
+        var techoS = alturaMenu + 16;
+        var pisoS = etiqueta.getBoundingClientRect().top - rh.top - 24;
+        var libre = pisoS - techoS;
+        altoS = Math.min(altoS, libre * 0.62);
+        centroS = techoS + libre / 2;
+      }
+      var formaS = muestrearS(imagenS, hero.cx, centroS, altoS, Math.floor(N * 0.78));
       var nS = formaS.puntos.length / 2;
-      estadoS.cx = hero.cx; estadoS.cy = hero.cy; estadoS.ck = K_HERO;
+      estadoS.cx = hero.cx; estadoS.cy = centroS; estadoS.ck = K_HERO;
       estadoS.altoS = altoS;
       // Quién va a cada punto de la S: las estrellas más cercanas al centro
       // de la galaxia llegan primero y dibujan el contorno; las de más afuera
