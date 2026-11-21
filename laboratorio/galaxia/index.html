@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Laboratorio: galaxia del hero</title>
+  <!-- Laboratorio local: nunca se publica. Servidor (desde web/):
+       python -m http.server 8001 --directory laboratorio/galaxia --bind 0.0.0.0 -->
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <main class="escenario" id="escenario">
+    <div class="marco" id="marco">
+      <canvas id="lienzo" aria-label="Galaxia del hero"></canvas>
+    </div>
+    <div class="hud" id="hud" aria-live="off">
+      <span><b id="fps">0</b> fps</span>
+      <span><b id="cantidad">0</b> estrellas en pantalla</span>
+      <span class="hud-detalle" id="detalle"></span>
+    </div>
+  </main>
+
+  <aside class="panel" id="panel">
+    <div class="panel-cabecera">
+      <strong>Laboratorio de la galaxia</strong>
+      <button type="button" class="boton-chico" id="ocultar" aria-expanded="true">Ocultar</button>
+    </div>
+    <div class="panel-acciones">
+      <button type="button" class="boton" id="celular" aria-pressed="false">Simular celular</button>
+      <button type="button" class="boton boton-principal" id="copiar">Copiar configuración</button>
+      <button type="button" class="boton" id="restablecer">Restablecer</button>
+    </div>
+    <p class="aviso" id="aviso" role="status"></p>
+    <div id="controles"></div>
+  </aside>
+  <button type="button" class="mostrar" id="mostrar" hidden>Panel</button>
+
+  <script src="galaxia.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

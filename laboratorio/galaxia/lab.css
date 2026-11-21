@@ -1,0 +1,165 @@
+/* Laboratorio de la galaxia (no se publica). Solo colores de la paleta. */
+:root {
+  --navy: #0B1524;
+  --azul: #0040FF;
+  --celeste: #47ADFF;
+  --celeste-claro: #A0D3FD;
+  --blanco: #FFFFFF;
+  --ancho-panel: 340px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--navy);
+  color: var(--blanco);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+.escenario {
+  position: fixed;
+  inset: 0 var(--ancho-panel) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.sin-panel .escenario { right: 0; }
+
+.marco {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--navy);
+}
+.marco canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+/* Simular celular: 390 px de ancho, alto de un iPhone (o lo que entre) */
+body.celular .marco {
+  width: 390px;
+  height: min(844px, 100%);
+  outline: 1px solid rgba(71, 173, 255, 0.35);
+}
+
+.hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(11, 21, 36, 0.75);
+  border: 1px solid rgba(71, 173, 255, 0.25);
+  color: var(--celeste-claro);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  z-index: 2;
+}
+.hud b { color: var(--blanco); }
+.hud-detalle { font-size: 11px; opacity: 0.8; }
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--ancho-panel);
+  overflow-y: auto;
+  padding: 12px 14px 40px;
+  background: rgba(11, 21, 36, 0.96);
+  border-left: 1px solid rgba(71, 173, 255, 0.25);
+  z-index: 3;
+}
+body.sin-panel .panel { display: none; }
+
+.panel-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.panel-acciones { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.boton, .boton-chico, .mostrar {
+  font: inherit;
+  color: var(--blanco);
+  background: rgba(71, 173, 255, 0.12);
+  border: 1px solid rgba(71, 173, 255, 0.4);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.boton-chico { padding: 3px 8px; font-size: 12px; }
+.boton:hover, .boton-chico:hover, .mostrar:hover { background: rgba(71, 173, 255, 0.25); }
+.boton-principal { background: var(--azul); border-color: var(--azul); }
+.boton-principal:hover { background: var(--azul); filter: brightness(1.15); }
+.boton[aria-pressed="true"] { background: var(--azul); border-color: var(--celeste); }
+.boton:focus-visible, .boton-chico:focus-visible, .mostrar:focus-visible,
+select:focus-visible, input:focus-visible { outline: 2px solid var(--celeste); outline-offset: 2px; }
+
+.mostrar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background: rgba(11, 21, 36, 0.85);
+}
+
+.aviso { min-height: 1.4em; margin: 8px 0 4px; color: var(--celeste-claro); font-size: 12px; }
+
+details {
+  border-top: 1px solid rgba(71, 173, 255, 0.18);
+  padding: 6px 0;
+}
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--celeste-claro);
+  padding: 4px 0;
+}
+
+.control { margin: 8px 0; }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.control output { color: var(--celeste); font-variant-numeric: tabular-nums; }
+.control input[type="range"] { width: 100%; accent-color: var(--celeste); }
+.control .nota { font-size: 11px; color: var(--celeste-claro); opacity: 0.75; margin-top: 2px; }
+
+.control-color { display: flex; align-items: center; gap: 8px; }
+.control-color select {
+  flex: 1;
+  font: inherit;
+  color: var(--blanco);
+  background: var(--navy);
+  border: 1px solid rgba(71, 173, 255, 0.4);
+  border-radius: 6px;
+  padding: 4px;
+}
+.muestra {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex: none;
+}
+
+.fila-botones { display: flex; gap: 6px; margin-top: 6px; }
+
+/* Viendo el laboratorio desde el celu: panel abajo */
+@media (max-width: 760px) {
+  :root { --ancho-panel: 0px; }
+  .escenario { inset: 0 0 45vh 0; }
+  body.sin-panel .escenario { bottom: 0; }
+  .panel { top: auto; left: 0; width: auto; height: 45vh; border-left: 0; border-top: 1px solid rgba(71, 173, 255, 0.25); }
+  body.celular .marco { width: 100%; height: 100%; }
+}
