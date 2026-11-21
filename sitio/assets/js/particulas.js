@@ -37,14 +37,42 @@
     [160, 211, 253], // 2 celeste claro #A0D3FD
     [255, 255, 255]  // 3 blanco #FFFFFF
   ];
-  // Los 0 y 1 de los títulos van en celeste, celeste claro y blanco
+  // Los 0 y 1 de los títulos van en celeste, celeste claro, blanco y violeta
   // (el azul eléctrico sobre navy no se lee): el azul pasa a celeste.
-  var COLOR_DIGITO = [1, 1, 2, 3];
-  // Excepción aprobada por Mauro: violeta #B49CF0 SOLO en algunas estrellas
-  // sueltas de la galaxia del hero (tono tomado de la referencia 07).
-  // Nunca en títulos ni en el resto de la web.
+  var COLOR_DIGITO = [1, 1, 2, 3, 4];
+  // Excepción aprobada por Mauro: violeta #B49CF0 (tono de la referencia 07)
+  // en algunas estrellas del hero: las de campo y las de la galaxia, que
+  // después forman la S y los títulos. En el resto de la web, nunca.
   var VIOLETA = [180, 156, 240];
-  var C_VIOLETA = 4; // índice en spritesPunto
+  var C_VIOLETA = 4; // índice en spritesPunto y spritesDigito
+
+  /* --- Galaxia del hero: valores elegidos por Mauro en el laboratorio
+     (laboratorio/galaxia/). Mobile: menos de 768 px; desktop: 768 o más.
+     estrellasGalaxia y estrellasCampo son el techo: la cantidad real la
+     ajusta la calidad adaptativa según lo que aguante el dispositivo. --- */
+  var GALAXIA_ESCRITORIO = {
+    estrellasGalaxia: 6000, estrellasCampo: 4000,
+    tamanoEstrellas: 1, brilloEstrellas: 1.55, titileo: 1.9, velocidadTitileo: 1.75,
+    nucleoDensidad: 0.46, nucleoTamano: 0.26, nucleoConcentracion: 3.1, nucleoClaro: 88, brilloNucleo: 2.9,
+    brazos: 5, enroscado: 3.65, anchoBrazos: 1.15, franjasOscuras: 0.81,
+    rotacion: 0.05, nebulosa: 0.8, violetasCampo: 11.5, violetasGalaxia: 5,
+    pctAzul: 34, pctCeleste: 35, pctCelesteClaro: 35, pctBlanco: 35,
+    supernovaTamano: 49, supernovaFuerza: 1.42, supernovaRegreso: 37,
+    escalonado: 0.06
+  };
+  var GALAXIA_MOVIL = {
+    estrellasGalaxia: 3650, estrellasCampo: 2750,
+    tamanoEstrellas: 0.85, brilloEstrellas: 1.5, titileo: 1.2, velocidadTitileo: 0.9,
+    nucleoDensidad: 0.2, nucleoTamano: 0.21, nucleoConcentracion: 3.9, nucleoClaro: 88, brilloNucleo: 1.75,
+    brazos: 4, enroscado: 3.5, anchoBrazos: 1.55, franjasOscuras: 0.61,
+    rotacion: 0.055, nebulosa: 0.45, violetasCampo: 6.5, violetasGalaxia: 5,
+    pctAzul: 34, pctCeleste: 35, pctCelesteClaro: 35, pctBlanco: 35,
+    supernovaTamano: 46, supernovaFuerza: 1.61, supernovaRegreso: 56,
+    escalonado: 0.06
+  };
+  // Partículas que siguen de la S a los títulos: al menos 2000 (menos solo
+  // si el dispositivo no llega a ser fluido) y como mucho 3000
+  var MIN_TITULOS = 2000, TECHO_TITULOS = 3000;
 
   var TITULOS = ['titulo-desarrollo-web', 'titulo-automatizaciones', 'titulo-sistemas', 'titulo-contacto'];
   var IMAGEN_S = 'assets/img/isologo-s-muestreo.png';
@@ -258,22 +286,38 @@
     if (titulos.some(function (t) { return !t; }) || !visual || !heroEl || !textoHero) return;
 
     var esMobile = anchoPantalla() < 768;
-    var N = esMobile ? 900 : 2500;
-    if (!esMobile && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) N = 1800;
+    var CFG = esMobile ? GALAXIA_MOVIL : GALAXIA_ESCRITORIO;
+    // N y M son los techos (se reservan los datos de todas); las que se ven
+    // son las primeras nActivas y mActivas, que ajusta la calidad adaptativa
+    var N = CFG.estrellasGalaxia;
     var N_ESTRELLAS = esMobile ? 90 : 220;
-    var GIRO_GALAXIA = 0.05; // velocidad de giro de la galaxia (radianes por segundo)
+    var GIRO_GALAXIA = CFG.rotacion; // velocidad de giro de la galaxia (radianes por segundo)
+    var ESCALONADO = limitar(CFG.escalonado, 0, 0.95); // salidas escalonadas hacia la S
+    // Titileo de las estrellas del hero (galaxia, S y campo)
+    var TIT_GAL = Math.min(1, 0.18 * CFG.titileo), TIT_CAMPO = Math.min(1, 0.35 * CFG.titileo);
     // Brazos en espiral logarítmica (como las galaxias reales): cerrados
     // cerca del núcleo y cada vez más abiertos hacia afuera
-    function anguloBrazo(r) { return Math.log(Math.max(r, 0.04) / 0.06) * 2.45; }
+    function anguloBrazo(r) { return Math.log(Math.max(r, 0.04) / 0.06) * CFG.enroscado; }
     // Estrellas de campo: solo del hero, llenan la sección hasta los bordes.
     // No viajan a la S ni a los títulos (se quedan en el hero).
-    var M_CANDIDATAS = esMobile ? 700 : 1700;
+    var M = CFG.estrellasCampo;
     // Galaxia y S suben más lento que la página (parallax) una vez que se
     // suelta el pin. En columna (mobile y tablet) a mitad de velocidad: el
     // texto se acerca a la S tan rápido como la S al menú, así la S se
     // desarma antes de tocar cualquiera de los dos.
     var enColumna = anchoPantalla() < 1024;
     var K_HERO = enColumna ? 0.5 : 0.45;
+
+    /* --- Calidad adaptativa: arranca con una cantidad media y la ajusta
+       según los cuadros por segundo (ver medirRendimiento) --- */
+    var MIN_N = Math.min(300, N);
+    var nivel = Math.min(N, Math.max(MIN_TITULOS, Math.round(N / 2)));
+    var nActivas = nivel;                          // estrellas de la galaxia y la S
+    var nT = Math.min(nActivas, TECHO_TITULOS);    // las que siguen a los títulos
+    var mActivas = Math.round(M * nActivas / N);   // estrellas de campo
+    var nDibujo = nActivas, mDibujo = mActivas;    // incluye las que se están apagando
+    var encendido = new Float32Array(N), encCampo = new Float32Array(M);
+    encendido.fill(1, 0, nActivas); encCampo.fill(1, 0, mActivas);
 
     /* --- Datos fijos de cada partícula --- */
     var color = new Uint8Array(N);
@@ -285,13 +329,28 @@
     var apertura = new Float32Array(N);
     var galR = new Float32Array(N), galA = new Float32Array(N), galW = new Float32Array(N), galAlfa = new Float32Array(N);
     var estX = new Float32Array(N), estY = new Float32Array(N);
-    var inicioS = new Float32Array(N); // cuándo arranca cada una hacia la S (0 a 0.6)
+    var inicioS = new Float32Array(N); // cuándo arranca cada una hacia la S
+    var esHalo = new Uint8Array(N);    // 1 = queda como halo alrededor de la S
     var caidaY = new Float32Array(N), derivaX = new Float32Array(N); // caída de los bytes
-    var rango = new Uint32Array(N); // orden al azar: define quién va a cada lugar
+
+    // Reparto de la galaxia (como el laboratorio): núcleo, brazos
+    // principales, pedazos de brazos secundarios y polvo suelto. Las franjas
+    // oscuras sacan estrellas de entre los brazos.
+    var fNucleo = limitar(CFG.nucleoDensidad, 0, 0.9);
+    var fEntre = Math.min(1 - fNucleo, 0.4 * (1 - CFG.franjasOscuras));
+    var fBrazos = fNucleo + (1 - fNucleo - fEntre), fSecundarios = 1 - fEntre / 2;
+    var nBrazos = Math.max(1, Math.round(CFG.brazos)), pasoBrazo = Math.PI * 2 / nBrazos;
+    var pcts = [CFG.pctAzul, CFG.pctCeleste, CFG.pctCelesteClaro, CFG.pctBlanco];
+    var totalPct = pcts[0] + pcts[1] + pcts[2] + pcts[3] || 1;
+    function sortearColor() {
+      var r = Math.random() * totalPct;
+      for (var k = 0; k < 4; k++) { if (r < pcts[k]) return k; r -= pcts[k]; }
+      return 3;
+    }
 
     for (var i = 0; i < N; i++) {
-      var r = Math.random();
-      color[i] = r < 0.3 ? 0 : r < 0.65 ? 1 : r < 0.9 ? 2 : 3;
+      color[i] = sortearColor();
+      if (Math.random() * 100 < CFG.violetasGalaxia) color[i] = C_VIOLETA;
       tam[i] = 0.8 + Math.random() * 1.2 + (color[i] === 3 ? 0.5 : 0);
       fase[i] = Math.random() * Math.PI * 2;
       digito[i] = Math.random() < 0.5 ? 0 : 1;
@@ -301,22 +360,19 @@
       vueltas[i] = Math.random() < 0.55 ? 1 : 0;
       apertura[i] = 0.5 + Math.random() * 0.8;
 
-      // Galaxia (referencia 07): núcleo denso, dos brazos principales bien
-      // enroscados, pedazos de brazos secundarios y polvo suelto. Los brazos
-      // son angostos para que entre ellos queden franjas oscuras.
       var radio, angulo, tipo = Math.random();
-      if (tipo < 0.28) {
-        radio = Math.pow(Math.random(), 2.4) * 0.27;
+      if (tipo < fNucleo) {
+        radio = Math.pow(Math.random(), CFG.nucleoConcentracion) * CFG.nucleoTamano;
         angulo = Math.random() * Math.PI * 2;
         // Núcleo blanco y celeste claro (el brillo azul va por detrás)
-        if (color[i] < 2 && Math.random() < 0.7) color[i] = Math.random() < 0.5 ? 2 : 3;
-      } else if (tipo < 0.8) {
+        if (color[i] < 2 && Math.random() * 100 < CFG.nucleoClaro) color[i] = Math.random() < 0.5 ? 2 : 3;
+      } else if (tipo < fBrazos) {
         radio = 0.07 + Math.pow(Math.random(), 1.05) * 0.93;
-        angulo = (Math.random() < 0.5 ? 0 : Math.PI) + anguloBrazo(radio) + gauss() * (0.3 + radio * 0.3);
-        radio *= 1 + gauss() * 0.09;
-      } else if (tipo < 0.9) {
+        angulo = Math.floor(Math.random() * nBrazos) * pasoBrazo + anguloBrazo(radio) + gauss() * (0.3 + radio * 0.3) * CFG.anchoBrazos;
+        radio *= 1 + gauss() * 0.09 * CFG.anchoBrazos;
+      } else if (tipo < fSecundarios) {
         radio = 0.3 + Math.random() * 0.6;
-        angulo = (Math.random() < 0.5 ? 0.5 : 1.5) * Math.PI + anguloBrazo(radio) + gauss() * 0.35;
+        angulo = (Math.floor(Math.random() * nBrazos) + 0.5) * pasoBrazo + anguloBrazo(radio) + gauss() * 0.35 * CFG.anchoBrazos;
       } else {
         radio = Math.pow(Math.random(), 0.7) * 1.12;
         angulo = Math.random() * Math.PI * 2;
@@ -330,26 +386,21 @@
 
       estX[i] = Math.random();
       estY[i] = Math.random();
-      rango[i] = i;
     }
     // Estrellas de campo: datos al azar fijos; dónde caen se calcula con el
     // tamaño del hero (así no cambian de lugar si se recalcula la página)
-    var M = M_CANDIDATAS;
     var campoU = new Float32Array(M), campoV = new Float32Array(M), campoSorteo = new Float32Array(M);
     var campoColor = new Uint8Array(M), campoTam = new Float32Array(M), campoFase = new Float32Array(M);
     var campoX = new Float32Array(M), campoY = new Float32Array(M), campoA = new Float32Array(M);
     var campoVisible = new Uint8Array(M);
+    var vCampo = CFG.violetasCampo / 100;
     for (i = 0; i < M; i++) {
       campoU[i] = Math.random(); campoV[i] = Math.random(); campoSorteo[i] = Math.random();
-      var rc = Math.random();
-      campoColor[i] = rc < 0.03 ? C_VIOLETA : rc < 0.22 ? 0 : rc < 0.52 ? 1 : rc < 0.82 ? 2 : 3;
+      // 22% azul, 30% celeste, 30% celeste claro y 18% blanco, con el violeta primero
+      var rc = Math.random(), resto = (1 - vCampo) / 0.97;
+      campoColor[i] = rc < vCampo ? C_VIOLETA : rc < vCampo + 0.19 * resto ? 0 : rc < vCampo + 0.49 * resto ? 1 : rc < vCampo + 0.79 * resto ? 2 : 3;
       campoTam[i] = 0.45 + Math.pow(Math.random(), 2) * 0.9 + (campoColor[i] === C_VIOLETA ? 0.35 : 0);
       campoFase[i] = Math.random() * Math.PI * 2;
-    }
-
-    for (i = N - 1; i > 0; i--) { // mezcla de Fisher-Yates
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = rango[i]; rango[i] = rango[j]; rango[j] = tmp;
     }
 
     /* --- Canvas fijo --- */
@@ -370,7 +421,7 @@
     ajustarLienzo();
 
     var spritesPunto = PALETA.concat([VIOLETA]).map(crearSpritePunto);
-    var spritesDigito = PALETA.map(function (c) { return [crearSpriteDigito(c, '0'), crearSpriteDigito(c, '1')]; });
+    var spritesDigito = PALETA.concat([VIOLETA]).map(function (c) { return [crearSpriteDigito(c, '0'), crearSpriteDigito(c, '1')]; });
 
     /* --- Estados --- */
     function nuevoEstado(tipo) {
@@ -402,9 +453,12 @@
     /* Nebulosa: el brillo difuso de los brazos (la "nube" de la referencia).
        Se dibuja una sola vez en un canvas aparte con muchas manchas suaves
        muy transparentes, y en cada cuadro se pega girada junto con las
-       estrellas. Solo azul eléctrico y celeste (y blanco en el núcleo). */
+       estrellas. Solo azul eléctrico y celeste (y blanco en el núcleo).
+       Intensidad, brazos y brillo entre brazos según el laboratorio. */
     function crearNebulosa(R) {
-      var lado = Math.min(640, Math.ceil(R * 2.5));
+      var lado = Math.max(2, Math.min(640, Math.ceil(R * 2.5)));
+      var intensidad = CFG.nebulosa;
+      var entre = limitar(2 * (1 - CFG.franjasOscuras), 0, 2); // brillo entre brazos (1 = el de antes)
       var c = document.createElement('canvas');
       c.width = c.height = lado;
       var x = c.getContext('2d');
@@ -414,18 +468,18 @@
       for (var k = 0; k < 3400; k++) {
         var secundario = Math.random() < 0.22;
         var r = secundario ? 0.3 + Math.random() * 0.6 : 0.05 + Math.pow(Math.random(), 1.1) * 1.0;
-        var base = secundario ? (Math.random() < 0.5 ? 0.5 : 1.5) * Math.PI : (Math.random() < 0.5 ? 0 : Math.PI);
-        var a = base + anguloBrazo(r) + gauss() * (secundario ? 0.4 : 0.3 + r * 0.32);
+        var base = (Math.floor(Math.random() * nBrazos) + (secundario ? 0.5 : 0)) * pasoBrazo;
+        var a = base + anguloBrazo(r) + gauss() * (secundario ? 0.4 : 0.3 + r * 0.32) * CFG.anchoBrazos;
         var px = m + Math.cos(a) * r * esc, py = m + Math.sin(a) * r * esc;
         var d = (0.12 + Math.random() * 0.16) * esc;
-        x.globalAlpha = (secundario ? 0.02 : 0.034) * (1 - 0.62 * r);
+        x.globalAlpha = Math.min(1, (secundario ? 0.02 * entre : 0.034) * (1 - 0.62 * r) * intensidad);
         x.drawImage(manchas[r < 0.35 ? (Math.random() < 0.5 ? 2 : 1) : (Math.random() < 0.6 ? 0 : 1)], px - d / 2, py - d / 2, d, d);
       }
       // Núcleo: blanco y celeste claro
       var g = x.createRadialGradient(m, m, 0, m, m, esc * 0.3);
-      g.addColorStop(0, rgba(PALETA[3], 0.75));
-      g.addColorStop(0.12, rgba(PALETA[3], 0.45));
-      g.addColorStop(0.35, rgba(PALETA[2], 0.2));
+      g.addColorStop(0, rgba(PALETA[3], Math.min(1, 0.75 * intensidad)));
+      g.addColorStop(0.12, rgba(PALETA[3], Math.min(1, 0.45 * intensidad)));
+      g.addColorStop(0.35, rgba(PALETA[2], Math.min(1, 0.2 * intensidad)));
       g.addColorStop(1, rgba(PALETA[1], 0));
       x.globalAlpha = 1;
       x.fillStyle = g;
@@ -447,6 +501,91 @@
     var tramos = [];
     var imagenS = null;
     var listo = false;
+
+    /* S: las nActivas estrellas de la galaxia. Las más cercanas al centro
+       van al contorno, las de más afuera la rellenan y las que sobran quedan
+       como halo. Se rehace cuando cambia la cantidad de estrellas. */
+    function armarS() {
+      var n = nActivas, altoS = estadoS.altoS;
+      if (!(altoS >= 8)) return; // todavía sin medidas: se arma en el próximo construir
+      var formaS = muestrearS(imagenS, estadoS.cx, estadoS.cy, altoS, Math.floor(n * 0.78));
+      var nS = formaS.puntos.length / 2;
+      var ordenS = [], porRadio = [], i;
+      for (i = 0; i < nS; i++) ordenS.push(i);
+      for (i = nS - 1; i > 0; i--) { var jj = Math.floor(Math.random() * (i + 1)); var tt = ordenS[i]; ordenS[i] = ordenS[jj]; ordenS[jj] = tt; }
+      ordenS.sort(function (p, q) { return formaS.borde[q] - formaS.borde[p]; }); // contorno primero
+      for (i = 0; i < n; i++) porRadio.push(i);
+      porRadio.sort(function (p, q) { return galR[p] - galR[q]; });
+      for (var j = 0; j < n; j++) {
+        i = porRadio[j];
+        // Escalonado: las del centro salen primero; cada una viaja el resto
+        inicioS[i] = ESCALONADO * j / n;
+        estadoS.K[i] = K_HERO; estadoS.G[i] = 0; estadoS.T[i] = 0;
+        esHalo[i] = j < nS ? 0 : 1;
+        if (j < nS) {
+          var k = ordenS[j];
+          estadoS.X[i] = formaS.puntos[k * 2];
+          estadoS.Y[i] = formaS.puntos[k * 2 + 1];
+          estadoS.A[i] = (0.75 + 0.25 * ((fase[i] / 6.283) % 1)) * CFG.brilloEstrellas;
+          estadoS.Z[i] = CFG.tamanoEstrellas;
+        } else {
+          estadoS.A[i] = galAlfa[i] * 0.55 * CFG.brilloEstrellas;
+          estadoS.Z[i] = 0.9 * CFG.tamanoEstrellas;
+          estadoS.X[i] = NaN; // halo: se calcula desde la galaxia en cada cuadro
+        }
+      }
+    }
+
+    /* Título muestreado con las celdas en orden al azar: así las primeras
+       partículas cubren todo el título y las que siguen son polvo */
+    function muestrearTituloMezclado(h2, presupuesto) {
+      var forma = muestrearTitulo(h2, Math.max(50, presupuesto));
+      var c = forma.celdas, n = c.length / 2;
+      for (var i = n - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tx = c[i * 2], ty = c[i * 2 + 1];
+        c[i * 2] = c[j * 2]; c[i * 2 + 1] = c[j * 2 + 1];
+        c[j * 2] = tx; c[j * 2 + 1] = ty;
+      }
+      forma.h2 = h2;
+      forma.presupuesto = presupuesto;
+      return forma;
+    }
+
+    /* Títulos con las nT partículas que siguen desde la S: las primeras
+       N_ESTRELLAS son estrellas de fondo, después las celdas con 0 y 1 y el
+       resto polvo fino dentro de las letras */
+    var formasTitulo = [], caidas = [];
+    function armarTitulos() {
+      var util = nT - N_ESTRELLAS;
+      estadosTitulo.forEach(function (e, t) {
+        var forma = formasTitulo[t];
+        // Con pocas partículas (dispositivo lento) el título se muestrea
+        // de nuevo más ralo, para que igual quede completo
+        if (forma.celdas.length / 2 > util) forma = formasTitulo[t] = muestrearTituloMezclado(forma.h2, util);
+        var nC = forma.celdas.length / 2;
+        e.cx = forma.cx; e.cy = forma.cy; e.ck = 1;
+        e.tamDigito = forma.paso * 1.2;
+        for (var i = 0; i < N; i++) {
+          var k = i - N_ESTRELLAS;
+          if (i >= nT) { // no siguen a los títulos: no se dibujan
+            e.X[i] = e.cx; e.Y[i] = e.cy; e.K[i] = 1; e.G[i] = 0; e.T[i] = 1; e.A[i] = 0; e.Z[i] = 1;
+          } else if (k < 0) {
+            e.X[i] = estX[i] * W; e.Y[i] = estY[i] * H; e.K[i] = 0;
+            e.G[i] = 0; e.T[i] = 0; e.A[i] = 0.18 + 0.32 * estY[i]; e.Z[i] = 0.8;
+          } else if (k < nC) {
+            e.X[i] = forma.celdas[k * 2]; e.Y[i] = forma.celdas[k * 2 + 1]; e.K[i] = 1;
+            e.G[i] = 1; e.T[i] = 1; e.A[i] = 0.82 + 0.18 * estX[i]; e.Z[i] = 1;
+          } else {
+            var c = (k % nC) * 2;
+            e.X[i] = forma.celdas[c] + (estX[i] - 0.5) * forma.paso * 1.2;
+            e.Y[i] = forma.celdas[c + 1] + (estY[i] - 0.5) * forma.paso * 1.2;
+            e.K[i] = 1; e.G[i] = 0; e.T[i] = 1; e.A[i] = 0.35; e.Z[i] = 0.7;
+          }
+        }
+      });
+      caidas.forEach(function (c, k) { armarCaida(estadosTitulo[k], estadosCaida[k], c.cae0, c.cae1); });
+    }
 
     /* Mide todo y arma los destinos. Se llama al iniciar y en cada refresh
        de ScrollTrigger (cambio de tamaño, carga de fuentes). */
@@ -482,10 +621,12 @@
       }
       nebulosa = crearNebulosa(hero.R);
 
-      // Galaxia (las posiciones se calculan en cada cuadro porque gira)
+      // Galaxia (las posiciones se calculan en cada cuadro porque gira).
+      // Brillo y tamaño de las estrellas del hero, según el laboratorio.
       galaxia.cx = hero.cx; galaxia.cy = hero.cy; galaxia.ck = K_HERO;
       for (var i = 0; i < N; i++) {
-        galaxia.K[i] = K_HERO; galaxia.G[i] = 0; galaxia.A[i] = galAlfa[i]; galaxia.T[i] = 0; galaxia.Z[i] = 1;
+        galaxia.K[i] = K_HERO; galaxia.G[i] = 0; galaxia.A[i] = galAlfa[i] * CFG.brilloEstrellas;
+        galaxia.T[i] = 0; galaxia.Z[i] = CFG.tamanoEstrellas;
       }
 
       // S: la mayoría de las partículas forman la S, el resto queda como halo
@@ -502,62 +643,13 @@
         altoS = Math.min(altoS, libre * 0.62);
         centroS = techoS + libre / 2;
       }
-      var formaS = muestrearS(imagenS, hero.cx, centroS, altoS, Math.floor(N * 0.78));
-      var nS = formaS.puntos.length / 2;
       estadoS.cx = hero.cx; estadoS.cy = centroS; estadoS.ck = K_HERO;
       estadoS.altoS = altoS;
-      // Quién va a cada punto de la S: las estrellas más cercanas al centro
-      // de la galaxia llegan primero y dibujan el contorno; las de más afuera
-      // llegan después y la rellenan; las del borde quedan como halo.
-      var ordenS = [], porRadio = [];
-      for (i = 0; i < nS; i++) ordenS.push(i);
-      for (i = nS - 1; i > 0; i--) { var jj = Math.floor(Math.random() * (i + 1)); var tt = ordenS[i]; ordenS[i] = ordenS[jj]; ordenS[jj] = tt; }
-      ordenS.sort(function (p, q) { return formaS.borde[q] - formaS.borde[p]; }); // contorno primero
-      for (i = 0; i < N; i++) porRadio.push(i);
-      porRadio.sort(function (p, q) { return galR[p] - galR[q]; });
-      var destinoS = new Int32Array(N);
-      for (var j = 0; j < N; j++) {
-        destinoS[porRadio[j]] = j < nS ? ordenS[j] : -1;
-        inicioS[porRadio[j]] = 0.6 * j / N;
-      }
-      for (i = 0; i < N; i++) {
-        var k = destinoS[i];
-        estadoS.K[i] = K_HERO; estadoS.G[i] = 0; estadoS.T[i] = 0;
-        if (k >= 0) {
-          estadoS.X[i] = formaS.puntos[k * 2];
-          estadoS.Y[i] = formaS.puntos[k * 2 + 1];
-          estadoS.A[i] = 0.75 + 0.25 * ((fase[i] / 6.283) % 1);
-          estadoS.Z[i] = 1;
-        } else {
-          estadoS.A[i] = galAlfa[i] * 0.55;
-          estadoS.Z[i] = 0.9;
-          estadoS.X[i] = NaN; // halo: se calcula desde la galaxia en cada cuadro
-        }
-      }
+      armarS();
 
-      // Títulos: celdas con 0 y 1, polvo fino y estrellas de fondo
-      var presupuesto = N - N_ESTRELLAS;
-      estadosTitulo.forEach(function (e) {
-        var forma = muestrearTitulo(e.h2, presupuesto);
-        var nC = forma.celdas.length / 2;
-        e.cx = forma.cx; e.cy = forma.cy; e.ck = 1;
-        e.tamDigito = forma.paso * 1.2;
-        for (var i = 0; i < N; i++) {
-          var k = rango[i];
-          if (k >= N - N_ESTRELLAS) {
-            e.X[i] = estX[i] * W; e.Y[i] = estY[i] * H; e.K[i] = 0;
-            e.G[i] = 0; e.T[i] = 0; e.A[i] = 0.18 + 0.32 * estY[i]; e.Z[i] = 0.8;
-          } else if (k < nC) {
-            e.X[i] = forma.celdas[k * 2]; e.Y[i] = forma.celdas[k * 2 + 1]; e.K[i] = 1;
-            e.G[i] = 1; e.T[i] = 1; e.A[i] = 0.82 + 0.18 * estX[i]; e.Z[i] = 1;
-          } else {
-            var c = (k % nC) * 2;
-            e.X[i] = forma.celdas[c] + (estX[i] - 0.5) * forma.paso * 1.2;
-            e.Y[i] = forma.celdas[c + 1] + (estY[i] - 0.5) * forma.paso * 1.2;
-            e.K[i] = 1; e.G[i] = 0; e.T[i] = 1; e.A[i] = 0.35; e.Z[i] = 0.7;
-          }
-        }
-      });
+      // Títulos: se muestrean una vez acá; quién va a cada lugar se arma en
+      // armarTitulos (se rehace sin medir si cambia la cantidad)
+      formasTitulo = titulos.map(function (h2) { return muestrearTituloMezclado(h2, TECHO_TITULOS - N_ESTRELLAS); });
 
       // Tramos del scroll
       var menu = parseFloat(getComputedStyle(raiz).getPropertyValue('--altura-menu')) || 56;
@@ -604,10 +696,12 @@
         tramos.push({ a: idx, b: idxCaida, s0: cae0, s1: cae1, tipo: 'cae' });
         tramos.push({ a: idxCaida, b: idxCaida, s0: cae1, s1: llega });
         tramos.push({ a: idxCaida, b: idx + 1, s0: llega, s1: fin });
-        armarCaida(estadosTitulo[k], estadosCaida[k], cae0, cae1);
+        caidas[k] = { cae0: cae0, cae1: cae1 };
         finPrevio = fin;
       }
       tramos.push({ a: 1 + titulos.length, b: 1 + titulos.length, s0: finPrevio, s1: Infinity });
+
+      armarTitulos();
 
       minimoPantalla = minimo;
       listo = true;
@@ -670,7 +764,7 @@
     function actualizarGalaxia(tiempo) {
       var R = hero.R;
       var giro = GIRO_GALAXIA * tiempo;
-      for (var i = 0; i < N; i++) {
+      for (var i = 0; i < nDibujo; i++) {
         // Giro de toda la galaxia junta (los brazos mantienen la forma) más
         // una ondulación chica propia de cada estrella
         var a = galA[i] + giro + 0.6 * galW[i] * Math.sin(tiempo * 0.25 + fase[i]);
@@ -678,7 +772,7 @@
         var x = hero.cx + Math.cos(a) * rr * R;
         var y = hero.cy + Math.sin(a) * rr * R * 0.9;
         galaxia.X[i] = x; galaxia.Y[i] = y;
-        if (estadoS.Z[i] !== 1) { // halo alrededor de la S
+        if (esHalo[i]) { // halo alrededor de la S
           estadoS.X[i] = hero.cx + (x - hero.cx) * 1.18;
           estadoS.Y[i] = hero.cy + (y - hero.cy) * 1.18;
         }
@@ -772,7 +866,9 @@
     var luz = { x: -999, y: -999, mouse: false, dedo: false, fuerza: 0 };
     var hayOnda = false;      // quedan estrellas fuera de su lugar
     var galaxiaSuelta = true; // se actualiza en cada cuadro
-    var RADIO_ONDA = esMobile ? 85 : 115;
+    var RADIO_ONDA = CFG.supernovaTamano;
+    var RIGIDEZ_ONDA = CFG.supernovaRegreso;              // velocidad de regreso
+    var FRENO_ONDA = 12 * Math.sqrt(RIGIDEZ_ONDA / 90);   // misma amortiguación a cualquier velocidad
 
     function enZonaGalaxia(x, y) {
       var dx = (x - hero.cx) / hero.R;
@@ -802,12 +898,12 @@
         var d = Math.hypot(dx, dy);
         if (d < RADIO_ONDA && d > 0.01) {
           var k = 1 - d / RADIO_ONDA;
-          var empuje = RADIO_ONDA * 0.55 * k * k * luz.fuerza;
+          var empuje = RADIO_ONDA * CFG.supernovaFuerza * k * k * luz.fuerza;
           tx = dx / d * empuje; ty = dy / d * empuje;
         }
       }
-      vX[i] += ((tx - oX[i]) * 90 - vX[i] * 12) * dt;
-      vY[i] += ((ty - oY[i]) * 90 - vY[i] * 12) * dt;
+      vX[i] += ((tx - oX[i]) * RIGIDEZ_ONDA - vX[i] * FRENO_ONDA) * dt;
+      vY[i] += ((ty - oY[i]) * RIGIDEZ_ONDA - vY[i] * FRENO_ONDA) * dt;
       oX[i] += vX[i] * dt; oY[i] += vY[i] * dt;
       var m = Math.abs(oX[i]) + Math.abs(oY[i]) + Math.abs(vX[i]) * 0.05 + Math.abs(vY[i]) * 0.05;
       return m > maximo ? m : maximo;
@@ -818,9 +914,9 @@
       luz.fuerza += (objetivo - luz.fuerza) * Math.min(1, dt * 8);
       if (luz.fuerza < 0.001 && !hayOnda) return;
       var maximo = 0, i;
-      for (i = 0; i < N; i++) maximo = moverOnda(dt, galaxia.X[i], galaxia.Y[i] - dH, ofX, ofY, ovX, ovY, i, maximo);
+      for (i = 0; i < nDibujo; i++) maximo = moverOnda(dt, galaxia.X[i], galaxia.Y[i] - dH, ofX, ofY, ovX, ovY, i, maximo);
       var dh = despHero(scroll);
-      for (i = 0; i < M; i++) {
+      for (i = 0; i < mDibujo; i++) {
         if (campoVisible[i]) maximo = moverOnda(dt, campoX[i], campoY[i] - dh, cofX, cofY, covX, covY, i, maximo);
       }
       hayOnda = maximo > 0.05;
@@ -829,7 +925,7 @@
 
     function dibujarLuz() {
       if (luz.fuerza < 0.01) return;
-      var r = esMobile ? 34 : 42;
+      var r = RADIO_ONDA * 0.37; // la luz acompaña el tamaño de la onda
       var g = ctx.createRadialGradient(luz.x, luz.y, 0, luz.x, luz.y, r);
       g.addColorStop(0, rgba(PALETA[3], 0.95));
       g.addColorStop(0.08, rgba(PALETA[3], 0.85));
@@ -889,6 +985,107 @@
       }
     }
 
+    /* --- Calidad adaptativa ---
+       Cada segundo se miden los cuadros por segundo. Si va fluido, se suman
+       estrellas de a poco (aparecen con un fundido) hasta el techo del
+       laboratorio; si va lento, se sacan las que haga falta de una vez. Solo
+       mira la capacidad del dispositivo (no la conexión ni el ahorro de datos).
+       Los cambios se aplican cuando no se notan: con la galaxia suelta (con
+       fundido) o con un título ya quieto. Nunca a mitad de la S. */
+    var medida = { cuadros: 0, ms: 0 };
+    var refresco = 60;           // tope de cuadros de la pantalla (baja si tiene un tope de 30)
+    var techoAprendido = N;      // no se vuelve a subir hasta donde ya fue lento
+    var fpsAlBajar = 0, bajadasSinMejora = 0, nivelAntesDeBajar = nivel;
+    var lentasSeguidas = 0, fluidasSeguidas = 0, reintentos = 2;
+    var PASO_NIVEL = Math.round(N * 0.08);
+    var nivelAplicado = nActivas, cambiando = false, ultimoFps = 0;
+
+    function medirRendimiento(intervalo, tiempo) {
+      // Se descartan el arranque, las pausas y lo que todavía no se aplicó
+      if (tiempo < 4 || intervalo > 250 || Math.round(nivel) !== nivelAplicado) { medida.cuadros = 0; medida.ms = 0; return; }
+      medida.cuadros++; medida.ms += intervalo;
+      if (medida.ms < 1000) return;
+      var fps = medida.cuadros * 1000 / medida.ms;
+      medida.cuadros = 0; medida.ms = 0;
+      ultimoFps = fps;
+      // Fluido es cerca de 60 cuadros o más (en pantallas de 120 Hz o más,
+      // bajar a 90 sigue siendo fluido); con tope de pantalla, cerca del tope
+      var meta = Math.min(refresco, 60);
+      if (fps < meta * 0.85) {
+        fluidasSeguidas = 0;
+        // Un segundo lento suelto (un tirón) no cuenta, salvo que sea muy lento
+        if (++lentasSeguidas < 2 && fps > meta * 0.5) return;
+        lentasSeguidas = 0;
+        // Si queda clavado cerca de 30 cuadros y bajar estrellas no mejora
+        // nada dos veces seguidas, el límite no son las estrellas sino la
+        // pantalla (ahorro de batería): se toma ese ritmo como fluido y se
+        // vuelve a la cantidad de antes
+        if (fpsAlBajar && fps < fpsAlBajar * 1.1 && fps > 26 && fps < 34) {
+          if (++bajadasSinMejora >= 2) {
+            refresco = Math.round(fps); nivel = nivelAntesDeBajar; techoAprendido = N;
+            fpsAlBajar = 0; bajadasSinMejora = 0;
+            return;
+          }
+        } else { bajadasSinMejora = 0; nivelAntesDeBajar = nivel; }
+        fpsAlBajar = fps;
+        techoAprendido = Math.max(MIN_N, nivel - PASO_NIVEL);
+        nivel = Math.max(MIN_N, Math.round(nivel * Math.max(0.5, Math.min(0.85, fps / meta))));
+      } else {
+        fpsAlBajar = 0; bajadasSinMejora = 0; lentasSeguidas = 0;
+        if (fps < meta * 0.93) return;
+        if (nivel < techoAprendido) nivel = Math.min(techoAprendido, nivel + PASO_NIVEL);
+        else if (techoAprendido < N && reintentos > 0 && ++fluidasSeguidas >= 15) {
+          // Fluido un buen rato al tope aprendido: se vuelve a probar un poco más
+          // (dos veces como mucho, para que la galaxia no suba y baje sin parar)
+          techoAprendido = Math.min(N, techoAprendido + PASO_NIVEL);
+          fluidasSeguidas = 0; reintentos--;
+        }
+      }
+    }
+
+    function aplicarNivel(conFundido) {
+      var n = limitar(Math.round(nivel), MIN_N, N);
+      if (n === nivelAplicado) return;
+      nivelAplicado = n;
+      if (n !== nActivas) {
+        nActivas = n;
+        mActivas = Math.round(M * n / N);
+        if (n > nDibujo) nDibujo = n;
+        if (mActivas > mDibujo) mDibujo = mActivas;
+        if (conFundido) cambiando = true;
+        else { // no se ven: cambian de golpe
+          encendido.fill(1, 0, nActivas); encendido.fill(0, nActivas, N);
+          encCampo.fill(1, 0, mActivas); encCampo.fill(0, mActivas, M);
+          nDibujo = nActivas; mDibujo = mActivas;
+        }
+        armarS();
+      }
+      var t = Math.min(n, TECHO_TITULOS);
+      if (t !== nT) { nT = t; armarTitulos(); }
+    }
+
+    /* Fundido de las estrellas que se suman (la galaxia se enciende) o se sacan */
+    function actualizarEncendido(dt) {
+      if (!cambiando) return;
+      var sube = dt / 1.6, baja = dt / 0.5, quieto = true, i, e;
+      for (i = 0; i < nDibujo; i++) {
+        e = encendido[i];
+        if (i < nActivas) { if (e < 1) { encendido[i] = Math.min(1, e + sube); quieto = false; } }
+        else if (e > 0) { encendido[i] = Math.max(0, e - baja); quieto = false; }
+      }
+      for (i = 0; i < mDibujo; i++) {
+        e = encCampo[i];
+        if (i < mActivas) { if (e < 1) { encCampo[i] = Math.min(1, e + sube); quieto = false; } }
+        else if (e > 0) { encCampo[i] = Math.max(0, e - baja); quieto = false; }
+      }
+      if (quieto) { nDibujo = nActivas; mDibujo = mActivas; cambiando = false; }
+    }
+
+    // Solo para pruebas locales (consola): cuántas estrellas usa este dispositivo
+    window.__galaxiaSyntropic = function () {
+      return { galaxia: nActivas, techoGalaxia: N, campo: mActivas, techoCampo: M, titulos: nT, fps: Math.round(ultimoFps), refresco: refresco };
+    };
+
     /* --- Cuadro a cuadro --- */
     var inicio = performance.now();
     var tramoPrevio = null, pulsoInicio = -10;
@@ -900,7 +1097,7 @@
     function dibujarParticula(i, x, y, alfa, g, z, tamDigito) {
       if (x < -20 || x > W + 20 || y < -20 || y > H + 20) return;
       // Punto o 0/1, nunca los dos (la mitad de dibujos en las transiciones)
-      ctx.globalAlpha = alfa;
+      ctx.globalAlpha = alfa > 1 ? 1 : alfa;
       if (g < 0.5 || !(tamDigito > 0)) {
         var d = tam[i] * z * 4;
         ctx.drawImage(spritesPunto[color[i]], x - d / 2, y - d / 2, d, d);
@@ -917,29 +1114,31 @@
       var dh = despHero(scroll); // cuánto subió el hero en pantalla
       var techo = -dh, piso = hero.alto - dh;
       if (piso < 0 || peso < 0.01) return;
-      for (var i = 0; i < M; i++) {
+      var vel = 0.8 * CFG.velocidadTitileo, brillo = peso * CFG.brilloEstrellas;
+      for (var i = 0; i < mDibujo; i++) {
         if (!campoVisible[i]) continue;
         var y = campoY[i] - dh;
         if (y < techo || y > piso || y < -10 || y > H + 10) continue;
-        var al = campoA[i] * peso * (0.65 + 0.35 * Math.sin(tiempo * 0.8 + campoFase[i]));
+        var al = campoA[i] * encCampo[i] * brillo * (1 - TIT_CAMPO + TIT_CAMPO * Math.sin(tiempo * vel + campoFase[i]));
         if (al < 0.01) continue;
-        var d = campoTam[i] * 4;
-        ctx.globalAlpha = al;
+        var d = campoTam[i] * 4 * CFG.tamanoEstrellas;
+        ctx.globalAlpha = al > 1 ? 1 : al;
         ctx.drawImage(spritesPunto[campoColor[i]], campoX[i] + cofX[i] - d / 2, y + cofY[i] - d / 2, d, d);
       }
     }
 
     function alfaDe(e, i, tiempo) {
-      var a = e.A[i];
+      var a = e.A[i] * encendido[i];
       if (e.T[i]) a *= 1 - e.h2op;
       else if (e.K[i] === 0) a *= 0.6 + 0.4 * Math.sin(tiempo * 0.9 + fase[i]); // estrellas que titilan
-      else a *= 0.82 + 0.18 * Math.sin(tiempo * 1.6 + fase[i]);
+      else a *= 1 - TIT_GAL + TIT_GAL * Math.sin(tiempo * 1.6 * CFG.velocidadTitileo + fase[i]); // galaxia y S
       return a;
     }
 
     function cuadro(ahora) {
       idCuadro = requestAnimationFrame(cuadro);
-      var dt = Math.min((ahora - anterior) / 1000, 0.05);
+      var intervalo = ahora - anterior;
+      var dt = Math.min(intervalo / 1000, 0.05);
       anterior = ahora;
       if (!listo) return;
       var tiempo = (ahora - inicio) / 1000;
@@ -958,6 +1157,10 @@
       var pulso = tiempo - pulsoInicio < 0.9 ? Math.sin(Math.PI * (tiempo - pulsoInicio) / 0.9) : 0;
       galaxiaSuelta = tramo.a === 0 && tramo.b === 0 && scroll < tramo.s1 + 4;
 
+      medirRendimiento(intervalo, tiempo);
+      if (tramo.a === tramo.b && tramo.a !== 1) aplicarNivel(tramo.a === 0);
+      actualizarEncendido(dt);
+
       if (A.heroico || B.heroico) actualizarGalaxia(tiempo);
       opacidadesTitulos(tramo, t);
       actualizarOnda(dt, dH, scroll);
@@ -975,8 +1178,8 @@
       if (pesoGalaxia > 0.01) {
         var nx = hero.cx, ny = hero.cy - dH, nr = hero.R * 0.42;
         var gn = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr);
-        gn.addColorStop(0, rgba(PALETA[0], 0.32 * pesoGalaxia * aparicion));
-        gn.addColorStop(0.35, rgba(PALETA[0], 0.14 * pesoGalaxia * aparicion));
+        gn.addColorStop(0, rgba(PALETA[0], Math.min(1, 0.32 * CFG.brilloNucleo * pesoGalaxia * aparicion)));
+        gn.addColorStop(0.35, rgba(PALETA[0], Math.min(1, 0.14 * CFG.brilloNucleo * pesoGalaxia * aparicion)));
         gn.addColorStop(1, rgba(PALETA[0], 0));
         ctx.globalAlpha = 1;
         ctx.fillStyle = gn;
@@ -1010,7 +1213,8 @@
         var dA = desp(A, scroll);
         var brillo = A === estadoS ? 1 + 0.4 * pulso : 1;
         var crece = A === estadoS ? 1 + 0.25 * pulso : 1;
-        for (i = 0; i < N; i++) {
+        var limite = A === galaxia ? nDibujo : A === estadoS ? nActivas : nT;
+        for (i = 0; i < limite; i++) {
           var al = Math.min(1, alfaDe(A, i, tiempo) * brillo) * aparicion;
           if (al < 0.01) continue;
           var ox = A === galaxia ? ofX[i] : 0, oy = A === galaxia ? ofY[i] : 0;
@@ -1020,7 +1224,7 @@
         var sueltaEn = B.suelta;
         // El título se desarma: cada byte se suelta (en orden al azar), cae
         // y se apaga. Las estrellas de fondo siguen en su lugar.
-        for (i = 0; i < N; i++) {
+        for (i = 0; i < nT; i++) {
           if (A.K[i] === 0) {
             var alF = alfaDe(A, i, tiempo) * aparicion;
             if (alF >= 0.01) dibujarParticula(i, A.X[i], A.Y[i], alF, A.G[i], A.Z[i], A.tamDigito);
@@ -1043,13 +1247,14 @@
         // sentido de giro de los brazos mientras se acerca a su lugar. Salen
         // escalonadas: las del centro primero (dibujan el contorno), las de
         // los bordes al final (rellenan la S).
-        var hx = hero.cx, hy = hero.cy - dH;
-        for (i = 0; i < N; i++) {
-          var uS = limitar((t - inicioS[i]) / 0.4, 0, 1);
+        var hx = hero.cx, hy = hero.cy - dH, viaje = 1 - ESCALONADO;
+        for (i = 0; i < nDibujo; i++) {
+          // Las que se están apagando (i >= nActivas) no viajan
+          var uS = i < nActivas ? limitar((t - inicioS[i]) / viaje, 0, 1) : 0;
           var gxp = galaxia.X[i] + ofX[i], gyp = galaxia.Y[i] - dH + ofY[i];
           if (uS <= 0) {
             var al0 = alfaDe(galaxia, i, tiempo) * aparicion;
-            if (al0 >= 0.01) dibujarParticula(i, gxp, gyp, al0, 0, 1, 0);
+            if (al0 >= 0.01) dibujarParticula(i, gxp, gyp, al0, 0, galaxia.Z[i], 0);
             continue;
           }
           var sxp = estadoS.X[i], syp = estadoS.Y[i] - dH;
@@ -1061,7 +1266,7 @@
           var alS = mezclar(alfaDe(galaxia, i, tiempo), alfaDe(estadoS, i, tiempo), eR);
           alS = Math.min(1, alS * (1 + 0.35 * Math.sin(Math.PI * uS))) * aparicion; // brillan un poco en viaje
           if (alS < 0.01) continue;
-          dibujarParticula(i, hx + Math.cos(aaS) * rrS, hy + Math.sin(aaS) * rrS, alS, 0, mezclar(1, estadoS.Z[i], eR), 0);
+          dibujarParticula(i, hx + Math.cos(aaS) * rrS, hy + Math.sin(aaS) * rrS, alS, 0, mezclar(galaxia.Z[i], estadoS.Z[i], eR), 0);
         }
       } else {
         // Transición en espiral (coordenadas polares alrededor de un centro
@@ -1073,7 +1278,16 @@
         var abre = minimoPantalla * 0.17;
         var tamDigito = A.tamDigito && B.tamDigito ? null : (A.tamDigito || B.tamDigito);
 
-        for (i = 0; i < N; i++) {
+        var desdeS = A === estadoS;
+        var limiteE = desdeS ? nActivas : nT;
+        for (i = 0; i < limiteE; i++) {
+          // Las de la S que no siguen a los títulos se apagan en su lugar
+          // mientras la S se desarma
+          if (desdeS && i >= nT) {
+            var alQ = alfaDe(estadoS, i, tiempo) * (1 - suave(0, 0.35, t)) * aparicion;
+            if (alQ >= 0.01) dibujarParticula(i, estadoS.X[i], estadoS.Y[i] - desp(A, scroll) * A.K[i], alQ, 0, estadoS.Z[i], 0);
+            continue;
+          }
           // Todas llegan al 80% del tramo: el título de bytes queda completo
           // un momento antes de que aparezca el h2 real
           var u = limitar((t - demora[i]) / 0.55, 0, 1);
@@ -1135,6 +1349,7 @@
       if (corriendo) return;
       corriendo = true;
       anterior = performance.now();
+      medida.cuadros = 0; medida.ms = 0;
       idCuadro = requestAnimationFrame(cuadro);
     }
     function frenar() {
@@ -1162,7 +1377,7 @@
 
     Promise.all([cargarImagen(IMAGEN_S), fuentes]).then(function (res) {
       imagenS = res[0];
-      spritesDigito = PALETA.map(function (c) { return [crearSpriteDigito(c, '0'), crearSpriteDigito(c, '1')]; });
+      spritesDigito = PALETA.concat([VIOLETA]).map(function (c) { return [crearSpriteDigito(c, '0'), crearSpriteDigito(c, '1')]; });
       raiz.classList.add('con-particulas');
       if (usaGsap) ScrollTrigger.refresh(); else construir();
       if (!listo) construir();
