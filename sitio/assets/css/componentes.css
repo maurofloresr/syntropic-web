@@ -354,6 +354,35 @@
   color: var(--celeste-claro);
 }
 
+/* --- Textos por confirmar: se marcan solo en desarrollo (clase de utiles.js) ---
+   El detalle de qué falta confirmar va en data-confirmar. */
+.desarrollo .a-confirmar {
+  position: relative;
+  outline: 1px dashed rgba(160, 211, 253, 0.55);
+  outline-offset: 6px;
+}
+
+.desarrollo .a-confirmar::before {
+  content: "A confirmar: " attr(data-confirmar);
+  position: absolute;
+  z-index: 3;
+  bottom: calc(100% + 8px);
+  left: -6px;
+  width: max-content;
+  max-width: calc(100% + 12px);
+  padding: 0.125rem 0.5rem;
+  border-radius: 6px 6px 0 0;
+  background-color: var(--navy);
+  font-family: var(--fuente-textos);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  color: var(--celeste-claro);
+}
+
 /* --- Entradas suaves (entradas.js): fundido y subida corta ---
    Las clases las pone JavaScript solo en lo que está debajo de la pantalla
    y se sacan al terminar. */

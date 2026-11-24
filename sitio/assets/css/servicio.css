@@ -1,0 +1,350 @@
+/* ==========================================================================
+   Syntropic: plantilla de las páginas de servicio
+   (docs/paginas-servicio.md, secciones "Plantilla común" y "Animaciones
+   comunes"). Mobile first (390 px). Cortes: 768 px y 1024 px.
+   El menú, el footer, las preguntas y los dispositivos salen de
+   componentes.css y secciones.css; el formulario, de formulario.css.
+   ========================================================================== */
+
+/* Nada se sale de costado (elementos rotados o que entran desde afuera) */
+.servicio main { overflow-x: clip; }
+
+.servicio .seccion { position: relative; }
+
+.servicio .seccion h2 {
+  font-size: clamp(1.5rem, 6.6vw, 3rem);
+  margin-bottom: 2rem;
+}
+
+.servicio .seccion h2 .titulo-linea-2 { margin-top: 0.1em; }
+
+/* HABLEMOS conserva el tamaño de la landing */
+.servicio .contacto h2 {
+  font-size: clamp(1.75rem, 9.4vw, 4.5rem);
+  margin-bottom: 1.25rem;
+}
+
+.seccion-texto {
+  max-width: 44rem;
+  font-size: 1.0625rem;
+  color: var(--celeste-claro);
+}
+
+@media (min-width: 1024px) {
+  .servicio .seccion h2 { margin-bottom: 3rem; }
+  .servicio .contacto h2 { margin-bottom: 1.25rem; }
+  .seccion-texto { font-size: 1.25rem; }
+}
+
+/* Los textos en plural centrados en las secciones que lo piden */
+.centrada { text-align: center; }
+.centrada .seccion-texto { margin-inline: auto; }
+
+/* --- Hero del servicio --- */
+.hero-servicio {
+  position: relative;
+  padding-top: calc(var(--altura-menu) + 40px);
+  padding-bottom: 48px;
+}
+
+.hero-servicio-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.hero-servicio h1 {
+  font-size: clamp(1.625rem, 8vw, 4.25rem);
+}
+
+.hero-servicio .titulo-linea-2 { margin-top: 0.1em; }
+
+/* El h1 lo forman los bytes (particulas-servicio.js). Respaldo: si el
+   JavaScript no llega, a los 4 segundos aparece solo. Sin JavaScript o con
+   movimiento reducido se ve desde el principio. */
+@keyframes h1-respaldo {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.js .hero-servicio h1 { animation: h1-respaldo 0.4s ease 4s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-servicio h1 { animation: none; }
+}
+
+.hero-servicio-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* Botón secundario: borde, sin relleno */
+.boton-secundario {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--celeste);
+}
+
+.boton-secundario:hover { box-shadow: inset 0 0 0 1px var(--celeste), var(--glow-azul); }
+
+@media (min-width: 768px) {
+  .hero-servicio { padding-top: calc(var(--altura-menu) + 64px); padding-bottom: 72px; }
+  .hero-servicio .bajada { max-width: 40rem; }
+}
+
+/* --- Botón en la mitad de la página --- */
+.boton-medio { margin-top: 2.5rem; }
+
+@media (min-width: 768px) {
+  .centrada .boton-medio { margin-inline: auto; }
+}
+
+/* --- Dato con fuente (texto chico) --- */
+.dato {
+  max-width: 46rem;
+  margin-top: 2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--azul);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--celeste-claro);
+}
+
+.dato a {
+  color: var(--blanco);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Tarjeta de vidrio común de estas páginas --- */
+.tarjeta {
+  position: relative;
+  padding: 1.25rem;
+  background-color: var(--navy);
+  background-image: linear-gradient(var(--vidrio-fondo), var(--vidrio-fondo));
+  border: 1px solid var(--vidrio-borde);
+  border-radius: var(--radio);
+}
+
+/* Brillo del borde: se prende con opacidad (no anima sombras) */
+.tarjeta::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--celeste);
+  border-radius: inherit;
+  box-shadow: 0 0 24px rgba(71, 173, 255, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.tarjeta h3 {
+  font-family: var(--fuente-textos);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.tarjeta h3 + p { margin-top: 0.375rem; }
+
+.tarjeta p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--celeste-claro);
+}
+
+.tarjeta > .icono {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.875rem;
+  stroke-width: 1.5;
+}
+
+.grilla {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grilla-2 { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .grilla-3 { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .tarjeta { padding: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .grilla-3 { grid-template-columns: repeat(3, 1fr); }
+  .tarjeta h3 { font-size: 1.1875rem; }
+  .tarjeta p { font-size: 1rem; }
+}
+
+/* --- Etiqueta chica "Ejemplo" --- */
+.chip-ejemplo {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--vidrio-borde);
+  border-radius: var(--radio-pildora);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--celeste-claro);
+  background-color: rgba(11, 21, 36, 0.7);
+}
+
+/* --- Cómo trabajamos: constelación --- */
+.constelacion {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.constelacion-paso {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Mobile: vertical a la izquierda, apenas en zigzag */
+.constelacion-paso:nth-child(even) { grid-template-columns: 52px 1fr; padding-left: 26px; }
+
+.constelacion-estrella {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  border: 1px solid rgba(71, 173, 255, 0.35);
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--celeste-claro);
+  transition: color 0.5s ease, transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+/* El brillo de la estrella: un halo que aparece con opacidad */
+.constelacion-estrella::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border: 1px solid var(--celeste);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 64, 255, 0.9), rgba(0, 64, 255, 0.35));
+  box-shadow: 0 0 26px rgba(71, 173, 255, 0.6);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.constelacion-estrella.encendida { color: var(--blanco); transform: scale(1.08); }
+.constelacion-estrella.encendida::before { opacity: 1; }
+
+.constelacion-texto {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.constelacion-dibujo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.constelacion-cielo {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.constelacion-cielo path {
+  fill: none;
+  stroke: var(--celeste);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.constelacion-fondo { stroke-width: 1; opacity: 0.16; }
+
+.constelacion-linea {
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 5px rgba(71, 173, 255, 0.9));
+}
+
+/* Sin JavaScript no hay línea: las estrellas se ven igual de bien */
+
+/* Desktop: zigzag horizontal. Las de arriba llevan el texto encima y las de
+   abajo, debajo: la línea nunca cruza un texto. */
+@media (min-width: 1024px) {
+  .constelacion {
+    grid-template-columns: repeat(var(--pasos), 1fr);
+    grid-template-rows: auto 60px 64px 60px auto;
+    justify-items: center;
+    gap: 0.875rem 1rem;
+  }
+
+  .constelacion-paso { display: contents; }
+
+  .constelacion-estrella { width: 60px; height: 60px; font-size: 1.25rem; grid-row: 2; }
+  .constelacion-texto { grid-row: 1; align-self: end; text-align: center; max-width: 11rem; }
+
+  .constelacion-paso:nth-child(even) .constelacion-estrella { grid-row: 4; }
+  .constelacion-paso:nth-child(even) .constelacion-texto { grid-row: 5; align-self: start; }
+
+  .constelacion-paso:nth-child(1) > * { grid-column: 1; }
+  .constelacion-paso:nth-child(2) > * { grid-column: 2; }
+  .constelacion-paso:nth-child(3) > * { grid-column: 3; }
+  .constelacion-paso:nth-child(4) > * { grid-column: 4; }
+  .constelacion-paso:nth-child(5) > * { grid-column: 5; }
+  .constelacion-paso:nth-child(6) > * { grid-column: 6; }
+  .constelacion-paso:nth-child(7) > * { grid-column: 7; }
+}
+
+/* --- También hacemos --- */
+.tambien-lista { display: grid; gap: 1rem; }
+
+.tambien-tarjeta {
+  display: block;
+  height: 100%;
+}
+
+.tambien-tarjeta h3 { font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; }
+
+.tambien-ver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--blanco);
+}
+
+.tambien-ver .icono { transition: transform 0.25s ease; }
+
+.tambien-tarjeta:hover::after,
+.tambien-tarjeta:focus-visible::after { opacity: 1; }
+.tambien-tarjeta:hover .tambien-ver .icono { transform: translateX(4px); }
+
+.tambien-linea {
+  margin-top: 2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.servicio .tambien h2 { text-align: center; }
+
+@media (min-width: 768px) {
+  .tambien-lista { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+}
+
+/* En estas páginas el formulario no es lo último: menos aire hacia abajo */
+.servicio .contacto { padding-bottom: 48px; }

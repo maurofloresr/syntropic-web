@@ -6,12 +6,14 @@ Lo mantiene Claude Code. Registro de las piezas reutilizables, para usarlas en l
 
 - `sitio/assets/css/base.css`: fuentes, paleta, reset, botón, tarjeta de vidrio, foco, movimiento reducido.
 - `sitio/assets/css/componentes.css`: los componentes de abajo.
-- `sitio/assets/css/secciones.css`: disposición de cada sección de la landing (no se reutiliza).
+- `sitio/assets/css/secciones.css`: menú, footer, preguntas y disposición de cada sección de la landing. Las páginas de servicio también la cargan.
 - `sitio/assets/css/formulario.css` y `sitio/assets/js/formulario.js`: el formulario por pasos, el mismo en todas las páginas. Se pone con `<div class="formulario-lugar" data-formulario data-servicio="web"></div>` (data-servicio opcional: el que arranca marcado). Las preguntas están al principio de `formulario.js`, en la lista `PASOS`. Cualquier link con `data-servicio` marca ese servicio, y también `?servicio=web` en la dirección. Al terminar avisa con el evento `syntropic:formulario` (las respuestas van en `detail`) y quedan en `SyntropicFormulario.respuestas()`. Se carga antes que `interfaz.js`.
 - `sitio/assets/js/interfaz.js`: menú hamburguesa, WhatsApp que se esconde con el formulario en mobile y nueva medición del scroll cuando cambia el alto de la página (espera a que el scroll esté quieto).
 - `sitio/assets/js/utiles.js`: funciones de ayuda de todas las páginas (en `window.Syntropic`): `reducido`, `alEntrar` (una vez, al aparecer en pantalla), `alVer` (cada vez que entra o sale) y `cuandoLibre`. Se carga antes que los demás.
 - `sitio/assets/js/entradas.js`: entradas suaves. Se usan desde el HTML con `data-entrada` (el elemento) o `data-entrada="grupo"` (sus hijos, uno atrás del otro). Lo que ya se ve al cargar no se toca; sin JavaScript o con movimiento reducido se ve todo quieto.
 - `sitio/assets/js/secciones.js`: animaciones de cada sección (Fase 3). Las entradas se disparan con IntersectionObserver y no con posiciones de scroll, para que el pin del hero y el parallax no las corran. Desarrollo web: cambio de cliente, rotación automática, carga diferida de capturas, entrada de las pantallas y tarjeta del puntaje de cada cliente. Automatizaciones: cables del lienzo, entrada de los nodos, loop de luz (con un reloj propio que se frena fuera de pantalla) y fila de logos en movimiento. Sistemas: agrega `.abierta` a `.sis-pantallas` una sola vez al aparecer; el orden de la apertura está en las transiciones de secciones.css.
+- `sitio/assets/css/servicio.css` y `sitio/assets/js/servicio.js`: plantilla de las páginas de servicio. Estas páginas cargan también `secciones.css` (menú, footer, preguntas y las secciones que se reutilizan). `servicio.js` suma a `window.Syntropic`: `atado(el, inicio, fin, fn)` (llama a fn con el avance del scroll, de 0 a 1), `lugarEn(el, contenedor)` (posición sin contar transformaciones) y `svg()` (crea elementos SVG). Cada página tiene además su `pagina-<nombre>.css` y `.js`.
+- `sitio/assets/js/particulas-servicio.js`: canvas liviano de las páginas de servicio (estrellas de fondo, fugaces, luces al tocar y formaciones de 0 y 1). `Syntropic.bytes.formar({ medir, dura, demora, entrada, alListo })` suma una formación; `muestrearSilueta(el, Path2D, [ancho, alto], cantidad)` arma la forma desde un trazado; `estatica(el, medir)` es la versión quieta para movimiento reducido.
 - `sitio/assets/img/clientes/`: capturas de las webs de clientes en WebP, `<cliente>-desktop.webp` (1280x800) y `<cliente>-mobile.webp` (640x1384, sacada como un celular de 320x692 a triple resolución: a 320 px de ancho el contenido de cada web se ve más grande dentro del celular dibujado). Solo la primera pantalla de cada web. Si el hero de una web no llena la pantalla (por ejemplo, ocupa el 90% del alto), se saca con una pantalla más alta y se recorta al hero, para que no asome la sección siguiente.
 - `sitio/assets/img/iconos.svg`: todos los íconos en un solo archivo.
 - `sitio/assets/js/particulas.js`: sistema de partículas (galaxia, S, títulos de 0 y 1, espiral atada al scroll, estrellas fugaces, luces al tocar). Ver "Partículas" abajo.
@@ -49,6 +51,14 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Fila de logos en movimiento | `.conectamos-marquesina.en-movimiento` | secciones.css | "Y también conectamos" en mobile. `secciones.js` duplica los logos (copias `.clon` con aria-hidden) y la fila corre la mitad de su largo en loop |
 | Bloque | `.bloque` | componentes.css | Seguro, Sencillo, Personalizado |
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |
+| Hero de servicio | `.hero-servicio` > `.hero-servicio-texto` | servicio.css | Páginas de servicio. El h1 lo forman los bytes; `data-dura` y `data-demora` (ms) ajustan el tiempo |
+| Botón secundario | `.boton .boton-secundario` | servicio.css | "Ver trabajos" |
+| Tarjeta | `.tarjeta` (ícono, h3, p); el brillo del borde está en `::after` | servicio.css | Páginas de servicio |
+| Grilla | `.grilla .grilla-2` o `.grilla-3` | servicio.css | Páginas de servicio |
+| Dato con fuente | `.dato` | servicio.css | Páginas de servicio |
+| Constelación | `ol.constelacion` con `--pasos` > `.constelacion-paso` > `.constelacion-estrella` + `.constelacion-texto` | servicio.css | "Cómo trabajamos". La línea la dibuja `servicio.js` |
+| También hacemos | `.tambien-lista` > `.tarjeta.tambien-tarjeta` | servicio.css | Páginas de servicio |
+| Texto por confirmar | `.a-confirmar` con `data-confirmar="qué falta"` | componentes.css | Donde la especificación dice [CONFIRMAR]. Se ve solo en desarrollo (clase `.desarrollo` que pone `utiles.js`) |
 | Opción seleccionable | `.opcion` + `.opcion-input` | formulario.css | Paso 1 del formulario |
 | Ficha (opción chica) | `.ficha` + `.opcion-input` | formulario.css | Pasos del formulario (una o varias) |
 | Campo de texto | `.campo` > `.campo-etiqueta` + `.campo-entrada` + `.campo-error` | formulario.css | Formulario |

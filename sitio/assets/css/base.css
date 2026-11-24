@@ -185,6 +185,19 @@ h3 {
   padding: 1.5rem;
 }
 
+/* --- Transición entre páginas ---
+   Mejora progresiva: donde no existe (Firefox), la navegación es normal.
+   El nombre va en el contenido del menú y no en .menu: si fuera en .menu, el
+   vidrio esmerilado dejaría de desenfocar lo que pasa por debajo. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+
+  .menu-contenedor { view-transition-name: menu; }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 0.35s; }
+}
+
 /* --- Movimiento reducido --- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

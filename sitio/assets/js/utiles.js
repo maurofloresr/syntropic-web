@@ -35,6 +35,12 @@
     else setTimeout(fn, 600);
   }
 
+  /* En desarrollo (localhost o la red local) se marcan a la vista los textos
+     por confirmar (.a-confirmar). En la web publicada no se nota nada. */
+  if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname)) {
+    document.documentElement.classList.add('desarrollo');
+  }
+
   window.Syntropic = {
     reducido: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     alEntrar: alEntrar,

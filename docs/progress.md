@@ -4,7 +4,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b. En curso: c.**
+- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c. En curso: d.**
 - Decisiones para revisar (tanda del 24/11):
   - Entradas suaves: solo se animan los textos y botones que están debajo de la pantalla al cargar. El hero queda quieto (así no demora la carga ni parpadea). Los h2 de la cadena de bytes no se tocan: los maneja el sistema de partículas. Fundido y subida de 18 px en 0,75 s; los grupos (píldoras, bloques, preguntas) entran de a uno cada 0,08 s.
   - Formulario:
@@ -94,8 +94,24 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
   - Fuentes en WOFF2 subseteadas a caracteres latinos (incluye á é í ó ú ü ñ, mayúsculas, ¿ ¡ $ % @ « »).
   - Repo git local conectado a GitHub (privado). Push autorizado por Mauro al cerrar cada paso.
 
+  - Base común de las páginas de servicio:
+    - Direcciones: cada página es una carpeta (`sitio/desarrollo-web/index.html`), así `/desarrollo-web/` funciona igual en el servidor local y en Cloudflare. Con barra al final; sin barra, redirige sola.
+    - El canvas liviano es un archivo aparte (`particulas-servicio.js`) con copias chicas de funciones de `particulas.js` (sprites, fugaces, luces al tocar), porque la galaxia está esperando la revisión de Mauro y no se podía tocar. Cuando se apruebe, conviene unificarlas.
+    - Sin violeta en estas páginas (es solo del hero de la landing).
+    - El h1 arranca a formarse apenas están las fuentes, sin esperar imágenes. Si el JavaScript no llega, aparece solo a los 4 segundos. Si la página se abre ya scrolleada, se muestra directo.
+    - HABLEMOS: los bytes llegan en espiral desde un círculo grande alrededor del título (acá no hay título anterior del que vengan).
+    - Cada estrella de "Cómo trabajamos" queda encendida al pasar la línea y se apaga si se sube. En desktop los textos van arriba o abajo de la estrella, para que la línea nunca los cruce.
+    - h2 de dos líneas con el formato del brandbook en todas las secciones (por ejemplo "PREGUNTAS / FRECUENTES"). HABLEMOS queda como en la landing.
+    - "También hacemos" reutiliza la frase de cada sección de la landing en las tarjetas.
+    - Textos por confirmar: recuadro punteado con el detalle, visible solo en localhost o en la red local. En la web publicada no se nota.
+    - Transición entre páginas: el nombre va en el contenido del menú y no en el menú entero (si no, el vidrio esmerilado deja de desenfocar).
+    - Los links del menú de las páginas nuevas van a las páginas; los de la landing se cambian en el paso g.
+
 ## Pendiente
 
+- Unificar `particulas-servicio.js` con `particulas.js` cuando Mauro apruebe la galaxia.
+- Páginas de servicio [CONFIRMAR]: pasos de "Cómo trabajamos" de las tres y si se muestran plazos en Desarrollo web.
+- Páginas de servicio [FALTA]: respuestas de las preguntas frecuentes de las tres.
 - Formulario: rangos de presupuesto [FALTA], webhook de Make y evento Lead del Pixel [FALTA] (Fase 4, paso 6).
 - Blindar el armado de la S del hero en `particulas.js`: una vez el alto de la S dio 0 y saltó un error al muestrearla (`getImageData` con ancho 0). Pasó solo con cuatro Chrome abiertos a la vez compitiendo por la CPU; en secuencia no se repitió.
 - Rehacer la captura de Talar Maderas cuando esté en su dominio real.
@@ -105,6 +121,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 24/11: Fase 7, base común: plantilla de las tres páginas (menú, hero con h1 que se forma con bytes, constelación de "Cómo trabajamos", preguntas, HABLEMOS con bytes y formulario, "También hacemos", footer), canvas liviano y transición entre páginas. Las tres páginas ya existen con esas secciones. Probado en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores ni scroll horizontal, un solo h1 y un h2 por sección. Transición entre páginas verificada (con movimiento reducido no corre). Landing recorrida entera de nuevo en los mismos casos: igual que antes. No probado en un celu real.
 - 24/11: Fase 4, pasos 1 a 3 y 5: formulario completo por pasos (sección "Formulario completo" de `paginas-servicio.md`) como un solo componente. Probado en la landing con las 7 combinaciones de servicios en 390 y 1440, y con los tres servicios en 768, 1024 y 1920: no avanza sin completar, vuelve atrás, muestra la pantalla de gracias y deja las respuestas en un objeto listo para enviar. Botones de las secciones y `?servicio=` marcan bien. Landing recorrida entera en los cinco anchos, con movimiento reducido y sin JavaScript: sin errores (solo falta el favicon) ni scroll horizontal. No probado en un celu real (teclado en pantalla).
 - 24/11: Fase 3, paso 4: entradas suaves de textos y botones (reutilizables: atributo `data-entrada`). Nuevos `utiles.js` (funciones de ayuda compartidas, salieron de `secciones.js`) y `entradas.js`. Probado con Chrome en 390x844, 768x1024, 1024x768, 1440x900, 1920x1080, con movimiento reducido (390 y 1440) y sin JavaScript (390): landing entera recorrida, sin errores de consola (solo falta el favicon), sin scroll horizontal y nada queda escondido. No probado en un celu real.
 - 21/11: galaxia del hero con la configuración del laboratorio (mobile y desktop) y calidad adaptativa. El laboratorio quedó en `laboratorio/galaxia/` sin cambios; nada de `sitio/` lo nombra ni lo carga y `publicar/` se arma solo desde `sitio/`. La S ya no se arma si su alto da menos de 8 px (cubre el error de `getImageData` con ancho 0 del pendiente, pero falta encontrar por qué el alto dio 0). Probado con Chrome sin ventana y sin placa de video en 390x844 (con y sin CPU frenada 4 veces), 1024x768, 1440x900 y con movimiento reducido en 390 y 1440: sin errores de consola (solo falta el favicon). En ese entorno la versión anterior (900 estrellas) daba 45 a 57 cuadros en mobile con la CPU frenada; la nueva se acomoda sola: mobile con CPU frenada 440 a 1000 estrellas (títulos igual, debajo de 2000 porque no llega a ser fluido), mobile sin frenar 2300 a 2900, 1024x768 unas 2000 a 2500, 1440x900 entre 1000 y 2500 (la medición en ese entorno es muy irregular). No probado en un celu ni en una compu con placa de video reales, donde se espera bastante más.

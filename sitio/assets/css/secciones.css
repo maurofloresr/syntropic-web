@@ -81,6 +81,10 @@
 
 .menu-lista a:hover { color: var(--celeste); }
 
+/* La página en la que estás */
+.menu-lista a[aria-current="page"],
+.footer-nav a[aria-current="page"] { color: var(--celeste); }
+
 /* Hamburguesa (mobile y tablet) */
 .menu-hamburguesa {
   position: relative;
