@@ -25,32 +25,9 @@
 (function () {
   'use strict';
 
-  var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var hayObserver = 'IntersectionObserver' in window;
-
-  /* Llama a fn una sola vez cuando el elemento entra en pantalla */
-  function alEntrar(el, fn, umbral) {
-    if (!el) return;
-    if (!hayObserver) { fn(); return; }
-    var obs = new IntersectionObserver(function (entradas) {
-      if (entradas[0].isIntersecting) { obs.disconnect(); fn(); }
-    }, { threshold: umbral || 0.25 });
-    obs.observe(el);
-  }
-
-  /* Avisa cada vez que el elemento entra o sale de la pantalla */
-  function alVer(el, fn, margen) {
-    if (!el || !hayObserver) { fn(true); return; }
-    new IntersectionObserver(function (entradas) {
-      fn(entradas[0].isIntersecting);
-    }, { rootMargin: margen || '0px' }).observe(el);
-  }
-
-  /* Ejecuta fn cuando el navegador está libre */
-  function cuandoLibre(fn) {
-    if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: 3000 });
-    else setTimeout(fn, 600);
-  }
+  // Funciones de ayuda: utiles.js (se carga antes)
+  var S = window.Syntropic;
+  var reducido = S.reducido, alEntrar = S.alEntrar, alVer = S.alVer, cuandoLibre = S.cuandoLibre;
 
   /* ======================= Desarrollo web ======================= */
   var dw = document.querySelector('.dw');

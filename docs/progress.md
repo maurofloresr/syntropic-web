@@ -4,6 +4,9 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
+- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a. En curso: b.**
+- Decisiones para revisar (tanda del 24/11):
+  - Entradas suaves: solo se animan los textos y botones que están debajo de la pantalla al cargar. El hero queda quieto (así no demora la carga ni parpadea). Los h2 de la cadena de bytes no se tocan: los maneja el sistema de partículas. Fundido y subida de 18 px en 0,75 s; los grupos (píldoras, bloques, preguntas) entran de a uno cada 0,08 s.
 - **Galaxia del hero con la configuración del laboratorio (21/11), para que la revise Mauro.** Valores de `laboratorio/galaxia/` aplicados: mobile debajo de 768 px, desktop desde 768 (tablet incluida). Decisiones de Mauro (21/11):
   - Pin del hero igual que antes (60% del alto): el armado del laboratorio se comprimió al mismo tramo de scroll (se ve igual, más rápido en scroll). Después la S queda quieta un poco y se desarma en bytes, como antes.
   - Armado escalonado al 6% (casi todas salen juntas), como en el laboratorio.
@@ -80,7 +83,6 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Pendiente
 
-- Fase 3, paso 4: entradas suaves de textos y botones.
 - Blindar el armado de la S del hero en `particulas.js`: una vez el alto de la S dio 0 y saltó un error al muestrearla (`getImageData` con ancho 0). Pasó solo con cuatro Chrome abiertos a la vez compitiendo por la CPU; en secuencia no se repitió.
 - Rehacer la captura de Talar Maderas cuando esté en su dominio real.
 - Confirmar el permiso de Novo Hair, Talar Maderas y ATR antes de publicar.
@@ -89,6 +91,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 24/11: Fase 3, paso 4: entradas suaves de textos y botones (reutilizables: atributo `data-entrada`). Nuevos `utiles.js` (funciones de ayuda compartidas, salieron de `secciones.js`) y `entradas.js`. Probado con Chrome en 390x844, 768x1024, 1024x768, 1440x900, 1920x1080, con movimiento reducido (390 y 1440) y sin JavaScript (390): landing entera recorrida, sin errores de consola (solo falta el favicon), sin scroll horizontal y nada queda escondido. No probado en un celu real.
 - 21/11: galaxia del hero con la configuración del laboratorio (mobile y desktop) y calidad adaptativa. El laboratorio quedó en `laboratorio/galaxia/` sin cambios; nada de `sitio/` lo nombra ni lo carga y `publicar/` se arma solo desde `sitio/`. La S ya no se arma si su alto da menos de 8 px (cubre el error de `getImageData` con ancho 0 del pendiente, pero falta encontrar por qué el alto dio 0). Probado con Chrome sin ventana y sin placa de video en 390x844 (con y sin CPU frenada 4 veces), 1024x768, 1440x900 y con movimiento reducido en 390 y 1440: sin errores de consola (solo falta el favicon). En ese entorno la versión anterior (900 estrellas) daba 45 a 57 cuadros en mobile con la CPU frenada; la nueva se acomoda sola: mobile con CPU frenada 440 a 1000 estrellas (títulos igual, debajo de 2000 porque no llega a ser fluido), mobile sin frenar 2300 a 2900, 1024x768 unas 2000 a 2500, 1440x900 entre 1000 y 2500 (la medición en ese entorno es muy irregular). No probado en un celu ni en una compu con placa de video reales, donde se espera bastante más.
 - 19/11: Fase 3, paso 3: Sistemas. Notebook en CSS (reutiliza la de Desarrollo web) con la tapa que se abre sola en 3D, dashboard en HTML/CSS que escala con la pantalla (menú lateral, tres tarjetas del brief, gráfico semanal en SVG y tabla de ventas recientes, datos demo) y tarjeta "Stock actualizado automáticamente" con check #25D366. Se borró el marco reservado. Probado con Chrome en 390x844, 1024x768, 1280x800, 1440x900, 1920x1080 y con movimiento reducido: sin errores ni scroll horizontal. No probado en un celu real.
 - 19/11: tercera revisión del celular de Desarrollo web: 200 px en desktop superpuesto a la esquina de la notebook sin tapar títulos ni botones, proporcional en tablet y mobile. Probado con los tres clientes en 390x844, 1024x768, 1280x800, 1440x900 y 1920x1080: sin errores ni scroll horizontal.

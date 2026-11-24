@@ -65,10 +65,10 @@
       <div class="dw-contenedor contenedor">
         <div class="dw-texto">
           <h2 id="titulo-desarrollo-web">Desarrollo web</h2>
-          <p class="frase">Tu web, lista para que te encuentren.</p>
-          <p class="bajada">Diseño a medida, rápida en el celular y preparada para Google y para las inteligencias artificiales.</p>
+          <p class="frase" data-entrada>Tu web, lista para que te encuentren.</p>
+          <p class="bajada" data-entrada>Diseño a medida, rápida en el celular y preparada para Google y para las inteligencias artificiales.</p>
 
-          <ul class="pildoras">
+          <ul class="pildoras" data-entrada="grupo">
             <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-search"></use></svg><span><strong>SEO</strong> · Aparecé en Google</span></li>
             <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-bot"></use></svg><span><strong>GEO</strong> · Recomendado por las IAs</span></li>
             <li class="pildora"><svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-smartphone"></use></svg><span>Mobile first</span></li>
@@ -120,7 +120,7 @@
             </div>
           </div>
 
-          <div class="clientes">
+          <div class="clientes" data-entrada>
             <p class="etiqueta">Ya confiaron en nosotros</p>
             <ul class="clientes-lista">
               <!-- Puntajes reales medidos por Mauro (nov 2026). Talar Maderas sin SEO hasta que esté en su dominio real. -->
@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <a class="boton boton-seccion dw-boton" href="#contacto" data-servicio="web">Quiero mi web</a>
+        <a class="boton boton-seccion dw-boton" data-entrada href="#contacto" data-servicio="web">Quiero mi web</a>
       </div>
     </section>
 
@@ -140,9 +140,9 @@
       <div class="contenedor">
         <div class="auto-texto">
           <h2 id="titulo-automatizaciones">Automatizaciones</h2>
-          <p class="frase">Lo que hoy hacés a mano, mañana se hace solo.</p>
-          <p class="bajada">Conectamos tus herramientas para que las tareas repetitivas se hagan solas, sin errores y las 24 horas.</p>
-          <a class="boton boton-seccion" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
+          <p class="frase" data-entrada>Lo que hoy hacés a mano, mañana se hace solo.</p>
+          <p class="bajada" data-entrada>Conectamos tus herramientas para que las tareas repetitivas se hagan solas, sin errores y las 24 horas.</p>
+          <a class="boton boton-seccion" data-entrada href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
         </div>
 
         <!-- Lienzo de nodos. Los cables y las luces los dibuja secciones.js en el SVG
@@ -195,7 +195,7 @@
           </ul>
         </div>
 
-        <div class="conectamos">
+        <div class="conectamos" data-entrada>
           <p class="etiqueta">Y también conectamos</p>
           <!-- En mobile la fila se desliza sola: secciones.js duplica los logos (copias ocultas para lectores de pantalla) -->
           <div class="conectamos-marquesina">
@@ -222,8 +222,8 @@
       <div class="sis-contenedor contenedor">
         <div class="sis-texto">
           <h2 id="titulo-sistemas">Sistemas</h2>
-          <p class="frase">Un sistema que se adapta a tu negocio, no al revés.</p>
-          <p class="bajada">Dejá las planillas sueltas y los cuadernos. Todo tu negocio en un solo lugar, ordenado y bajo control.</p>
+          <p class="frase" data-entrada>Un sistema que se adapta a tu negocio, no al revés.</p>
+          <p class="bajada" data-entrada>Dejá las planillas sueltas y los cuadernos. Todo tu negocio en un solo lugar, ordenado y bajo control.</p>
         </div>
 
         <!-- Notebook que se abre sola al entrar la sección, con un dashboard de
@@ -303,7 +303,7 @@
           </div>
         </div>
 
-        <ul class="sis-bloques">
+        <ul class="sis-bloques" data-entrada="grupo">
           <li class="bloque">
             <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-shield"></use></svg>
             <div>
@@ -327,16 +327,16 @@
           </li>
         </ul>
 
-        <a class="boton boton-seccion sis-boton" href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
+        <a class="boton boton-seccion sis-boton" data-entrada href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
       </div>
     </section>
 
     <!-- ===================== Preguntas frecuentes ===================== -->
     <section id="preguntas-frecuentes" class="seccion faq" aria-labelledby="titulo-preguntas-frecuentes">
       <div class="contenedor">
-        <h2 id="titulo-preguntas-frecuentes">Preguntas frecuentes</h2>
+        <h2 id="titulo-preguntas-frecuentes" data-entrada>Preguntas frecuentes</h2>
 
-        <div class="acordeon">
+        <div class="acordeon" data-entrada="grupo">
           <details class="acordeon-item">
             <summary>¿Cuánto cuesta?</summary>
             <p>[FALTA: respuesta de Mauro]</p>
@@ -365,9 +365,9 @@
     <section id="contacto" class="seccion contacto" aria-labelledby="titulo-contacto">
       <div class="contenedor">
         <h2 id="titulo-contacto">Hablemos</h2>
-        <p class="frase">Contanos qué necesitás y te respondemos en menos de 24 horas.</p>
+        <p class="frase" data-entrada>Contanos qué necesitás y te respondemos en menos de 24 horas.</p>
 
-        <form class="formulario tarjeta-vidrio" action="#" novalidate>
+        <form class="formulario tarjeta-vidrio" data-entrada action="#" novalidate>
           <div class="formulario-progreso">
             <progress class="formulario-barra" value="1" max="5" aria-labelledby="formulario-paso">Paso 1 de 5</progress>
             <p class="formulario-paso" id="formulario-paso">Paso 1 de 5</p>
@@ -462,7 +462,9 @@
 
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/utiles.js" defer></script>
   <script src="assets/js/interfaz.js" defer></script>
+  <script src="assets/js/entradas.js" defer></script>
   <script src="assets/js/secciones.js" defer></script>
   <script src="assets/js/particulas.js" defer></script>
 </body>

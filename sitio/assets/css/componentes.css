@@ -455,6 +455,21 @@
   color: var(--celeste-claro);
 }
 
+/* --- Entradas suaves (entradas.js): fundido y subida corta ---
+   Las clases las pone JavaScript solo en lo que está debajo de la pantalla
+   y se sacan al terminar. */
+.entrada-espera {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.entrada-espera.entrada-llega {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease, transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--entrada-demora, 0ms);
+}
+
 /* ==========================================================================
    Canvas de partículas (lo crea particulas.js; sin JavaScript no existe)
    ========================================================================== */
