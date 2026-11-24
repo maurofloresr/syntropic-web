@@ -7,7 +7,8 @@ Lo mantiene Claude Code. Registro de las piezas reutilizables, para usarlas en l
 - `sitio/assets/css/base.css`: fuentes, paleta, reset, botón, tarjeta de vidrio, foco, movimiento reducido.
 - `sitio/assets/css/componentes.css`: los componentes de abajo.
 - `sitio/assets/css/secciones.css`: disposición de cada sección de la landing (no se reutiliza).
-- `sitio/assets/js/interfaz.js`: menú hamburguesa y WhatsApp que se esconde con el formulario en mobile.
+- `sitio/assets/css/formulario.css` y `sitio/assets/js/formulario.js`: el formulario por pasos, el mismo en todas las páginas. Se pone con `<div class="formulario-lugar" data-formulario data-servicio="web"></div>` (data-servicio opcional: el que arranca marcado). Las preguntas están al principio de `formulario.js`, en la lista `PASOS`. Cualquier link con `data-servicio` marca ese servicio, y también `?servicio=web` en la dirección. Al terminar avisa con el evento `syntropic:formulario` (las respuestas van en `detail`) y quedan en `SyntropicFormulario.respuestas()`. Se carga antes que `interfaz.js`.
+- `sitio/assets/js/interfaz.js`: menú hamburguesa, WhatsApp que se esconde con el formulario en mobile y nueva medición del scroll cuando cambia el alto de la página (espera a que el scroll esté quieto).
 - `sitio/assets/js/utiles.js`: funciones de ayuda de todas las páginas (en `window.Syntropic`): `reducido`, `alEntrar` (una vez, al aparecer en pantalla), `alVer` (cada vez que entra o sale) y `cuandoLibre`. Se carga antes que los demás.
 - `sitio/assets/js/entradas.js`: entradas suaves. Se usan desde el HTML con `data-entrada` (el elemento) o `data-entrada="grupo"` (sus hijos, uno atrás del otro). Lo que ya se ve al cargar no se toca; sin JavaScript o con movimiento reducido se ve todo quieto.
 - `sitio/assets/js/secciones.js`: animaciones de cada sección (Fase 3). Las entradas se disparan con IntersectionObserver y no con posiciones de scroll, para que el pin del hero y el parallax no las corran. Desarrollo web: cambio de cliente, rotación automática, carga diferida de capturas, entrada de las pantallas y tarjeta del puntaje de cada cliente. Automatizaciones: cables del lienzo, entrada de los nodos, loop de luz (con un reloj propio que se frena fuera de pantalla) y fila de logos en movimiento. Sistemas: agrega `.abierta` a `.sis-pantallas` una sola vez al aparecer; el orden de la apertura está en las transiciones de secciones.css.
@@ -48,7 +49,9 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Fila de logos en movimiento | `.conectamos-marquesina.en-movimiento` | secciones.css | "Y también conectamos" en mobile. `secciones.js` duplica los logos (copias `.clon` con aria-hidden) y la fila corre la mitad de su largo en loop |
 | Bloque | `.bloque` | componentes.css | Seguro, Sencillo, Personalizado |
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |
-| Opción seleccionable | `.opcion` + `.opcion-input` | componentes.css | Paso 1 del formulario |
+| Opción seleccionable | `.opcion` + `.opcion-input` | formulario.css | Paso 1 del formulario |
+| Ficha (opción chica) | `.ficha` + `.opcion-input` | formulario.css | Pasos del formulario (una o varias) |
+| Campo de texto | `.campo` > `.campo-etiqueta` + `.campo-entrada` + `.campo-error` | formulario.css | Formulario |
 | WhatsApp flotante | `.whatsapp` | componentes.css | Toda la web |
 | Canvas de partículas | `.particulas` (fijo) y `.particulas-estaticas` (movimiento reducido) | componentes.css | Lo crea `particulas.js`. `main` y `.footer` van por encima (z-index 1) |
 

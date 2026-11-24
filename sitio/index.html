@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/componentes.css">
   <link rel="stylesheet" href="assets/css/secciones.css">
+  <link rel="stylesheet" href="assets/css/formulario.css">
   <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -367,59 +368,10 @@
         <h2 id="titulo-contacto">Hablemos</h2>
         <p class="frase" data-entrada>Contanos qué necesitás y te respondemos en menos de 24 horas.</p>
 
-        <form class="formulario tarjeta-vidrio" data-entrada action="#" novalidate>
-          <div class="formulario-progreso">
-            <progress class="formulario-barra" value="1" max="5" aria-labelledby="formulario-paso">Paso 1 de 5</progress>
-            <p class="formulario-paso" id="formulario-paso">Paso 1 de 5</p>
-          </div>
-
-          <!-- Paso 1 -->
-          <fieldset class="formulario-pregunta">
-            <legend>¿Qué estás buscando?</legend>
-            <p class="formulario-aclaracion">Podés elegir más de uno.</p>
-
-            <div class="opciones">
-              <label class="opcion">
-                <input class="opcion-input" type="checkbox" name="servicio" value="web">
-                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-web-dispositivos"></use></svg>
-                <span class="opcion-titulo">Desarrollo web</span>
-                <span class="opcion-texto">Una web profesional que te haga encontrar y vender.</span>
-                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
-              </label>
-              <label class="opcion">
-                <input class="opcion-input" type="checkbox" name="servicio" value="automatizaciones">
-                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-waypoints"></use></svg>
-                <span class="opcion-titulo">Automatizaciones</span>
-                <span class="opcion-texto">Que las tareas repetitivas se hagan solas.</span>
-                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
-              </label>
-              <label class="opcion">
-                <input class="opcion-input" type="checkbox" name="servicio" value="sistemas">
-                <svg class="icono opcion-icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-layout-dashboard"></use></svg>
-                <span class="opcion-titulo">Sistemas</span>
-                <span class="opcion-texto">Un sistema a medida para ordenar tu negocio.</span>
-                <svg class="icono opcion-check" aria-hidden="true"><use href="assets/img/iconos.svg#i-check"></use></svg>
-              </label>
-            </div>
-          </fieldset>
-
-          <!-- Pasos 2 a 5 y pantalla de gracias: Fase 4 -->
-          <p class="formulario-falta">[FALTA: preguntas de los pasos 2 a 4 y rangos de presupuesto]</p>
-
-          <div class="formulario-pie">
-            <!-- Etiqueta "solución integral": aparece con 2 o más servicios (Fase 4) -->
-            <p class="etiqueta-integral" aria-live="polite" hidden></p>
-
-            <div class="formulario-botones">
-              <!-- "Atrás" no aplica en el paso 1: se muestra desde el paso 2 (Fase 4) -->
-              <button class="formulario-atras" type="button" hidden>Atrás</button>
-              <button class="boton formulario-siguiente" type="button">
-                Siguiente
-                <svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-arrow-right"></use></svg>
-              </button>
-            </div>
-          </div>
-        </form>
+        <!-- El formulario lo arma formulario.js (el mismo en todas las páginas) -->
+        <div class="formulario-lugar" data-formulario data-entrada>
+          <noscript><p>Para completar el formulario, activá JavaScript en tu navegador.</p></noscript>
+        </div>
       </div>
     </section>
 
@@ -463,6 +415,7 @@
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/utiles.js" defer></script>
+  <script src="assets/js/formulario.js" defer></script>
   <script src="assets/js/interfaz.js" defer></script>
   <script src="assets/js/entradas.js" defer></script>
   <script src="assets/js/secciones.js" defer></script>
