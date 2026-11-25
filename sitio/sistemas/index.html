@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../assets/css/secciones.css">
   <link rel="stylesheet" href="../assets/css/formulario.css">
   <link rel="stylesheet" href="../assets/css/servicio.css">
+  <link rel="stylesheet" href="../assets/css/pagina-sistemas.css">
   <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -48,11 +49,313 @@
       <div class="contenedor hero-servicio-contenedor">
         <div class="hero-servicio-texto">
           <p class="etiqueta">Sistemas de gestión a medida · Argentina</p>
-          <h1>Todo tu negocio <span class="titulo-linea-2">en un solo lugar</span></h1>
+          <h1 data-demora="900">Todo tu negocio <span class="titulo-linea-2">en un solo lugar</span></h1>
           <p class="bajada">Un sistema hecho a la medida de cómo trabajás. Ventas, stock, caja y tu equipo conectados, estés donde estés, las 24 horas.</p>
           <div class="hero-servicio-botones">
           <a class="boton boton-seccion" href="#contacto" data-servicio="sistemas">Quiero mi sistema</a>
           </div>
+        </div>
+
+        <!-- Animación firma: el apretón de manos (pagina-sistemas.js).
+             [FALTA: siluetas dibujadas por la diseñadora]. Estas son provisorias:
+             los dos trazados están acá y en pagina-sistemas.js (MANO). -->
+        <div class="manos" aria-hidden="true">
+          <svg class="mano-linea" viewBox="0 0 520 300" focusable="false">
+            <path pathLength="1" d="M0 120C80 118 150 124 208 120C226 116 240 106 258 96C286 80 316 66 342 58C358 54 368 66 360 78C350 92 332 104 322 114C366 112 428 110 478 116C494 118 496 138 480 140C500 140 510 142 510 152C510 164 496 164 482 164C496 166 500 172 497 180C494 188 482 188 470 188C478 192 478 200 472 205C464 212 440 210 420 210C380 218 320 224 270 220C240 218 224 210 206 208C140 210 70 214 0 214"></path>
+            <path pathLength="1" d="M480 140C440 140 410 141 384 142"></path>
+            <path pathLength="1" d="M482 164C440 164 412 165 386 166"></path>
+            <path pathLength="1" d="M470 188C436 188 412 189 390 190"></path>
+            <path pathLength="1" d="M322 114C312 124 300 130 286 134"></path>
+          </svg>
+          <div class="mano-bytes"></div>
+          <span class="manos-pulso"></span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== El problema ===================== -->
+    <section id="problema" class="seccion problema" aria-labelledby="titulo-problema">
+      <div class="contenedor">
+        <h2 id="titulo-problema" data-entrada>Planillas, cuadernos <span class="titulo-linea-2">y mensajes sueltos</span></h2>
+
+        <ul class="grilla grilla-2" data-entrada="grupo">
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg><p class="problema-texto">Cargás el mismo cliente dos veces en sistemas que no se adaptan.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-wallet"></use></svg><p class="problema-texto">No sabés cuánta plata tenés realmente.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-package"></use></svg><p class="problema-texto">El stock del sistema no coincide con el del depósito.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-history"></use></svg><p class="problema-texto">Nadie sabe quién cambió qué.</p></li>
+        </ul>
+
+        <p class="dato" data-entrada>Investigaciones de Raymond Panko encontraron entre 1,1% y 5,6% de celdas con errores en planillas armadas a mano. Fuente: <a href="https://panko.com/ssr/DevelopmentExperiments.html" target="_blank" rel="noopener">panko.com</a>.</p>
+
+        <!-- Flotan desordenados y, al scrollear, vuelan y entran a la notebook de abajo -->
+        <div class="vuelo" aria-hidden="true">
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-notebook-pen"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-message-square"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-whatsapp"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-notebook-pen"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-mail"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-message-square"></use></svg></span>
+          <span class="vuelo-papel"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Mirá cómo funciona ===================== -->
+    <section id="demo" class="seccion demo centrada" aria-labelledby="titulo-demo">
+      <div class="contenedor">
+        <h2 id="titulo-demo" data-entrada>Tu negocio, <span class="titulo-linea-2">de un vistazo</span></h2>
+
+        <!-- Notebook y dashboard de la landing. La demo (primero el total, después el
+             filtro, después el detalle) la maneja pagina-sistemas.js. Datos inventados. -->
+        <div class="sis-pantallas">
+          <div class="notebook notebook-sis" aria-hidden="true">
+            <div class="notebook-tapa">
+              <div class="pantalla">
+                <div class="dash">
+                  <div class="dash-lateral">
+                    <img class="dash-logo" src="../assets/img/isologo-blanco.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
+                    <ul class="dash-menu">
+                      <li class="dash-menu-ventas"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-receipt"></use></svg>Ventas</li>
+                      <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-package"></use></svg>Stock</li>
+                      <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shopping-cart"></use></svg>Compras</li>
+                      <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-wallet"></use></svg>Caja</li>
+                      <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg>Clientes</li>
+                    </ul>
+                  </div>
+
+                  <div class="dash-principal dash-inicio">
+                    <div class="dash-cabecera">
+                      <p class="dash-titulo">Dashboard</p>
+                      <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bell"></use></svg>
+                      <span class="dash-avatar"></span>
+                    </div>
+
+                    <div class="dash-tarjetas">
+                      <div class="dash-tarjeta"><p>Ventas del día</p><p class="dash-valor">$ 485.300</p></div>
+                      <div class="dash-tarjeta"><p>Productos en stock</p><p class="dash-valor">1.248</p></div>
+                      <div class="dash-tarjeta"><p>Caja</p><p class="dash-valor">$ 312.900</p></div>
+                    </div>
+
+                    <div class="dash-abajo">
+                      <div class="dash-tarjeta dash-grafico">
+                        <p>Ventas de la semana</p>
+                        <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="dash-relleno" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0" stop-color="#47ADFF" stop-opacity="0.35"></stop>
+                              <stop offset="1" stop-color="#47ADFF" stop-opacity="0"></stop>
+                            </linearGradient>
+                          </defs>
+                          <path class="dash-grilla" d="M0 30H300M0 60H300M0 90H300"></path>
+                          <path class="dash-area" d="M0 72 L50 58 L100 80 L150 44 L200 54 L250 22 L300 30 L300 120 L0 120Z" fill="url(#dash-relleno)"></path>
+                          <path class="dash-linea" d="M0 72 L50 58 L100 80 L150 44 L200 54 L250 22 L300 30" pathLength="100"></path>
+                        </svg>
+                        <div class="dash-dias"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+                      </div>
+
+                      <div class="dash-tarjeta dash-tabla">
+                        <p>Ventas recientes</p>
+                        <ul>
+                          <li><span>Auriculares</span><span>$ 38.400</span></li>
+                          <li><span>Mochila urbana</span><span>$ 45.900</span></li>
+                          <li><span>Taza de cerámica</span><span>$ 21.000</span></li>
+                          <li><span>Lámpara LED</span><span>$ 27.600</span></li>
+                          <li><span>Botella térmica</span><span>$ 19.800</span></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pantalla Ventas: filtro y detalle -->
+                  <div class="dash-ventas">
+                    <div class="dash-cabecera">
+                      <p class="dash-titulo">Ventas</p>
+                      <span class="dash-filtro activo">Todas</span>
+                      <span class="dash-filtro dash-filtro-cobradas">Cobradas</span>
+                      <span class="dash-filtro">Pendientes</span>
+                    </div>
+                    <ul class="dash-filas">
+                      <li class="cobrada"><span>Mochila urbana</span><span>Cobrada</span><span>$ 45.900</span></li>
+                      <li class="pendiente"><span>Lámpara LED</span><span>Pendiente</span><span>$ 27.600</span></li>
+                      <li class="cobrada dash-fila-elegida"><span>Auriculares</span><span>Cobrada</span><span>$ 38.400</span></li>
+                      <li class="pendiente"><span>Botella térmica</span><span>Pendiente</span><span>$ 19.800</span></li>
+                      <li class="cobrada"><span>Taza de cerámica</span><span>Cobrada</span><span>$ 21.000</span></li>
+                    </ul>
+                    <div class="dash-detalle">
+                      <p class="dash-detalle-titulo">Auriculares</p>
+                      <ul>
+                        <li><span>Total</span><span>$ 38.400</span></li>
+                        <li><span>Estado</span><span>Cobrada</span></li>
+                        <li><span>Stock</span><span>Descontado</span></li>
+                        <li><span>Caja</span><span>Registrado</span></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <span class="dash-cursor"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-mouse-pointer-2"></use></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="notebook-base"></div>
+          </div>
+
+          <div class="sis-stock tarjeta-vidrio">
+            <span class="sis-stock-check"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-check"></use></svg></span>
+            <p>Stock actualizado automáticamente</p>
+          </div>
+        </div>
+        <p class="chip-ejemplo demo-chip">Datos de ejemplo</p>
+      </div>
+    </section>
+
+    <!-- ===================== Módulos ===================== -->
+    <section id="modulos" class="seccion seccion-modulos" aria-labelledby="titulo-modulos">
+      <div class="contenedor">
+        <h2 id="titulo-modulos" data-entrada>Un solo sistema, <span class="titulo-linea-2">todo conectado</span></h2>
+
+        <!-- Desktop: orbitan alrededor de la S; al tocar uno, la órbita se frena, ese módulo
+             se acerca y muestra su panel. Mobile: lista desplegable con la S arriba. -->
+        <div class="modulos">
+          <div class="modulos-sol" aria-hidden="true"><img src="../assets/img/isologo-blanco.webp" alt="" width="800" height="815" loading="lazy" decoding="async"></div>
+          <p class="modulos-ayuda">Tocá un módulo para ver qué hace.</p>
+          <ul class="modulos-lista">
+            <li class="modulo" style="--k: 0">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-caja"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-wallet"></use></svg></span><span class="modulo-nombre">Caja</span></button>
+              <div class="modulo-panel" id="modulo-caja"><h3>Caja</h3>
+                <ul><li>Saldo real de hoy.</li><li>Lo que hay que cobrar y pagar.</li><li>Varias cuentas y cheques.</li><li>Recordatorio de cobro por WhatsApp con un toque.</li><li class="a-confirmar" data-confirmar="en qué módulo va">Varias monedas.</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 1">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-ventas"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-receipt"></use></svg></span><span class="modulo-nombre">Ventas</span></button>
+              <div class="modulo-panel" id="modulo-ventas"><h3>Ventas</h3>
+                <ul><li>Venta en una sola pantalla.</li><li>Precios automáticos por tipo de cliente.</li><li>Remitos listos para imprimir o mandar por WhatsApp.</li><li>[FALTA: frase sobre facturación flexible]</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 2">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-clientes"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg></span><span class="modulo-nombre">Clientes y proveedores</span></button>
+              <div class="modulo-panel" id="modulo-clientes"><h3>Clientes y proveedores</h3>
+                <ul><li>[FALTA: funciones de Clientes y proveedores]</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 3">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-stock"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-package"></use></svg></span><span class="modulo-nombre">Productos y stock</span></button>
+              <div class="modulo-panel" id="modulo-stock"><h3>Productos y stock</h3>
+                <ul><li>Listas de precios.</li><li>Aumentos programados por fecha.</li><li>Stock por lote con vencimiento.</li><li>Alertas de stock mínimo.</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 4">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-compras"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shopping-cart"></use></svg></span><span class="modulo-nombre">Compras</span></button>
+              <div class="modulo-panel" id="modulo-compras"><h3>Compras</h3>
+                <ul><li>[FALTA: funciones de Compras]</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 5">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-produccion"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-factory"></use></svg></span><span class="modulo-nombre">Producción</span></button>
+              <div class="modulo-panel" id="modulo-produccion"><h3>Producción</h3>
+                <ul><li>Recetas que descuentan insumos solos.</li><li>Costo real por caja.</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 6">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-usuarios"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-key-round"></use></svg></span><span class="modulo-nombre">Usuarios y permisos</span></button>
+              <div class="modulo-panel" id="modulo-usuarios"><h3>Usuarios y permisos</h3>
+                <ul><li>Cada persona ve solo lo que necesita.</li></ul>
+              </div>
+            </li>
+            <li class="modulo" style="--k: 7">
+              <button class="modulo-boton" type="button" aria-expanded="false" aria-controls="modulo-medida"><span class="modulo-planeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-puzzle"></use></svg></span><span class="modulo-nombre">Lo que tu negocio necesite</span></button>
+              <div class="modulo-panel" id="modulo-medida"><h3>Lo que tu negocio necesite</h3>
+                <ul><li>Diseñado por módulos: suma funciones sin rehacer lo que ya está.</li></ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Seguridad ===================== -->
+    <section id="seguridad" class="seccion seguridad" aria-labelledby="titulo-seguridad">
+      <div class="contenedor">
+        <h2 id="titulo-seguridad" data-entrada>Seguridad <span class="titulo-linea-2">en cada capa</span></h2>
+
+        <div class="seguridad-contenido">
+          <!-- Anillos alrededor del escudo: se encienden de afuera hacia adentro -->
+          <div class="capas" aria-hidden="true">
+            <span class="capa"></span><span class="capa"></span><span class="capa"></span><span class="capa"></span>
+            <svg class="icono capas-escudo" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shield"></use></svg>
+          </div>
+
+          <ul class="seguridad-lista">
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><p>Contraseñas protegidas con cifrado fuerte.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-mail-check"></use></svg><p>Código por mail al entrar desde un dispositivo nuevo.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-ban"></use></svg><p>Bloqueo ante intentos fallidos.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-log-out"></use></svg><p>Sesiones que podés cerrar a distancia si perdés el celular.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-history"></use></svg><p>Registro de quién hizo qué, cuándo y desde dónde, que no se puede borrar.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-undo-2"></use></svg><p>Nada se borra: se anula con motivo.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-database-backup"></use></svg><p>Copias de seguridad diarias cifradas.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-database"></use></svg><p>Tu base de datos, separada de cualquier otra.</p></li>
+          </ul>
+        </div>
+
+        <!-- Demo de permisos: al cambiar de rol, los módulos se bloquean o se abren -->
+        <div class="permisos tarjeta a-confirmar" data-confirmar="qué módulos ve cada rol en este ejemplo" data-entrada>
+          <div class="permisos-cabecera">
+            <h3>Cada persona ve solo lo que necesita</h3>
+            <span class="chip-ejemplo">Ejemplo</span>
+          </div>
+          <div class="permisos-roles" role="tablist" aria-label="Rol">
+            <button class="permisos-rol" type="button" role="tab" id="rol-vendedor" aria-selected="true" aria-controls="permisos-modulos" data-ve="ventas,clientes,stock">Vendedor</button>
+            <button class="permisos-rol" type="button" role="tab" id="rol-encargado" aria-selected="false" aria-controls="permisos-modulos" tabindex="-1" data-ve="ventas,clientes,stock,compras,produccion">Encargado</button>
+            <button class="permisos-rol" type="button" role="tab" id="rol-administracion" aria-selected="false" aria-controls="permisos-modulos" tabindex="-1" data-ve="ventas,clientes,stock,compras,produccion,caja,usuarios">Administración</button>
+          </div>
+          <div id="permisos-modulos" role="tabpanel" aria-labelledby="rol-vendedor">
+            <ul class="permisos-modulos">
+              <li class="permiso abierto" data-modulo="ventas"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-receipt"></use></svg><span>Ventas</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Habilitado</span></li>
+              <li class="permiso abierto" data-modulo="clientes"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg><span>Clientes y proveedores</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Habilitado</span></li>
+              <li class="permiso abierto" data-modulo="stock"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-package"></use></svg><span>Productos y stock</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Habilitado</span></li>
+              <li class="permiso" data-modulo="compras"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shopping-cart"></use></svg><span>Compras</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Bloqueado</span></li>
+              <li class="permiso" data-modulo="produccion"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-factory"></use></svg><span>Producción</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Bloqueado</span></li>
+              <li class="permiso" data-modulo="caja"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-wallet"></use></svg><span>Caja</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Bloqueado</span></li>
+              <li class="permiso" data-modulo="usuarios"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-key-round"></use></svg><span>Usuarios y permisos</span><span class="permiso-candado" aria-hidden="true"><svg class="icono candado-cerrado" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock"></use></svg><svg class="icono candado-abierto" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lock-open"></use></svg></span><span class="sr-only permiso-estado">Bloqueado</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Siempre con vos ===================== -->
+    <section id="siempre-con-vos" class="seccion siempre centrada" aria-labelledby="titulo-siempre">
+      <div class="contenedor">
+        <h2 id="titulo-siempre" data-entrada>Control 24/7, <span class="titulo-linea-2">estés donde estés</span></h2>
+        <p class="seccion-texto" data-entrada>En la computadora, la tablet o el celular. Tu equipo, cada uno con su usuario.</p>
+
+        <!-- El mismo dato cambia a la vez en los tres (datos de ejemplo) -->
+        <div class="equipos" aria-hidden="true">
+          <div class="equipo equipo-notebook"><div class="equipo-pantalla"><p>Ventas del día</p><p class="equipo-dato">$ 485.300</p></div><span class="equipo-base"></span></div>
+          <div class="equipo equipo-tablet"><div class="equipo-pantalla"><p>Ventas del día</p><p class="equipo-dato">$ 485.300</p></div></div>
+          <div class="equipo equipo-celular"><div class="equipo-pantalla"><p>Ventas del día</p><p class="equipo-dato">$ 485.300</p></div></div>
+        </div>
+        <p class="chip-ejemplo">Datos de ejemplo</p>
+        <div><a class="boton boton-seccion boton-medio" data-entrada href="#contacto" data-servicio="sistemas">Quiero mi sistema</a></div>
+      </div>
+    </section>
+
+    <!-- ===================== Capacitación ===================== -->
+    <section id="capacitacion" class="seccion capacitacion" aria-labelledby="titulo-capacitacion">
+      <div class="contenedor capacitacion-contenedor">
+        <div class="capacitacion-circulo" aria-hidden="true">
+          <svg class="indicador" viewBox="0 0 64 64" style="--puntaje: 100"><circle class="indicador-fondo" cx="32" cy="32" r="28"></circle><circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle></svg>
+          <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-graduation-cap"></use></svg>
+        </div>
+        <div>
+          <h2 id="titulo-capacitacion" data-entrada>Te vas sabiendo <span class="titulo-linea-2">usarlo</span></h2>
+          <p class="seccion-texto a-confirmar" data-confirmar="alcance de la capacitación" data-entrada>Capacitación 100% incluida. Te vas con un sistema eficiente y que tu equipo sabe usar.</p>
+          <ul class="capacitacion-lista" data-entrada="grupo">
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-check"></use></svg><p>El sistema guía, avisa y aconseja. Las decisiones son tuyas.</p></li>
+            <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-check"></use></svg><p>Diseñado por módulos: suma funciones sin rehacer lo que ya está.</p></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -93,6 +396,28 @@
             <p class="constelacion-texto">Puesta en marcha y acompañamiento</p>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <!-- ===================== Caso real ===================== -->
+    <section id="caso-real" class="seccion caso-real" aria-labelledby="titulo-caso-real">
+      <div class="contenedor">
+        <h2 id="titulo-caso-real" data-entrada>Caso <span class="titulo-linea-2">real</span></h2>
+        <!-- Sin nombre del cliente hasta tener permiso -->
+        <p class="caso-real-quien" data-entrada>Fábrica de alimentos: 3 socios y administración</p>
+
+        <div class="caso-real-pasos">
+          <div class="tarjeta caso-real-problema">
+            <h3>Problema</h3>
+            <p>Un sistema contable genérico que obligaba a duplicar clientes y no se adaptaba.</p>
+          </div>
+          <span class="caso-real-flecha" aria-hidden="true"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-arrow-right"></use></svg></span>
+          <div class="tarjeta caso-real-solucion">
+            <h3>Solución</h3>
+            <p>Un solo sistema para vender, cobrar, comprar, pagar, controlar stock y producción y ver la plata real del negocio.</p>
+          </div>
+        </div>
+        <p class="caso-real-falta" data-entrada>[FALTA: resultado medido o testimonio]</p>
       </div>
     </section>
 
@@ -214,6 +539,8 @@
   <script src="../assets/js/interfaz.js" defer></script>
   <script src="../assets/js/entradas.js" defer></script>
   <script src="../assets/js/servicio.js" defer></script>
+  <script src="../assets/js/secciones.js" defer></script>
   <script src="../assets/js/particulas-servicio.js" defer></script>
+  <script src="../assets/js/pagina-sistemas.js" defer></script>
 </body>
 </html>

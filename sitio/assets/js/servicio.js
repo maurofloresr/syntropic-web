@@ -3,6 +3,7 @@
    - Cómo trabajamos: constelación. Una línea une las estrellas (pasos) y se
      dibuja con el scroll; cada estrella se enciende cuando la línea llega.
    - Syntropic.enOrden() y Syntropic.contar(): ayudas para las entradas.
+   - Syntropic.guion(): animaciones en loop que se frenan fuera de pantalla.
    - Syntropic.atado(): ayuda para animaciones atadas al scroll (GSAP).
    ========================================================================== */
 (function () {
@@ -67,6 +68,29 @@
         if (t < 1) requestAnimationFrame(paso);
       })(inicio);
     }, 0.6);
+  };
+
+  /* Guion en loop: pasos { dura (ms), alEmpezar, cada(avance 0 a 1) }. El
+     reloj se frena fuera de pantalla y con la pestaña oculta, y al volver
+     sigue donde quedó. No usar con movimiento reducido. */
+  S.guion = function (el, pasos) {
+    var paso = 0, t = 0, ultimo = 0, cuadro = 0, empezo = false, enVista = false;
+    function pintar(ahora) {
+      t += Math.min(ahora - ultimo, 50);
+      ultimo = ahora;
+      var g = pasos[paso];
+      if (!empezo) { empezo = true; if (g.alEmpezar) g.alEmpezar(); }
+      if (g.cada) g.cada(Math.min(t / g.dura, 1));
+      if (t >= g.dura) { t = 0; empezo = false; paso = (paso + 1) % pasos.length; }
+      cuadro = requestAnimationFrame(pintar);
+    }
+    function actualizar() {
+      var correr = enVista && !document.hidden;
+      if (correr && !cuadro) { ultimo = performance.now(); cuadro = requestAnimationFrame(pintar); }
+      else if (!correr && cuadro) { cancelAnimationFrame(cuadro); cuadro = 0; }
+    }
+    S.alVer(el, function (v) { enVista = v; actualizar(); });
+    document.addEventListener('visibilitychange', actualizar);
   };
 
   /* ======================= Constelación ======================= */

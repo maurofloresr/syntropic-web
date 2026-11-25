@@ -1,5 +1,7 @@
 /* ==========================================================================
-   Syntropic: animaciones de cada sección (Fase 3)
+   Syntropic: animaciones de las secciones (Fase 3). Lo usan la landing y la
+   página /sistemas. Desarrollo web está en dispositivos.js y Automatizaciones
+   en lienzo.js.
    - Las entradas se disparan cuando el elemento aparece en pantalla
      (IntersectionObserver), no por posiciones de scroll calculadas: así el
      espacio extra del pin del hero y el parallax de la galaxia no las corren.
@@ -15,7 +17,7 @@
 
   // Funciones de ayuda: utiles.js (se carga antes)
   var S = window.Syntropic;
-  var reducido = S.reducido, alEntrar = S.alEntrar, alVer = S.alVer, cuandoLibre = S.cuandoLibre;
+  var reducido = S.reducido, alEntrar = S.alEntrar;
 
   /* ======================= Sistemas ======================= */
   // La notebook aparece cerrada y se abre una sola vez cuando entra en

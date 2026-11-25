@@ -181,42 +181,25 @@
       setTimeout(function () { el.classList.remove('con-pulso'); }, 900);
     }
 
-    // Guion del loop: pares [dura, qué hace en cada cuadro o al terminar]
     var VIAJE = 620, guion = [];
     nodos.forEach(function (nodo, i) {
-      guion.push({ dura: 60, alEmpezar: function () { brillar(nodo); } });
+      guion.push({ dura: 60, alEmpezar: function () { punto.setAttribute('opacity', '0'); brillar(nodo); } });
       var frena = +nodo.dataset.frena || 0;
       if (frena) {
         guion.push({ dura: frena, alEmpezar: function () { nodo.classList.add('titila'); } });
         guion.push({ dura: 900, alEmpezar: function () { nodo.classList.remove('titila'); nodo.classList.add('aprobado'); brillar(nodo); } });
       }
-      if (i < tramos.length) guion.push({ dura: VIAJE, tramo: i });
+      if (i < tramos.length) {
+        guion.push({ dura: VIAJE, cada: function (p) {
+          var pt = tramos[i].getPointAtLength(suave(p) * tramos[i].getTotalLength());
+          punto.setAttribute('cx', pt.x.toFixed(1));
+          punto.setAttribute('cy', pt.y.toFixed(1));
+          punto.setAttribute('opacity', '1');
+        } });
+      }
     });
     guion.push({ dura: 1600, alEmpezar: function () { if (revision) revision.classList.remove('aprobado'); } });
-
-    var paso = 0, t = 0, ultimo = 0, cuadro = 0, empezo = false, enVista = false;
-    function pintar(ahora) {
-      t += Math.min(ahora - ultimo, 50);
-      ultimo = ahora;
-      var g = guion[paso];
-      if (!empezo) { empezo = true; if (g.alEmpezar) g.alEmpezar(); }
-      if (g.tramo !== undefined) {
-        var camino = tramos[g.tramo], p = limitar(t / g.dura, 0, 1);
-        var pt = camino.getPointAtLength(suave(p) * camino.getTotalLength());
-        punto.setAttribute('cx', pt.x.toFixed(1));
-        punto.setAttribute('cy', pt.y.toFixed(1));
-        punto.setAttribute('opacity', '1');
-      } else punto.setAttribute('opacity', '0');
-      if (t >= g.dura) { t = 0; empezo = false; paso = (paso + 1) % guion.length; }
-      cuadro = requestAnimationFrame(pintar);
-    }
-    function actualizar() {
-      var correr = enVista && !document.hidden;
-      if (correr && !cuadro) { ultimo = performance.now(); cuadro = requestAnimationFrame(pintar); }
-      else if (!correr && cuadro) { cancelAnimationFrame(cuadro); cuadro = 0; }
-    }
-    S.alVer(lista, function (v) { enVista = v; actualizar(); });
-    document.addEventListener('visibilitychange', actualizar);
+    S.guion(lista, guion);
   });
 
   /* ======================= Lo que no tiene límite: de puntos a red ======================= */
