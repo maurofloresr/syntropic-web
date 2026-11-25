@@ -2,6 +2,7 @@
    Syntropic: piezas comunes de las páginas de servicio
    - Cómo trabajamos: constelación. Una línea une las estrellas (pasos) y se
      dibuja con el scroll; cada estrella se enciende cuando la línea llega.
+   - Syntropic.enOrden() y Syntropic.contar(): ayudas para las entradas.
    - Syntropic.atado(): ayuda para animaciones atadas al scroll (GSAP).
    ========================================================================== */
 (function () {
@@ -38,6 +39,34 @@
     for (var k in atributos) el.setAttribute(k, atributos[k]);
     if (padre) padre.appendChild(el);
     return el;
+  };
+
+  /* Pone una clase a cada elemento cuando aparece en pantalla. Si aparecen
+     varios juntos, van de a uno, en orden. */
+  S.enOrden = function (elementos, clase, cada) {
+    var turno = 0;
+    Array.prototype.forEach.call(elementos, function (el) {
+      S.alEntrar(el, function () {
+        if (S.reducido) { el.classList.add(clase); return; }
+        var ahora = performance.now();
+        turno = Math.max(turno + cada, ahora);
+        setTimeout(function () { el.classList.add(clase); }, turno - ahora);
+      }, 0.25);
+    });
+  };
+
+  /* El número sube contando la primera vez que se ve (en el HTML está el final) */
+  S.contar = function (el, hasta) {
+    if (S.reducido) return;
+    el.textContent = '0';
+    S.alEntrar(el, function () {
+      var inicio = performance.now();
+      (function paso(ahora) {
+        var t = Math.min((ahora - inicio) / 1400, 1);
+        el.textContent = Math.round(hasta * (1 - Math.pow(1 - t, 3)));
+        if (t < 1) requestAnimationFrame(paso);
+      })(inicio);
+    }, 0.6);
   };
 
   /* ======================= Constelación ======================= */

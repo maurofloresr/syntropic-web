@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../assets/css/secciones.css">
   <link rel="stylesheet" href="../assets/css/formulario.css">
   <link rel="stylesheet" href="../assets/css/servicio.css">
+  <link rel="stylesheet" href="../assets/css/pagina-desarrollo-web.css">
   <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -55,6 +56,156 @@
           <a class="boton boton-seccion boton-secundario" href="#casos">Ver trabajos</a>
           </div>
         </div>
+
+        <!-- Animación firma: "la web se arma sola" (pagina-desarrollo-web.js).
+             La notebook y el celular son los de la landing (dispositivos.js). -->
+        <div class="dw-visual hero-web-visual">
+          <div class="dw-pantallas">
+            <div class="notebook" aria-hidden="true">
+              <div class="notebook-tapa">
+                <div class="pantalla">
+                  <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-desktop.webp" alt="" width="1280" height="800" decoding="async">
+                  <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-desktop.webp" alt="" width="1280" height="800" decoding="async">
+                  <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-desktop.webp" alt="" width="1280" height="800" decoding="async">
+                </div>
+              </div>
+              <div class="notebook-base"></div>
+            </div>
+
+            <div class="celular">
+              <div class="pantalla">
+                <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-mobile.webp" alt="Web de Novo Hair en el celular" width="640" height="1384" decoding="async">
+                <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-mobile.webp" alt="Web de Talar Maderas en el celular" width="640" height="1384" decoding="async" aria-hidden="true">
+                <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-mobile.webp" alt="Web de ATR en el celular" width="640" height="1384" decoding="async" aria-hidden="true">
+              </div>
+            </div>
+
+            <div class="dw-puntaje tarjeta-vidrio">
+              <div class="dw-puntaje-circulo">
+                <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" style="--puntaje: 100">
+                  <circle class="indicador-fondo" cx="32" cy="32" r="28"></circle>
+                  <circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle>
+                </svg>
+                <p class="dw-puntaje-numero">100</p>
+              </div>
+              <p class="dw-puntaje-titulo">Rendimiento</p>
+              <p class="dw-puntaje-fuente">Google PageSpeed · computadora</p>
+              <p class="dw-puntaje-seo">SEO <span class="dw-puntaje-seo-numero">100</span></p>
+            </div>
+          </div>
+
+          <div class="clientes">
+            <ul class="clientes-lista">
+              <!-- Puntajes reales medidos por Mauro (nov 2026). Talar Maderas sin SEO hasta que esté en su dominio real. -->
+              <li><button class="cliente" type="button" data-cliente="novo-hair" data-rendimiento="100" data-seo="100" aria-pressed="true">Novo Hair</button></li>
+              <li><button class="cliente" type="button" data-cliente="talar-maderas" data-rendimiento="99" data-seo="" aria-pressed="false">Talar Maderas</button></li>
+              <li><button class="cliente" type="button" data-cliente="atr" data-rendimiento="100" data-seo="100" aria-pressed="false">ATR</button></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== Confianza ===================== -->
+    <div class="confianza">
+      <div class="contenedor">
+        <p class="etiqueta" data-entrada>Ya confiaron en nosotros</p>
+        <!-- Puntajes reales medidos por Mauro (nov 2026), Google PageSpeed versión computadora -->
+        <ul class="confianza-lista" data-entrada="grupo">
+          <li><strong class="confianza-numero" data-contar="100">100</strong><span class="confianza-nombre">Novo Hair</span></li>
+          <li><strong class="confianza-numero" data-contar="99">99</strong><span class="confianza-nombre">Talar Maderas</span></li>
+          <li><strong class="confianza-numero" data-contar="100">100</strong><span class="confianza-nombre">ATR</span></li>
+        </ul>
+        <p class="confianza-fuente" data-entrada>Rendimiento en Google PageSpeed · computadora</p>
+      </div>
+    </div>
+
+    <!-- ===================== El problema ===================== -->
+    <section id="problema" class="seccion problema" aria-labelledby="titulo-problema">
+      <div class="contenedor">
+        <h2 id="titulo-problema" data-entrada>¿Te pasa <span class="titulo-linea-2">algo de esto?</span></h2>
+
+        <!-- Entran desordenadas y se acomodan al llegar al centro (pagina-desarrollo-web.js) -->
+        <ul class="grilla grilla-2 caos">
+          <li><div class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-search"></use></svg><p class="caos-texto">Te buscan en Google y aparece tu competencia.</p></div></li>
+          <li><div class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-timer"></use></svg><p class="caos-texto">Tu web tarda en cargar y la gente se va antes de verla.</p></div></li>
+          <li><div class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-smartphone"></use></svg><p class="caos-texto">En el celular se ve mal y cuesta encontrar lo importante.</p></div></li>
+          <li><div class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-instagram"></use></svg><p class="caos-texto">Dependés solo de Instagram y del algoritmo.</p></div></li>
+        </ul>
+
+        <p class="dato" data-entrada>Según Google y SOASTA, cuando la carga en el celular pasa de 1 a 3 segundos, la probabilidad de que la persona se vaya aumenta un 32%. Fuente: <a href="https://www.thinkwithgoogle.com/_qs/documents/2453/64237_mobile-page-speed-new-industry-benchmarks_D2QxHYw.pdf" target="_blank" rel="noopener">Think with Google</a>.</p>
+      </div>
+    </section>
+
+    <!-- ===================== Qué incluye ===================== -->
+    <section id="que-incluye" class="seccion incluye" aria-labelledby="titulo-que-incluye">
+      <div class="contenedor">
+        <h2 id="titulo-que-incluye" data-entrada>Todo lo que tu web <span class="titulo-linea-2">necesita</span></h2>
+
+        <!-- Las tarjetas se encienden en orden, como estrellas -->
+        <ul class="grilla grilla-3 estrellas">
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-message-circle"></use></svg><h3>Charla de orientación</h3><p>Te ayudamos a que tu web se entienda, esté organizada y venda.</p></li>
+          <li class="tarjeta a-confirmar" data-confirmar="si se nombra Canva"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-palette"></use></svg><h3>Diseño personalizado</h3><p>Lo ves y lo aprobás antes de programar, con una ronda de corrección incluida.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-pointer"></use></svg><h3>Experiencia de usuario (UX/UI)</h3><p>Cada botón y cada texto pensados para que el cliente encuentre lo que busca.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-smartphone"></use></svg><h3>Mobile first</h3><p>Primero para el celular, donde está la mayoría de tus clientes.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-zap"></use></svg><h3>Carga ultra rápida</h3></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-search"></use></svg><h3>SEO</h3><p>Aparecé en Google.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bot"></use></svg><h3>GEO</h3><p>Que las IAs te recomienden.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-chart-column"></use></svg><h3>Meta Pixel y Analytics</h3><p>Medí de dónde vienen tus clientes.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-server"></use></svg><h3>Dominio y hosting</h3><p>Nos encargamos de todo. Vos solo pagás el hosting.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-pen-tool"></use></svg><h3>Branding</h3><p>¿No tenés logo ni colores? Creamos tu marca.</p></li>
+          <li class="tarjeta a-confirmar" data-confirmar="tarjeta de Tiendanube"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-store"></use></svg><h3>Tienda online en Tiendanube</h3><p>Como partners oficiales.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== Sin costo de mantenimiento ===================== -->
+    <section id="mantenimiento" class="seccion mantenimiento centrada" aria-labelledby="titulo-mantenimiento">
+      <div class="contenedor">
+        <h2 id="titulo-mantenimiento" data-entrada><span class="cero">$0</span> de <span class="titulo-linea-2">mantenimiento</span></h2>
+        <p class="seccion-texto" data-entrada>La mayoría te cobra un abono mensual por mantener tu web. Nosotros no: en webs básicas, vos pagás solo el hosting.</p>
+        <p class="mantenimiento-letra" data-entrada>[FALTA: definición de "web básica"]</p>
+      </div>
+    </section>
+
+    <!-- ===================== Velocidad que se mide ===================== -->
+    <section id="velocidad" class="seccion velocidad" aria-labelledby="titulo-velocidad">
+      <div class="contenedor">
+        <h2 id="titulo-velocidad" data-entrada>Velocidad <span class="titulo-linea-2">que se mide</span></h2>
+        <p class="seccion-texto" data-entrada>PageSpeed es la herramienta gratuita de Google que mide qué tan rápido carga una web y le pone una nota de 0 a 100. Estas son las notas de webs que hicimos.</p>
+
+        <ul class="anillos">
+          <li class="anillo tarjeta">
+            <div class="anillo-circulo">
+              <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" style="--puntaje: 100"><circle class="indicador-fondo" cx="32" cy="32" r="28"></circle><circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle></svg>
+              <p class="anillo-numero" data-contar="100">100</p>
+            </div>
+            <h3>Novo Hair</h3>
+            <p>Rendimiento · SEO 100</p>
+          </li>
+          <li class="anillo tarjeta">
+            <div class="anillo-circulo">
+              <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" style="--puntaje: 99"><circle class="indicador-fondo" cx="32" cy="32" r="28"></circle><circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle></svg>
+              <p class="anillo-numero" data-contar="99">99</p>
+            </div>
+            <h3>Talar Maderas</h3>
+            <p>Rendimiento</p>
+          </li>
+          <li class="anillo tarjeta">
+            <div class="anillo-circulo">
+              <svg class="indicador" viewBox="0 0 64 64" aria-hidden="true" style="--puntaje: 100"><circle class="indicador-fondo" cx="32" cy="32" r="28"></circle><circle class="indicador-arco" cx="32" cy="32" r="28" pathLength="100"></circle></svg>
+              <p class="anillo-numero" data-contar="100">100</p>
+            </div>
+            <h3>ATR</h3>
+            <p>Rendimiento · SEO 100</p>
+          </li>
+        </ul>
+        <p class="anillos-fuente">Google PageSpeed · computadora</p>
+
+        <p class="dato" data-entrada>En un estudio de Google y Deloitte sobre 37 marcas, mejorar 0,1 segundos la velocidad en el celular se asoció con un 8,4% más de conversiones en retail. Es el resultado de ese estudio, no una promesa. Fuente: <a href="https://web.dev/case-studies/milliseconds-make-millions" target="_blank" rel="noopener">web.dev, Milliseconds Make Millions</a>.</p>
+
+        <a class="boton boton-seccion boton-medio" data-entrada href="#contacto" data-servicio="web">Quiero mi web</a>
       </div>
     </section>
 
@@ -86,6 +237,45 @@
             <p class="constelacion-texto">Acompañamiento</p>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <!-- ===================== Casos reales ===================== -->
+    <section id="casos" class="seccion casos" aria-labelledby="titulo-casos">
+      <div class="contenedor">
+        <h2 id="titulo-casos" data-entrada>Casos <span class="titulo-linea-2">reales</span></h2>
+
+        <!-- [FALTA: permiso de cada cliente antes de publicar] -->
+        <ul class="casos-lista">
+          <li class="caso tarjeta">
+            <img src="../assets/img/clientes/novo-hair-desktop.webp" alt="Web de Novo Hair en la computadora" width="1280" height="800" loading="lazy" decoding="async">
+            <div class="caso-texto">
+              <h3>Novo Hair</h3>
+              <p>[FALTA: tipo de proyecto]</p>
+              <p class="caso-dato"><strong>100</strong> en rendimiento y <strong>100</strong> en SEO (Google PageSpeed, computadora)</p>
+              <p>[FALTA: testimonio]</p>
+            </div>
+          </li>
+          <li class="caso tarjeta">
+            <img src="../assets/img/clientes/talar-maderas-desktop.webp" alt="Web de Talar Maderas en la computadora" width="1280" height="800" loading="lazy" decoding="async">
+            <div class="caso-texto">
+              <h3>Talar Maderas</h3>
+              <p>[FALTA: tipo de proyecto]</p>
+              <p class="caso-dato"><strong>99</strong> en rendimiento (Google PageSpeed, computadora)</p>
+              <p class="caso-dato"><strong>100%</strong> de las URLs de la web anterior conservadas</p>
+              <p>[FALTA: testimonio]</p>
+            </div>
+          </li>
+          <li class="caso tarjeta">
+            <img src="../assets/img/clientes/atr-desktop.webp" alt="Web de ATR en la computadora" width="1280" height="800" loading="lazy" decoding="async">
+            <div class="caso-texto">
+              <h3>ATR</h3>
+              <p>[FALTA: tipo de proyecto]</p>
+              <p class="caso-dato"><strong>100</strong> en rendimiento y <strong>100</strong> en SEO (Google PageSpeed, computadora)</p>
+              <p>[FALTA: testimonio]</p>
+            </div>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -215,6 +405,8 @@
   <script src="../assets/js/interfaz.js" defer></script>
   <script src="../assets/js/entradas.js" defer></script>
   <script src="../assets/js/servicio.js" defer></script>
+  <script src="../assets/js/dispositivos.js" defer></script>
   <script src="../assets/js/particulas-servicio.js" defer></script>
+  <script src="../assets/js/pagina-desarrollo-web.js" defer></script>
 </body>
 </html>

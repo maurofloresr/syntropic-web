@@ -4,7 +4,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c. En curso: d.**
+- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c, d. En curso: e.**
 - Decisiones para revisar (tanda del 24/11):
   - Entradas suaves: solo se animan los textos y botones que están debajo de la pantalla al cargar. El hero queda quieto (así no demora la carga ni parpadea). Los h2 de la cadena de bytes no se tocan: los maneja el sistema de partículas. Fundido y subida de 18 px en 0,75 s; los grupos (píldoras, bloques, preguntas) entran de a uno cada 0,08 s.
   - Formulario:
@@ -106,9 +106,20 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
     - Textos por confirmar: recuadro punteado con el detalle, visible solo en localhost o en la red local. En la web publicada no se nota.
     - Transición entre páginas: el nombre va en el contenido del menú y no en el menú entero (si no, el vidrio esmerilado deja de desenfocar).
     - Los links del menú de las páginas nuevas van a las páginas; los de la landing se cambian en el paso g.
+  - /desarrollo-web:
+    - "La web se arma sola" arranca cuando las pantallas se ven (en la compu al cargar; en el celu, apenas asoman) y dura unos 2,3 s. Los bytes que caen son elementos de la página y no del canvas, porque el canvas va detrás del contenido y la pantalla de la notebook lo taparía.
+    - En el hero, desde tablet, la tarjeta del puntaje va debajo de la notebook (en la landing tapa parte del título de la web del cliente). La landing no cambió.
+    - En el hero quedan los nombres de los clientes para cambiar la pantalla, sin el rótulo; "Ya confiaron en nosotros" va en la franja de abajo con los puntajes.
+    - Texto que explica PageSpeed, escrito por mí (la especificación pedía uno): "PageSpeed es la herramienta gratuita de Google que mide qué tan rápido carga una web y le pone una nota de 0 a 100. Estas son las notas de webs que hicimos."
+    - "Carga ultra rápida." va sin texto debajo, como en la especificación. Tiendanube: "Tienda online en Tiendanube" / "Como partners oficiales." (a confirmar).
+    - Botón repetido de la mitad de la página: "Quiero mi web" al final de Velocidad.
+    - Cada caso muestra "[FALTA: tipo de proyecto]": no lo inventé.
+    - Los puntajes son siempre los de computadora y lo dicen al lado.
+    - `secciones.js` se partió: lo de Desarrollo web pasó a `dispositivos.js`, que usan la landing y esta página. La landing se comporta igual.
 
 ## Pendiente
 
+- /desarrollo-web [FALTA]: definición de "web básica", tipo de proyecto de cada caso, testimonios, permiso de cada cliente. [CONFIRMAR]: si se nombra Canva, tarjeta de Tiendanube.
 - Unificar `particulas-servicio.js` con `particulas.js` cuando Mauro apruebe la galaxia.
 - Páginas de servicio [CONFIRMAR]: pasos de "Cómo trabajamos" de las tres y si se muestran plazos en Desarrollo web.
 - Páginas de servicio [FALTA]: respuestas de las preguntas frecuentes de las tres.
@@ -121,6 +132,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 24/11: Fase 7, página /desarrollo-web completa (hero "la web se arma sola", confianza, problema, qué incluye, $0 de mantenimiento, velocidad, cómo trabajamos, casos, preguntas, formulario con Desarrollo web marcado, también hacemos). Datos con fuente verificados contra la investigación y links probados. Probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo: igual que antes. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, base común: plantilla de las tres páginas (menú, hero con h1 que se forma con bytes, constelación de "Cómo trabajamos", preguntas, HABLEMOS con bytes y formulario, "También hacemos", footer), canvas liviano y transición entre páginas. Las tres páginas ya existen con esas secciones. Probado en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores ni scroll horizontal, un solo h1 y un h2 por sección. Transición entre páginas verificada (con movimiento reducido no corre). Landing recorrida entera de nuevo en los mismos casos: igual que antes. No probado en un celu real.
 - 24/11: Fase 4, pasos 1 a 3 y 5: formulario completo por pasos (sección "Formulario completo" de `paginas-servicio.md`) como un solo componente. Probado en la landing con las 7 combinaciones de servicios en 390 y 1440, y con los tres servicios en 768, 1024 y 1920: no avanza sin completar, vuelve atrás, muestra la pantalla de gracias y deja las respuestas en un objeto listo para enviar. Botones de las secciones y `?servicio=` marcan bien. Landing recorrida entera en los cinco anchos, con movimiento reducido y sin JavaScript: sin errores (solo falta el favicon) ni scroll horizontal. No probado en un celu real (teclado en pantalla).
 - 24/11: Fase 3, paso 4: entradas suaves de textos y botones (reutilizables: atributo `data-entrada`). Nuevos `utiles.js` (funciones de ayuda compartidas, salieron de `secciones.js`) y `entradas.js`. Probado con Chrome en 390x844, 768x1024, 1024x768, 1440x900, 1920x1080, con movimiento reducido (390 y 1440) y sin JavaScript (390): landing entera recorrida, sin errores de consola (solo falta el favicon), sin scroll horizontal y nada queda escondido. No probado en un celu real.
