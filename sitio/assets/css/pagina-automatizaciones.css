@@ -1,0 +1,523 @@
+/* ==========================================================================
+   Syntropic: página Automatizaciones
+   El lienzo, los nodos y la fila de logos salen de componentes.css y
+   secciones.css. Mobile first (390 px).
+   ========================================================================== */
+
+/* --- Hilo conductor (pagina-automatizaciones.js) ---
+   Un cable por la izquierda de toda la página. En mobile, pegado al borde. */
+.hilo {
+  --hilo-x: 9px;
+  position: absolute;
+  inset: 0 auto 0 var(--hilo-x);
+  width: 0;
+  pointer-events: none;
+}
+
+.hilo-cable,
+.hilo-luz {
+  position: absolute;
+  inset: 0 auto 0 -0.5px;
+  width: 1px;
+  background-color: var(--celeste);
+  transform-origin: 50% 0;
+}
+
+.hilo-cable { opacity: 0.22; }
+
+.hilo-luz {
+  transform: scaleY(0);
+  opacity: 0.85;
+  box-shadow: 0 0 8px rgba(71, 173, 255, 0.8);
+}
+
+.hilo-punto {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--blanco);
+  box-shadow: 0 0 12px 4px rgba(71, 173, 255, 0.85);
+}
+
+.hilo.quieto .hilo-punto { display: none; }
+
+.hilo-nodo {
+  position: absolute;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  border: 1.5px solid rgba(71, 173, 255, 0.5);
+}
+
+.hilo-nodo::before,
+.hilo-nodo::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.hilo-nodo::before {
+  background-color: var(--celeste);
+  box-shadow: 0 0 14px 2px rgba(71, 173, 255, 0.8);
+  transition: opacity 0.4s ease;
+}
+
+.hilo-nodo::after { border: 1.5px solid var(--celeste); }
+
+.hilo-nodo.encendido::before { opacity: 1; }
+.hilo-nodo.encendido::after { animation: hilo-late 0.9s ease-out; }
+
+@keyframes hilo-late {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(3.6); }
+}
+
+@media (min-width: 768px) {
+  .hilo { --hilo-x: max(18px, calc((100vw - var(--ancho-max)) / 2 - 8px)); }
+  .hilo-nodo { width: 17px; height: 17px; margin: -8.5px 0 0 -8.5px; }
+}
+
+/* En mobile el texto deja lugar al hilo */
+@media (max-width: 767px) {
+  .servicio-auto main .contenedor { padding-left: 28px; }
+}
+
+/* --- Hero: lienzo interactivo --- */
+.hero-auto {
+  background-image: radial-gradient(rgba(71, 173, 255, 0.1) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.hero-lienzo { margin-top: 3rem; }
+
+.hero-lienzo .lienzo { margin-top: 1.5rem; }
+
+.hero-lienzo-consigna {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.hero-lienzo-consigna .chip-ejemplo { font-weight: 400; }
+
+button.nodo {
+  width: 100%;
+  color: var(--blanco);
+  text-align: left;
+  cursor: pointer;
+}
+
+button.nodo:hover { border-color: var(--celeste); }
+
+/* Un disparador elegido: él y sus acciones prendidos, lo demás apagado */
+.lienzo button.nodo[aria-pressed="true"],
+.lienzo .nodo.elegido {
+  border-color: var(--celeste);
+  box-shadow: 0 0 22px rgba(71, 173, 255, 0.45);
+}
+
+.js .lienzo.visible .nodo { transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease; }
+.js .lienzo.visible.eligiendo .nodo { transition-delay: 0s; }
+.js .lienzo.visible.eligiendo .nodos-acciones .nodo:not(.elegido) { opacity: 0.32; }
+.js .lienzo.visible.eligiendo .nodos-disparadores .nodo[aria-pressed="false"] { opacity: 0.7; }
+.lienzo-cables g { transition: opacity 0.5s ease; }
+.lienzo-cables g.apagado { opacity: 0.2; }
+
+@media (min-width: 768px) {
+  .hero-auto .hero-servicio-texto { align-items: center; text-align: center; }
+  .hero-auto .hero-servicio-botones { justify-content: center; }
+  .hero-lienzo-consigna { justify-content: center; }
+}
+
+@media (min-width: 1024px) {
+  .hero-auto { padding-top: calc(var(--altura-menu) + 40px); }
+  .hero-auto h1 { font-size: clamp(2.25rem, 4.4vw, 4rem); }
+  .hero-lienzo { margin-top: 2.5rem; }
+  .hero-lienzo .lienzo { margin-top: 1rem; }
+  .hero-lienzo .nodos { gap: 0.625rem; }
+  .hero-lienzo .nodo { padding-block: 0.625rem; }
+}
+
+/* --- El problema --- */
+.problema-texto { font-weight: 500; }
+
+.tarjeta .problema-texto {
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  color: var(--blanco);
+}
+
+@media (min-width: 768px) {
+  .tarjeta .problema-texto { font-size: 1.125rem; }
+}
+
+.pila { margin-top: 2.5rem; }
+
+.pila-contador {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: var(--celeste-claro);
+}
+
+.pila-numero {
+  font-family: var(--fuente-titulos);
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--blanco);
+  font-variant-numeric: tabular-nums;
+}
+
+.pila-cancha {
+  position: relative;
+  height: 220px;
+  margin-top: 1rem;
+}
+
+.pila-tarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--navy);
+  background-image: linear-gradient(var(--vidrio-fondo), var(--vidrio-fondo));
+  border: 1px solid var(--vidrio-borde);
+}
+
+.pila-tarea .icono { width: 22px; height: 22px; color: var(--celeste-claro); }
+
+.pila-tarea::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--celeste);
+  border-radius: inherit;
+  box-shadow: 0 0 18px rgba(71, 173, 255, 0.5);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.pila-tarea.ordenada::after { opacity: 1; }
+
+/* El pulso entra desde el hilo conductor */
+.pila-cable {
+  position: absolute;
+  top: 50%;
+  left: -19px;
+  right: 0;
+  height: 1px;
+  background-color: var(--celeste);
+  opacity: 0.7;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.pila-pulso {
+  position: absolute;
+  top: calc(50% - 6px);
+  left: -6px;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--blanco);
+  box-shadow: 0 0 16px 6px rgba(71, 173, 255, 0.85);
+  opacity: 0;
+}
+
+@media (min-width: 768px) {
+  .pila-cable { left: calc(-1 * (var(--margen-lateral) + 8px)); }
+  .pila-tarea { width: 52px; height: 52px; }
+  .pila-tarea .icono { width: 26px; height: 26px; }
+}
+
+/* --- Recorridos: nodos unidos por un cable --- */
+.recorrido { position: relative; }
+
+.recorrido-dibujo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.recorrido-cables { width: 100%; height: 100%; overflow: visible; }
+
+.recorrido-cable {
+  fill: none;
+  stroke: rgba(71, 173, 255, 0.5);
+  stroke-width: 1.5;
+}
+
+.recorrido-punto {
+  fill: var(--blanco);
+  filter: drop-shadow(0 0 6px rgba(71, 173, 255, 1));
+}
+
+.cadena { display: grid; gap: 1.75rem; }
+
+.cadena .tarjeta.con-pulso::after { opacity: 1; transition-duration: 0.15s; }
+
+@media (max-width: 1023px) {
+  .cadena .tarjeta { display: flex; align-items: center; gap: 1rem; }
+  .cadena .tarjeta > .icono { margin: 0; }
+}
+
+@media (min-width: 1024px) {
+  .cadena { grid-template-columns: repeat(5, 1fr); gap: 1.75rem; }
+  .cadena .tarjeta h3 { font-size: 1.0625rem; }
+}
+
+/* --- Lo que no tiene límite --- */
+.limite { overflow: clip; border-block: 1px solid rgba(71, 173, 255, 0.14); }
+
+.limite .contenedor { position: relative; }
+
+/* El centro se oscurece apenas para que el texto se lea sobre la red */
+.limite .contenedor::before {
+  content: "";
+  position: absolute;
+  inset: -15% 0;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(11, 21, 36, 0.92) 45%, rgba(11, 21, 36, 0));
+}
+
+.limite .contenedor { z-index: 1; }
+
+.limite-red { position: absolute; inset: 0; }
+.limite-red svg { width: 100%; height: 100%; }
+
+.red-punto {
+  fill: var(--celeste);
+  transform: translate(var(--dx), var(--dy));
+  opacity: 0.4;
+  transition: transform 1.3s cubic-bezier(0.3, 0.1, 0.2, 1), opacity 1s ease;
+  transition-delay: calc(var(--orden) * 12ms);
+}
+
+.red-linea {
+  fill: none;
+  stroke: var(--celeste);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.45;
+  transition: stroke-dashoffset 0.9s ease-in-out;
+  transition-delay: calc(1.1s + var(--orden) * 22ms);
+}
+
+.limite-red.unida .red-punto { transform: none; opacity: 1; }
+.limite-red.unida .red-linea { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .red-punto { transform: none; opacity: 1; transition-delay: 0s; }
+  .red-linea { stroke-dashoffset: 0; transition-delay: 0s; }
+}
+
+/* --- Beneficios: cada nodo recibe un pulso por su cable --- */
+.beneficios-lista { display: grid; gap: 1.25rem; }
+
+.beneficio {
+  --largo: calc(1.25rem + var(--i) * 0.75rem);
+  display: flex;
+  align-items: center;
+}
+
+.beneficio-cable {
+  position: relative;
+  flex: 0 0 calc(var(--largo) + 19px);
+  height: 1px;
+  margin-left: -19px;
+  overflow: visible;
+  background-color: rgba(71, 173, 255, 0.45);
+}
+
+/* El tramo que se mueve mide lo mismo que el cable: con translateX va de
+   punta a punta, y la luz está en su extremo derecho */
+.beneficio-cable::before {
+  content: "";
+  position: absolute;
+  inset: -4px 0;
+  background: radial-gradient(circle at calc(100% - 4px) 50%, #FFFFFF 0 2.5px, rgba(71, 173, 255, 0.8) 3px, rgba(71, 173, 255, 0) 8px);
+  opacity: 0;
+}
+
+.beneficio-nodo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  border: 1px solid var(--vidrio-borde);
+}
+
+.beneficio-nodo::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--celeste);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 64, 255, 0.55), rgba(0, 64, 255, 0.1));
+  box-shadow: 0 0 26px rgba(71, 173, 255, 0.6);
+  opacity: 0;
+}
+
+.beneficio-nodo .icono { position: relative; z-index: 1; width: 26px; height: 26px; stroke-width: 1.75; }
+
+.beneficio p {
+  margin-left: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.js .beneficio p { opacity: 0.35; transition: opacity 0.6s ease 0.7s; }
+.js .beneficio.visible p { opacity: 1; }
+
+.beneficios-lista.en-vista .beneficio.visible .beneficio-cable::before {
+  animation: beneficio-viaje 4.5s linear infinite;
+  animation-delay: calc(var(--i) * 0.45s);
+}
+
+.beneficios-lista.en-vista .beneficio.visible .beneficio-nodo::after {
+  animation: beneficio-brilla 4.5s ease infinite;
+  animation-delay: calc(var(--i) * 0.45s);
+}
+
+@keyframes beneficio-viaje {
+  0% { transform: translateX(-100%); opacity: 0; }
+  2% { opacity: 1; }
+  18% { transform: translateX(0); opacity: 1; }
+  20%, 100% { transform: translateX(0); opacity: 0; }
+}
+
+@keyframes beneficio-brilla {
+  0%, 17% { opacity: 0; }
+  24% { opacity: 1; }
+  70%, 100% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beneficios-lista .beneficio-nodo::after { opacity: 0.8; animation: none !important; }
+  .js .beneficio p { opacity: 1; }
+  .beneficio-cable::before { animation: none !important; }
+}
+
+@media (min-width: 768px) {
+  .beneficio { --largo: calc(3rem + var(--i) * 4.5rem); }
+  .beneficio-cable { flex-basis: calc(var(--largo) + var(--margen-lateral) + 8px); margin-left: calc(-1 * (var(--margen-lateral) + 8px)); }
+  .beneficio-nodo { width: 72px; height: 72px; }
+  .beneficio-nodo .icono { width: 32px; height: 32px; }
+  .beneficio p { margin-left: 1.5rem; font-size: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .beneficio { --largo: calc(3rem + var(--i) * 7rem); }
+}
+
+/* --- Vos seguís al mando --- */
+.mando-flujo .chip-ejemplo { margin-bottom: 1rem; }
+
+.cadena-flujo .nodo {
+  position: relative;
+  min-height: 64px;
+}
+
+.cadena-flujo .nodo::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--celeste);
+  border-radius: inherit;
+  box-shadow: 0 0 22px rgba(71, 173, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.cadena-flujo .nodo.con-pulso::after { opacity: 1; transition-duration: 0.15s; }
+
+.nodo-revision.titila::after { animation: titila 0.55s ease-in-out infinite alternate; }
+
+@keyframes titila {
+  from { opacity: 0.15; }
+  to { opacity: 1; }
+}
+
+.nodo-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border-radius: 50%;
+  background-color: var(--azul);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.2, 1.8, 0.4, 1);
+}
+
+.nodo .nodo-check .icono { width: 16px; height: 16px; color: var(--blanco); stroke-width: 3; }
+.nodo-revision.aprobado .nodo-check { opacity: 1; transform: none; }
+
+.mando-lista { margin-top: 3rem; }
+
+@media (min-width: 768px) {
+  .mando-lista { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .cadena-flujo { grid-template-columns: 1.1fr 0.6fr 1.25fr 1.2fr; gap: 3rem; align-items: center; }
+}
+
+/* --- Se conecta con todo: una ola de luz recorre los logos --- */
+.conexiones .conectamos { margin-top: 0; }
+
+.conexiones .conectamos-lista { max-width: 60rem; margin-inline: auto; }
+.conexiones .conectamos-con-nombre { white-space: nowrap; }
+
+@media (min-width: 768px) {
+  .conexiones .conectamos-lista { gap: 2.25rem 3rem; }
+
+  .conectamos-lista.en-vista > li { animation: ola 4.8s ease-in-out infinite; }
+  .conectamos-lista.en-vista > li:nth-child(2) { animation-delay: 0.15s; }
+  .conectamos-lista.en-vista > li:nth-child(3) { animation-delay: 0.3s; }
+  .conectamos-lista.en-vista > li:nth-child(4) { animation-delay: 0.45s; }
+  .conectamos-lista.en-vista > li:nth-child(5) { animation-delay: 0.6s; }
+  .conectamos-lista.en-vista > li:nth-child(6) { animation-delay: 0.75s; }
+  .conectamos-lista.en-vista > li:nth-child(7) { animation-delay: 0.9s; }
+  .conectamos-lista.en-vista > li:nth-child(8) { animation-delay: 1.05s; }
+  .conectamos-lista.en-vista > li:nth-child(9) { animation-delay: 1.2s; }
+  .conectamos-lista.en-vista > li:nth-child(10) { animation-delay: 1.35s; }
+  .conectamos-lista.en-vista > li:nth-child(11) { animation-delay: 1.5s; }
+  .conectamos-lista.en-vista > li:nth-child(12) { animation-delay: 1.65s; }
+  .conectamos-lista.en-vista > li:nth-child(13) { animation-delay: 1.8s; }
+  .conectamos-lista.en-vista > li:nth-child(14) { animation-delay: 1.95s; }
+  .conectamos-lista.en-vista > li:nth-child(15) { animation-delay: 2.1s; }
+}
+
+@keyframes ola {
+  0%, 22%, 100% { transform: none; }
+  8% { transform: translateY(-7px) scale(1.08); }
+}

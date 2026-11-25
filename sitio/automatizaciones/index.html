@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../assets/css/secciones.css">
   <link rel="stylesheet" href="../assets/css/formulario.css">
   <link rel="stylesheet" href="../assets/css/servicio.css">
+  <link rel="stylesheet" href="../assets/css/pagina-automatizaciones.css">
   <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -54,6 +55,203 @@
           <a class="boton boton-seccion" href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
           </div>
         </div>
+
+        <!-- Animación firma: lienzo interactivo. Es el de la landing (lienzo.js); acá los
+             disparadores son botones y data-enciende dice qué acciones prende cada uno. -->
+        <div class="hero-lienzo a-confirmar" data-confirmar="qué acciones enciende cada disparador">
+          <p class="hero-lienzo-consigna"><span>Elegí qué pasa en tu negocio</span> <span class="chip-ejemplo">Ejemplo</span></p>
+          <p class="sr-only lienzo-aviso" aria-live="polite"></p>
+
+          <div class="lienzo" data-interactivo>
+            <svg class="lienzo-cables" aria-hidden="true" focusable="false"></svg>
+            <ul class="nodos nodos-disparadores" aria-label="Lo que pasa en el negocio">
+              <li>
+                <button class="nodo" type="button" aria-pressed="false" data-enciende="0,1">
+                  <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-whatsapp"></use></svg>
+                  <span class="nodo-texto"><strong>WhatsApp</strong> <span>Un cliente escribe</span></span>
+                </button>
+              </li>
+              <li>
+                <button class="nodo" type="button" aria-pressed="false" data-enciende="2,4">
+                  <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-globe"></use></svg>
+                  <span class="nodo-texto"><strong>Formulario web</strong> <span>Llega una consulta</span></span>
+                </button>
+              </li>
+              <li>
+                <button class="nodo" type="button" aria-pressed="false" data-enciende="3,4">
+                  <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shopping-bag"></use></svg>
+                  <span class="nodo-texto"><strong>Tienda online</strong> <span>Entra una venta</span></span>
+                </button>
+              </li>
+            </ul>
+
+            <div class="nodo-central">
+              <div class="nodo-central-circulo">
+                <img src="../assets/img/isologo-blanco.webp" alt="Syntropic" width="800" height="815">
+              </div>
+              <p>IA que entiende y decide</p>
+            </div>
+
+            <ul class="nodos nodos-acciones" aria-label="Lo que se hace solo">
+              <li class="nodo">
+                <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-whatsapp"></use></svg>
+                <span class="nodo-texto"><strong>Responde al instante</strong> <span>WhatsApp</span></span>
+              </li>
+              <li class="nodo">
+                <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-calendar"></use></svg>
+                <span class="nodo-texto"><strong>Agenda el turno</strong> <span>Google Calendar</span></span>
+              </li>
+              <li class="nodo">
+                <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-gmail"></use></svg>
+                <span class="nodo-texto"><strong>Envía el presupuesto</strong> <span>Gmail</span></span>
+              </li>
+              <li class="nodo">
+                <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg>
+                <span class="nodo-texto"><strong>Carga la venta</strong> <span>Google Sheets</span></span>
+              </li>
+              <li class="nodo">
+                <svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bell"></use></svg>
+                <span class="nodo-texto"><strong>Avisa a tu equipo</strong> <span>Notificación</span></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== El problema ===================== -->
+    <section id="problema" class="seccion problema" aria-labelledby="titulo-problema">
+      <div class="contenedor">
+        <h2 id="titulo-problema" data-entrada>¿Cuánto tiempo te comen <span class="titulo-linea-2">las tareas repetidas?</span></h2>
+
+        <ul class="grilla grilla-2" data-entrada="grupo">
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-copy"></use></svg><p class="problema-texto">Copiás datos de WhatsApp a una planilla.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-repeat"></use></svg><p class="problema-texto">Respondés las mismas preguntas todos los días.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-calendar-x"></use></svg><p class="problema-texto">Se te pasa un turno, un pago o un pedido.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-triangle-alert"></use></svg><p class="problema-texto">Un error de carga te cuesta tiempo o plata.</p></li>
+        </ul>
+
+        <!-- Las tareas se apilan desordenadas; al final el pulso las ordena en fila
+             (pagina-automatizaciones.js). Decorativa: lo importante está en las tarjetas. -->
+        <div class="pila" aria-hidden="true">
+          <p class="pila-contador"><span>Tareas a mano</span> <strong class="pila-numero">0</strong></p>
+          <div class="pila-cancha">
+            <span class="pila-cable"></span>
+            <span class="pila-pulso"></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-whatsapp"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-mail"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-receipt"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-calendar"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-instagram"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-copy"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shopping-bag"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bell"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-wallet"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg></span>
+            <span class="pila-tarea"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-repeat"></use></svg></span>
+          </div>
+        </div>
+
+        <p class="dato" data-entrada>En una encuesta de Zapier a pymes, el 55% dijo tener tareas repetitivas pendientes de automatizar. Es una encuesta hecha por un proveedor, no un censo. Fuente: <a href="https://zapier.com/blog/ai-governance-for-small-teams/" target="_blank" rel="noopener">Zapier</a>.</p>
+      </div>
+    </section>
+
+    <!-- ===================== Qué incluye ===================== -->
+    <section id="que-incluye" class="seccion incluye" aria-labelledby="titulo-que-incluye">
+      <div class="contenedor">
+        <h2 id="titulo-que-incluye" data-entrada>De tu idea <span class="titulo-linea-2">a que funcione sola</span></h2>
+
+        <!-- Nodos unidos por un cable; el pulso los recorre del primero al último -->
+        <ol class="cadena recorrido" data-recorrido>
+          <li class="tarjeta" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-message-circle"></use></svg><h3>Entendemos tu proceso</h3></li>
+          <li class="tarjeta" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-search"></use></svg><h3>Encontramos la mejor herramienta para vos</h3></li>
+          <li class="tarjeta" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-lightbulb"></use></svg><h3>Creamos la solución a lo que necesitás</h3></li>
+          <li class="tarjeta" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-plug"></use></svg><h3>La implementamos</h3></li>
+          <li class="tarjeta" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-users"></use></svg><h3>Te ayudamos a implementarla con tu equipo</h3></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== Lo que no tiene límite ===================== -->
+    <section id="sin-limite" class="seccion limite centrada" aria-labelledby="titulo-sin-limite">
+      <div class="limite-red" aria-hidden="true"></div>
+      <div class="contenedor">
+        <h2 id="titulo-sin-limite" data-entrada>Si tenés una idea, <span class="titulo-linea-2">la llevamos a cabo</span></h2>
+        <p class="seccion-texto" data-entrada>Lo que buscás no tiene límite: si se puede conectar, lo automatizamos.</p>
+        <a class="boton boton-seccion boton-medio" data-entrada href="#contacto" data-servicio="automatizaciones">Automatizar mi negocio</a>
+      </div>
+    </section>
+
+    <!-- ===================== Beneficios ===================== -->
+    <section id="beneficios" class="seccion beneficios" aria-labelledby="titulo-beneficios">
+      <div class="contenedor">
+        <h2 id="titulo-beneficios" data-entrada>Más tiempo, <span class="titulo-linea-2">menos errores</span></h2>
+
+        <!-- Cada beneficio es un nodo que recibe un pulso por su cable -->
+        <ul class="beneficios-lista">
+          <li class="beneficio" style="--i: 0"><span class="beneficio-cable" aria-hidden="true"></span><span class="beneficio-nodo"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-timer"></use></svg></span><p>Te ahorra tiempo</p></li>
+          <li class="beneficio" style="--i: 1"><span class="beneficio-cable" aria-hidden="true"></span><span class="beneficio-nodo"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-layers"></use></svg></span><p>Te organiza</p></li>
+          <li class="beneficio" style="--i: 2"><span class="beneficio-cable" aria-hidden="true"></span><span class="beneficio-nodo"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-shield-check"></use></svg></span><p>Evita errores humanos</p></li>
+          <li class="beneficio" style="--i: 3"><span class="beneficio-cable" aria-hidden="true"></span><span class="beneficio-nodo"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-clock"></use></svg></span><p>Trabaja las 24 horas</p></li>
+          <li class="beneficio" style="--i: 4"><span class="beneficio-cable" aria-hidden="true"></span><span class="beneficio-nodo"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-waypoints"></use></svg></span><p>Se conecta con todo</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== Vos seguís al mando ===================== -->
+    <section id="al-mando" class="seccion mando" aria-labelledby="titulo-al-mando">
+      <div class="contenedor">
+        <h2 id="titulo-al-mando" data-entrada>La IA ayuda, <span class="titulo-linea-2">vos decidís</span></h2>
+
+        <!-- El pulso se frena en "Revisión humana", titila, aparece el check y sigue -->
+        <div class="mando-flujo">
+          <p class="chip-ejemplo">Ejemplo</p>
+          <ol class="cadena cadena-flujo recorrido" data-recorrido>
+            <li class="nodo" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-globe"></use></svg><span class="nodo-texto"><strong>Llega una consulta</strong></span></li>
+            <li class="nodo" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bot"></use></svg><span class="nodo-texto"><strong>IA</strong></span></li>
+            <li class="nodo nodo-revision" data-nodo data-frena="2200"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-user-check"></use></svg><span class="nodo-texto"><strong>Revisión humana</strong></span><span class="nodo-check"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-check"></use></svg></span></li>
+            <li class="nodo" data-nodo><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-gmail"></use></svg><span class="nodo-texto"><strong>Envía el presupuesto</strong></span></li>
+          </ol>
+        </div>
+
+        <ul class="grilla grilla-3 mando-lista a-confirmar" data-confirmar="que ofrecemos alertas, aprobación humana y registros" data-entrada="grupo">
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-bell"></use></svg><p class="problema-texto">Si algo falla, el sistema avisa.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-user-check"></use></svg><p class="problema-texto">Las acciones sensibles piden tu aprobación.</p></li>
+          <li class="tarjeta"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-history"></use></svg><p class="problema-texto">Queda registro de lo que pasó.</p></li>
+        </ul>
+
+        <p class="dato" data-entrada>Se basa en el principio jidoka de Toyota: frenar el proceso ante algo fuera de lo normal y dejar que intervenga una persona. Fuente: <a href="https://global.toyota/en/company/vision-and-philosophy/production-system/" target="_blank" rel="noopener">Toyota Production System</a>.</p>
+      </div>
+    </section>
+
+    <!-- ===================== Se conecta con todo ===================== -->
+    <section id="conexiones" class="seccion conexiones centrada" aria-labelledby="titulo-conexiones">
+      <div class="contenedor">
+        <h2 id="titulo-conexiones" data-entrada>Se conecta <span class="titulo-linea-2">con todo</span></h2>
+
+        <div class="conectamos" data-entrada>
+          <div class="conectamos-marquesina">
+            <ul class="conectamos-lista">
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-whatsapp"></use></svg><span class="sr-only">WhatsApp</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-gmail"></use></svg><span class="sr-only">Gmail</span></li>
+              <li class="conectamos-con-nombre"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-calendar"></use></svg><span>Google Calendar</span></li>
+              <li class="conectamos-con-nombre"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg><span>Google Sheets</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-mercadopago"></use></svg><span class="sr-only">Mercado Pago</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-instagram"></use></svg><span class="sr-only">Instagram</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-facebook"></use></svg><span class="sr-only">Facebook</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-notion"></use></svg><span class="sr-only">Notion</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-googledrive"></use></svg><span class="sr-only">Google Drive</span></li>
+              <li class="conectamos-con-nombre"><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-file-spreadsheet"></use></svg><span>Excel</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-make"></use></svg><span class="sr-only">Make</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-airtable"></use></svg><span class="sr-only">Airtable</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-calendly"></use></svg><span class="sr-only">Calendly</span></li>
+              <li><svg class="icono" aria-hidden="true"><use href="../assets/img/iconos.svg#i-trello"></use></svg><span class="sr-only">Trello</span></li>
+              <li><svg class="icono icono-ancho" aria-hidden="true"><use href="../assets/img/iconos.svg#i-zoom"></use></svg><span class="sr-only">Zoom</span></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -87,6 +285,16 @@
         </ol>
       </div>
     </section>
+
+    <!-- ===================== Casos reales =====================
+         No se muestra hasta tener casos de automatización con permiso del cliente.
+         [FALTA: casos reales de automatización]
+    <section id="casos" class="seccion casos" aria-labelledby="titulo-casos">
+      <div class="contenedor">
+        <h2 id="titulo-casos">Casos <span class="titulo-linea-2">reales</span></h2>
+      </div>
+    </section>
+    -->
 
     <!-- ===================== Preguntas frecuentes ===================== -->
     <section id="preguntas-frecuentes" class="seccion faq" aria-labelledby="titulo-preguntas-frecuentes">
@@ -202,6 +410,8 @@
   <script src="../assets/js/interfaz.js" defer></script>
   <script src="../assets/js/entradas.js" defer></script>
   <script src="../assets/js/servicio.js" defer></script>
+  <script src="../assets/js/lienzo.js" defer></script>
   <script src="../assets/js/particulas-servicio.js" defer></script>
+  <script src="../assets/js/pagina-automatizaciones.js" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c, d. En curso: e.**
+- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c, d, e. En curso: f.**
 - Decisiones para revisar (tanda del 24/11):
   - Entradas suaves: solo se animan los textos y botones que están debajo de la pantalla al cargar. El hero queda quieto (así no demora la carga ni parpadea). Los h2 de la cadena de bytes no se tocan: los maneja el sistema de partículas. Fundido y subida de 18 px en 0,75 s; los grupos (píldoras, bloques, preguntas) entran de a uno cada 0,08 s.
   - Formulario:
@@ -116,9 +116,20 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
     - Cada caso muestra "[FALTA: tipo de proyecto]": no lo inventé.
     - Los puntajes son siempre los de computadora y lo dicen al lado.
     - `secciones.js` se partió: lo de Desarrollo web pasó a `dispositivos.js`, que usan la landing y esta página. La landing se comporta igual.
+  - /automatizaciones:
+    - Lienzo interactivo: al tocar un disparador la luz recorre y se repite; se suelta tocándolo de nuevo, eligiendo otro o a los 14 segundos (vuelve el loop normal). Para lectores de pantalla se anuncia qué acciones se encienden. Con movimiento reducido se marcan directo, sin luz viajando.
+    - El hilo conductor va en todas las secciones, incluidas preguntas, formulario y "También hacemos". El punto arranca arriba de la pantalla y enseguida queda a la mitad. En mobile los textos dejan 8 px más a la izquierda para el cable.
+    - Pila de tareas: 12 íconos; el contador sube hasta 12 mientras caen y baja a 0 mientras el pulso los ordena (cuenta los íconos que se ven, no es un dato). En mobile quedan en dos filas.
+    - "La IA ayuda, vos decidís": el flujo de ejemplo usa textos ya aprobados ("Llega una consulta", "Envía el presupuesto") más "IA" y "Revisión humana".
+    - Textos que armé con lo de la especificación: "Es una encuesta hecha por un proveedor, no un censo." (Zapier) y "Se basa en el principio jidoka de Toyota: frenar el proceso ante algo fuera de lo normal y dejar que intervenga una persona." con link a Toyota.
+    - Título de la sección de logos: "SE CONECTA / CON TODO". Se sumaron WhatsApp, Gmail, Google Calendar y Google Sheets a los logos de "Y también conectamos". Google Calendar y Sheets con ícono de Lucide y el nombre al lado, como en los nodos.
+    - Botón repetido de la mitad de la página: "Automatizar mi negocio" en "Si tenés una idea, la llevamos a cabo".
+    - Casos reales: comentado en el HTML, no se muestra.
+    - `secciones.js` se partió de nuevo: el lienzo y la fila de logos pasaron a `lienzo.js`, que usan la landing y esta página. La landing se comporta igual.
 
 ## Pendiente
 
+- /automatizaciones [FALTA]: casos reales con permiso. [CONFIRMAR]: qué acciones enciende cada disparador; que ofrecemos alertas, aprobación humana y registros.
 - /desarrollo-web [FALTA]: definición de "web básica", tipo de proyecto de cada caso, testimonios, permiso de cada cliente. [CONFIRMAR]: si se nombra Canva, tarjeta de Tiendanube.
 - Unificar `particulas-servicio.js` con `particulas.js` cuando Mauro apruebe la galaxia.
 - Páginas de servicio [CONFIRMAR]: pasos de "Cómo trabajamos" de las tres y si se muestran plazos en Desarrollo web.
@@ -132,6 +143,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 24/11: Fase 7, página /automatizaciones completa (hilo conductor, lienzo interactivo, problema con pila de tareas, qué incluye con pulso, red, beneficios, revisión humana, conexiones, cómo trabajamos, preguntas, formulario con Automatizaciones marcado, también hacemos). Lienzo probado en 390, 1024 y 1440 (cada disparador enciende solo lo suyo y vuelve al loop) y con movimiento reducido. Página probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo y comparada con las fotos del principio: igual. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, página /desarrollo-web completa (hero "la web se arma sola", confianza, problema, qué incluye, $0 de mantenimiento, velocidad, cómo trabajamos, casos, preguntas, formulario con Desarrollo web marcado, también hacemos). Datos con fuente verificados contra la investigación y links probados. Probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo: igual que antes. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, base común: plantilla de las tres páginas (menú, hero con h1 que se forma con bytes, constelación de "Cómo trabajamos", preguntas, HABLEMOS con bytes y formulario, "También hacemos", footer), canvas liviano y transición entre páginas. Las tres páginas ya existen con esas secciones. Probado en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores ni scroll horizontal, un solo h1 y un h2 por sección. Transición entre páginas verificada (con movimiento reducido no corre). Landing recorrida entera de nuevo en los mismos casos: igual que antes. No probado en un celu real.
 - 24/11: Fase 4, pasos 1 a 3 y 5: formulario completo por pasos (sección "Formulario completo" de `paginas-servicio.md`) como un solo componente. Probado en la landing con las 7 combinaciones de servicios en 390 y 1440, y con los tres servicios en 768, 1024 y 1920: no avanza sin completar, vuelve atrás, muestra la pantalla de gracias y deja las respuestas en un objeto listo para enviar. Botones de las secciones y `?servicio=` marcan bien. Landing recorrida entera en los cinco anchos, con movimiento reducido y sin JavaScript: sin errores (solo falta el favicon) ni scroll horizontal. No probado en un celu real (teclado en pantalla).
