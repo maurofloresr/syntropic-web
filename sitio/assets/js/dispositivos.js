@@ -47,7 +47,8 @@
       });
     }
     alVer(dw, function (visible) {
-      if (visible) cuandoLibre(cargarCapturas);
+      // En /desarrollo-web, recién cuando la pantalla ya se prendió
+      if (visible) cuandoPrendida(function () { cuandoLibre(cargarCapturas); });
     }, '400px 0px');
 
     // Tarjeta del puntaje

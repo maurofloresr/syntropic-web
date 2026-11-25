@@ -4,7 +4,35 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
-- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrado hasta ahora: a, b, c, d, e, f. En curso: g.**
+### Resumen para Mauro (tanda del 24/11)
+
+Los siete pasos autorizados (a hasta g) están construidos, probados en Chrome y subidos. No queda ningún paso en curso. La galaxia del hero no se tocó: sigue esperando tu revisión.
+
+**Qué mirar** (servidor local: `python -m http.server 8000 --directory sitio --bind 0.0.0.0`, desde `web/`). En el celu (o a 390 px de ancho) y en la compu a 1440; si querés, también a 768 y 1024:
+
+1. `http://localhost:8000/`: las entradas suaves al bajar, los botones "Ver más" de cada sección, el menú y el footer (ahora van a las páginas) y el formulario completo.
+2. `http://localhost:8000/desarrollo-web/`: en el hero, "la web se arma sola" (recargá para verla de nuevo); las tarjetas del problema que se acomodan al scrollear; el $0.
+3. `http://localhost:8000/automatizaciones/`: tocá los tres disparadores del lienzo; bajá mirando el hilo de la izquierda y la pila de tareas.
+4. `http://localhost:8000/sistemas/`: las manos (provisorias) al cargar; los papeles que vuelan a la notebook; la demo; tocá los módulos y los roles.
+5. El formulario, de punta a punta, en cualquiera de las cuatro (al final avisa que todavía no se envía a ningún lado).
+
+Los recuadros punteados "A confirmar" se ven solo en localhost y en la red local.
+
+**Lo que no se pudo probar:** un celu real, Safari, Firefox y PageSpeed (la medición de Google necesita la web publicada). Medido acá con Chrome, celu simulado con la CPU frenada 4 veces y red lenta, archivos sin comprimir: las páginas nuevas muestran el texto principal entre 1,3 y 2,5 s (en /desarrollo-web la captura del celular llega a los 4 s, que va a bajar con los archivos comprimidos de la Fase 6). Compu: menos de 1,5 s. La landing, en ese mismo celu simulado, se traba alrededor de 1 segundo al cargar por la galaxia: conviene mirarlo en la Fase 5.
+
+**Lo que necesita tu respuesta (todo junto):**
+
+- Dominio (reemplaza `[FALTA-dominio]` en el sitemap y los datos estructurados), número de WhatsApp, mail, TikTok y Facebook.
+- Formulario: rangos de presupuesto; webhook de Make e ID del Pixel; si te cierran los títulos, avisos y el texto de gracias que puse.
+- Respuestas de las preguntas frecuentes: landing (5), Desarrollo web (8), Automatizaciones (5), Sistemas (6). Los datos estructurados FAQPage hoy dicen "[FALTA: respuesta de Mauro]": no publicar así.
+- Pasos de "Cómo trabajamos" de las tres páginas, y si en Desarrollo web se muestran plazos.
+- Desarrollo web: definición de "web básica"; si se nombra Canva; tarjeta de Tiendanube (partners oficiales); tipo de proyecto de cada caso; testimonios; permiso de Novo Hair, Talar Maderas y ATR.
+- Automatizaciones: qué acciones enciende cada disparador; si ofrecemos alertas, aprobación humana y registros; casos reales con permiso.
+- Sistemas: siluetas de las dos manos (diseñadora); frase sobre facturación flexible; funciones de Clientes y proveedores y de Compras; en qué módulo va "Varias monedas"; qué ve cada rol en el ejemplo de permisos; alcance de la capacitación; resultado medido o testimonio del caso real.
+- Revisar las "Decisiones para revisar" de abajo, y la galaxia.
+- Commitear tus archivos cuando quieras: `docs/paginas-servicio.md`, `docs/investigacion/`, `docs/roadmap.md` y `AGENTS.md` siguen sin subir (no los toqué).
+
+- **Tanda autorizada por Mauro el 24/11 (varias fases de corrido, sin esperar aprobación paso a paso).** Orden: a) Fase 3 paso 4; b) Fase 4 pasos 1 a 3 y 5; c) Fase 7 base común; d) /desarrollo-web; e) /automatizaciones; f) /sistemas; g) landing con "Ver más", menú, sitemap y datos estructurados. **Cerrada: los siete pasos.**
 - Decisiones para revisar (tanda del 24/11):
   - Entradas suaves: solo se animan los textos y botones que están debajo de la pantalla al cargar. El hero queda quieto (así no demora la carga ni parpadea). Los h2 de la cadena de bytes no se tocan: los maneja el sistema de partículas. Fundido y subida de 18 px en 0,75 s; los grupos (píldoras, bloques, preguntas) entran de a uno cada 0,08 s.
   - Formulario:
@@ -135,9 +163,16 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
     - Siempre con vos: texto armado con lo de la especificación: "En la computadora, la tablet o el celular. Tu equipo, cada uno con su usuario.". Los montos que cambian son de ejemplo y lo dicen.
     - Capacitación y Caso real no tenían animación en la especificación: puse un anillo que se llena con el birrete y dos tarjetas que pasan del desorden (torcida) al orden (encendida).
     - Botón repetido de la mitad de la página: "Quiero mi sistema" en Control 24/7.
+  - Landing y cierre (paso g):
+    - "Ver más" al lado del botón principal de cada sección (debajo en mobile), con borde y sin relleno.
+    - El menú y el footer de la landing ahora llevan a las páginas (antes bajaban a las secciones). "Contacto" sigue bajando al formulario. A las secciones se llega scrolleando o con "Scrolleá".
+    - `sitemap.xml` y datos estructurados con `[FALTA-dominio]` para reemplazar al publicar. La landing no lleva datos estructurados todavía (Organization y FAQPage son de la Fase 5).
+    - Rendimiento: el h1 de las páginas arranca al 0,4% de opacidad y no en cero. A la vista es igual, pero si no PageSpeed contaría la animación del título como demora de carga. En mobile no se bajan las capturas de la notebook.
 
 ## Pendiente
 
+- Datos estructurados y sitemap: reemplazar `[FALTA-dominio]` y no publicar con respuestas [FALTA].
+- Rendimiento de la landing en celus lentos (la galaxia traba la carga cerca de 1 s con la CPU frenada 4 veces): revisar en la Fase 5.
 - /sistemas [FALTA]: siluetas de las dos manos (diseñadora), frase sobre facturación flexible, funciones de Clientes y proveedores y de Compras, resultado medido o testimonio del caso real. [CONFIRMAR]: en qué módulo va "Varias monedas", qué ve cada rol en el ejemplo de permisos, alcance de la capacitación.
 - /automatizaciones [FALTA]: casos reales con permiso. [CONFIRMAR]: qué acciones enciende cada disparador; que ofrecemos alertas, aprobación humana y registros.
 - /desarrollo-web [FALTA]: definición de "web básica", tipo de proyecto de cada caso, testimonios, permiso de cada cliente. [CONFIRMAR]: si se nombra Canva, tarjeta de Tiendanube.
@@ -153,6 +188,7 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Hecho
 
+- 24/11: Fase 7, cierre: botones "Ver más" en la landing, menú y footer con links a las páginas, `sitemap.xml` y datos estructurados Service, FAQPage y BreadcrumbList en las tres páginas (validados, con las mismas preguntas que se ven). Todos los links internos responden, sin ids repetidos, imágenes con texto alternativo, botones con nombre, sin colores fuera de la paleta. Las cuatro páginas recorridas en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores (solo falta el favicon, Fase 5) ni scroll horizontal. El formulario llega con su servicio marcado en cada página.
 - 24/11: Fase 7, página /sistemas completa (manos, problema con papeles que vuelan, demo del dashboard, módulos en órbita, seguridad y permisos, control 24/7, capacitación, cómo trabajamos, caso real, preguntas, formulario con Sistemas marcado, también hacemos). Demo, módulos y roles probados en 390, 1024 y 1440, y con movimiento reducido. Página probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Las otras dos páginas y la landing recorridas de nuevo: igual. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, página /automatizaciones completa (hilo conductor, lienzo interactivo, problema con pila de tareas, qué incluye con pulso, red, beneficios, revisión humana, conexiones, cómo trabajamos, preguntas, formulario con Automatizaciones marcado, también hacemos). Lienzo probado en 390, 1024 y 1440 (cada disparador enciende solo lo suyo y vuelve al loop) y con movimiento reducido. Página probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo y comparada con las fotos del principio: igual. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, página /desarrollo-web completa (hero "la web se arma sola", confianza, problema, qué incluye, $0 de mantenimiento, velocidad, cómo trabajamos, casos, preguntas, formulario con Desarrollo web marcado, también hacemos). Datos con fuente verificados contra la investigación y links probados. Probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo: igual que antes. No probada en un celu real ni medida en PageSpeed.

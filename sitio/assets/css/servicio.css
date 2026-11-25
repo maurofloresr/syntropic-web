@@ -62,9 +62,11 @@
 
 /* El h1 lo forman los bytes (particulas-servicio.js). Respaldo: si el
    JavaScript no llega, a los 4 segundos aparece solo. Sin JavaScript o con
-   movimiento reducido se ve desde el principio. */
+   movimiento reducido se ve desde el principio. Arranca al 0,4% y no en cero:
+   a la vista es lo mismo, pero el navegador lo cuenta como dibujado desde el
+   principio (si no, PageSpeed mediría la animación como demora de carga). */
 @keyframes h1-respaldo {
-  from { opacity: 0; }
+  from { opacity: 0.004; }
   to { opacity: 1; }
 }
 
@@ -81,14 +83,6 @@
   width: 100%;
   margin-top: 0.5rem;
 }
-
-/* Botón secundario: borde, sin relleno */
-.boton-secundario {
-  background-color: transparent;
-  box-shadow: inset 0 0 0 1px var(--celeste);
-}
-
-.boton-secundario:hover { box-shadow: inset 0 0 0 1px var(--celeste), var(--glow-azul); }
 
 @media (min-width: 768px) {
   .hero-servicio { padding-top: calc(var(--altura-menu) + 64px); padding-bottom: 72px; }

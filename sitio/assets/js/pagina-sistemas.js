@@ -37,7 +37,7 @@
       manos.classList.add('quietas');
     } else {
       var formacion = {
-        medir: medir, entrada: 'derecha', dura: 1900, demora: 100,
+        lugar: lugar, medir: medir, entrada: 'derecha', dura: 1900, demora: 100,
         alListo: function () { formacion.pulso = 1; manos.classList.add('juntas'); }
       };
       S.bytes.formar(formacion);

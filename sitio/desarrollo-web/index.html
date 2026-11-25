@@ -15,6 +15,119 @@
   <link rel="stylesheet" href="../assets/css/pagina-desarrollo-web.css">
   <!-- Marca que hay JavaScript: sin JS, el menú mobile queda siempre visible -->
   <script>document.documentElement.classList.add('js');</script>
+  <!-- Datos estructurados. [FALTA-dominio] se reemplaza al publicar -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Desarrollo web",
+      "serviceType": "Desarrollo web",
+      "description": "Creamos webs a medida, rápidas en el celular, preparadas para Google y las IAs, con dominio y hosting gestionados y sin costo de mantenimiento en webs básicas.",
+      "url": "https://[FALTA-dominio]/desarrollo-web/",
+      "provider": {
+        "@type": "Organization",
+        "name": "Syntropic",
+        "url": "https://[FALTA-dominio]/",
+        "sameAs": [
+          "https://www.instagram.com/syntropic__/"
+        ]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto cuesta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tarda?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué incluye y qué no?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo editar mi web después?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué pasa después de publicar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Pueden mejorar mi web actual?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué a medida y no una plantilla?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué es una web básica?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "[FALTA: respuesta de Mauro]"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://[FALTA-dominio]/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Desarrollo web",
+          "item": "https://[FALTA-dominio]/desarrollo-web/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body class="servicio servicio-web">
 
@@ -64,9 +177,9 @@
             <div class="notebook" aria-hidden="true">
               <div class="notebook-tapa">
                 <div class="pantalla">
-                  <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-desktop.webp" alt="" width="1280" height="800" decoding="async">
-                  <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-desktop.webp" alt="" width="1280" height="800" decoding="async">
-                  <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-desktop.webp" alt="" width="1280" height="800" decoding="async">
+                  <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+                  <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
+                  <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-desktop.webp" alt="" width="1280" height="800" loading="lazy" decoding="async">
                 </div>
               </div>
               <div class="notebook-base"></div>
@@ -74,9 +187,9 @@
 
             <div class="celular">
               <div class="pantalla">
-                <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-mobile.webp" alt="Web de Novo Hair en el celular" width="640" height="1384" decoding="async">
-                <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-mobile.webp" alt="Web de Talar Maderas en el celular" width="640" height="1384" decoding="async" aria-hidden="true">
-                <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-mobile.webp" alt="Web de ATR en el celular" width="640" height="1384" decoding="async" aria-hidden="true">
+                <img class="pantalla-captura activa" data-cliente="novo-hair" src="../assets/img/clientes/novo-hair-mobile.webp" alt="Web de Novo Hair en el celular" width="640" height="1384" fetchpriority="high" decoding="async">
+                <img class="pantalla-captura" data-cliente="talar-maderas" data-src="../assets/img/clientes/talar-maderas-mobile.webp" alt="Web de Talar Maderas en el celular" width="640" height="1384" loading="lazy" decoding="async" aria-hidden="true">
+                <img class="pantalla-captura" data-cliente="atr" data-src="../assets/img/clientes/atr-mobile.webp" alt="Web de ATR en el celular" width="640" height="1384" loading="lazy" decoding="async" aria-hidden="true">
               </div>
             </div>
 

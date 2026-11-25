@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [FALTA-dominio] se reemplaza al publicar (tiene que ser la dirección completa) -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://[FALTA-dominio]/</loc></url>
+  <url><loc>https://[FALTA-dominio]/desarrollo-web/</loc></url>
+  <url><loc>https://[FALTA-dominio]/automatizaciones/</loc></url>
+  <url><loc>https://[FALTA-dominio]/sistemas/</loc></url>
+</urlset>

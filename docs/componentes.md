@@ -54,7 +54,8 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Bloque | `.bloque` | componentes.css | Seguro, Sencillo, Personalizado |
 | Acordeón | `.acordeon` + `.acordeon-item` (details/summary) | componentes.css | Preguntas frecuentes |
 | Hero de servicio | `.hero-servicio` > `.hero-servicio-texto` | servicio.css | Páginas de servicio. El h1 lo forman los bytes; `data-dura` y `data-demora` (ms) ajustan el tiempo |
-| Botón secundario | `.boton .boton-secundario` | servicio.css | "Ver trabajos" |
+| Botón secundario | `.boton .boton-secundario` | componentes.css | "Ver trabajos", "Ver más" |
+| Par de botones | `.botones-seccion` | componentes.css | Landing: botón principal y "Ver más" |
 | Tarjeta | `.tarjeta` (ícono, h3, p); el brillo del borde está en `::after` | servicio.css | Páginas de servicio |
 | Grilla | `.grilla .grilla-2` o `.grilla-3` | servicio.css | Páginas de servicio |
 | Dato con fuente | `.dato` | servicio.css | Páginas de servicio |
@@ -71,6 +72,12 @@ Uso: `<svg class="icono" aria-hidden="true"><use href="assets/img/iconos.svg#i-N
 | Campo de texto | `.campo` > `.campo-etiqueta` + `.campo-entrada` + `.campo-error` | formulario.css | Formulario |
 | WhatsApp flotante | `.whatsapp` | componentes.css | Toda la web |
 | Canvas de partículas | `.particulas` (fijo) y `.particulas-estaticas` (movimiento reducido) | componentes.css | Lo crea `particulas.js`. `main` y `.footer` van por encima (z-index 1) |
+
+## Direcciones y datos estructurados
+
+- Cada página es una carpeta con su `index.html`; los links entre páginas son relativos (`../sistemas/`).
+- `sitio/sitemap.xml` y los datos estructurados de cada página usan `[FALTA-dominio]` hasta tener el dominio.
+- Si cambia una pregunta frecuente hay que cambiarla también en el bloque `application/ld+json` de esa página.
 
 ## Anclas y menú fijo
 

@@ -565,7 +565,7 @@ body.menu-abierto { overflow: hidden; }
 
 .auto h2 { font-size: clamp(1.25rem, 6.2vw, 4.5rem); }
 
-.auto-texto .boton { margin-top: 0.75rem; }
+.auto-texto .botones-seccion { margin-top: 0.75rem; }
 
 /* Mobile: flujo vertical (disparadores, la S, acciones) */
 .lienzo {
@@ -755,6 +755,8 @@ body.menu-abierto { overflow: hidden; }
     align-items: center;
     text-align: center;
   }
+
+  .auto-texto .botones-seccion { justify-content: center; }
 
   .auto-texto .frase,
   .auto-texto .bajada { max-width: 48rem; }

@@ -165,7 +165,7 @@
 
   S.bytes = {
     muestrearSilueta: muestrearSilueta,
-    /* formar({ medir, entrada, dura, demora, queda, alListo }) */
+    /* formar({ lugar, medir, entrada, dura, demora, alListo }) */
     formar: function (f) { if (sumar) sumar(f); else pedidas.push(f); },
     /* Versión quieta, para movimiento reducido: dibuja las celdas una vez en
        un canvas dentro del elemento */
@@ -242,6 +242,15 @@
     var formaciones = [];
 
     function preparar(f) {
+      // Si su lugar no cambió (o el título ya terminó), no se vuelve a muestrear
+      var ref = f.el || f.lugar;
+      if (ref) {
+        if (f.el && f.hecho) return;
+        var r = ref.getBoundingClientRect();
+        var clave = [r.left, r.top + window.scrollY, r.width, r.height].map(Math.round).join();
+        if (f.lista && clave === f.clave) return;
+        f.clave = clave;
+      }
       var forma = f.medir();
       f.lista = null;
       if (!forma) return;
@@ -281,7 +290,7 @@
     };
 
     function mostrarTitulo(f, op) {
-      var v = Math.round(op * 100) / 100;
+      var v = Math.max(0.004, Math.round(op * 100) / 100); // nunca cero (ver servicio.css)
       if (f.opAplicada === v) return;
       f.opAplicada = v;
       f.el.style.animation = 'none'; // se apaga el respaldo de CSS
