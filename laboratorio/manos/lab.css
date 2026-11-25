@@ -1,0 +1,226 @@
+/* Laboratorio de las manos (no se publica). Solo colores de la paleta. */
+:root {
+  --navy: #0B1524;
+  --azul: #0040FF;
+  --celeste: #47ADFF;
+  --celeste-claro: #A0D3FD;
+  --blanco: #FFFFFF;
+  --ancho-panel: 340px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--navy);
+  color: var(--blanco);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+.escenario {
+  position: fixed;
+  inset: 0 var(--ancho-panel) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.sin-panel .escenario { right: 0; }
+
+.marco {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--navy);
+}
+
+/* Simular celular: 390 px de ancho, alto de un iPhone (o lo que entre) */
+body.celular .marco {
+  width: 390px;
+  height: min(844px, 100%);
+  outline: 1px solid rgba(71, 173, 255, 0.35);
+}
+
+.hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(11, 21, 36, 0.75);
+  border: 1px solid rgba(71, 173, 255, 0.25);
+  color: var(--celeste-claro);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  z-index: 2;
+}
+.hud b { color: var(--blanco); }
+.hud-detalle { font-size: 11px; opacity: 0.8; }
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--ancho-panel);
+  overflow-y: auto;
+  padding: 12px 14px 40px;
+  background: rgba(11, 21, 36, 0.96);
+  border-left: 1px solid rgba(71, 173, 255, 0.25);
+  z-index: 3;
+}
+body.sin-panel .panel { display: none; }
+
+.panel-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.panel-acciones { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.boton, .boton-chico, .mostrar {
+  font: inherit;
+  color: var(--blanco);
+  background: rgba(71, 173, 255, 0.12);
+  border: 1px solid rgba(71, 173, 255, 0.4);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.boton-chico { padding: 3px 8px; font-size: 12px; }
+.boton:hover, .boton-chico:hover, .mostrar:hover { background: rgba(71, 173, 255, 0.25); }
+.boton-principal { background: var(--azul); border-color: var(--azul); }
+.boton-principal:hover { background: var(--azul); filter: brightness(1.15); }
+.boton[aria-pressed="true"] { background: var(--azul); border-color: var(--celeste); }
+.boton:focus-visible, .boton-chico:focus-visible, .mostrar:focus-visible,
+select:focus-visible, input:focus-visible { outline: 2px solid var(--celeste); outline-offset: 2px; }
+
+.mostrar {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background: rgba(11, 21, 36, 0.85);
+}
+
+.aviso { min-height: 1.4em; margin: 8px 0 4px; color: var(--celeste-claro); font-size: 12px; }
+
+details {
+  border-top: 1px solid rgba(71, 173, 255, 0.18);
+  padding: 6px 0;
+}
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--celeste-claro);
+  padding: 4px 0;
+}
+
+.control { margin: 8px 0; }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.control output { color: var(--celeste); font-variant-numeric: tabular-nums; }
+.control input[type="range"] { width: 100%; accent-color: var(--celeste); }
+.control .nota { font-size: 11px; color: var(--celeste-claro); opacity: 0.75; margin-top: 2px; }
+
+.control-color { display: flex; align-items: center; gap: 8px; }
+.control-color select {
+  flex: 1;
+  font: inherit;
+  color: var(--blanco);
+  background: var(--navy);
+  border: 1px solid rgba(71, 173, 255, 0.4);
+  border-radius: 6px;
+  padding: 4px;
+}
+.muestra {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex: none;
+}
+
+.fila-botones { display: flex; gap: 6px; margin-top: 6px; }
+
+/* Viendo el laboratorio desde el celu: panel abajo */
+@media (max-width: 760px) {
+  :root { --ancho-panel: 0px; }
+  .escenario { inset: 0 0 45vh 0; }
+  body.sin-panel .escenario { bottom: 0; }
+  .panel { top: auto; left: 0; width: auto; height: 45vh; border-left: 0; border-top: 1px solid rgba(71, 173, 255, 0.25); }
+  body.celular .marco { width: 100%; height: 100%; }
+}
+
+/* --- Propio de las manos --- */
+@font-face { font-family: "Archivo Expanded"; src: url("archivo-expanded-black.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Archivo Expanded"; src: url("archivo-expanded-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("inter-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("inter-semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+.marco { overflow: hidden; container-type: size; }
+.rodar {
+  position: absolute; inset: 0;
+  overflow-x: hidden; overflow-y: auto;
+  outline-offset: -2px;
+  scrollbar-width: none; /* así el ancho simulado es exacto: 390 px */
+}
+.rodar:focus-visible { outline: 2px solid var(--celeste); }
+/* El pin: el hero queda pegado mientras dura la pista (alto puesto por manos.js) */
+.pista { position: relative; min-height: 100cqh; }
+.hero { position: sticky; top: 0; height: 100cqh; overflow: hidden; }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.barra-menu { position: absolute; inset: 0 0 auto; height: 56px; background: rgba(11, 21, 36, 0.35); border-bottom: 1px solid rgba(71, 173, 255, 0.15); z-index: 2; }
+
+.texto {
+  position: absolute; z-index: 1;
+  left: 20px; right: 20px; bottom: 24px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.texto p, .texto h1 { margin: 0; }
+.etiqueta { color: var(--celeste-claro); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+.texto h1 { font: 900 clamp(26px, 8cqw, 68px)/1.02 "Archivo Expanded", system-ui, sans-serif; text-transform: uppercase; }
+.texto h1 span { display: block; margin-top: 0.1em; font-weight: 700; color: var(--celeste); }
+.bajada { color: var(--celeste-claro); font-size: 15px; line-height: 1.5; }
+.cta {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 28px;
+  border-radius: 999px; background: var(--azul); color: var(--blanco);
+  font-weight: 600; font-size: 16px; text-decoration: none;
+}
+.cta:focus-visible { outline: 2px solid var(--celeste); outline-offset: 2px; }
+
+@container (min-width: 768px) {
+  .barra-menu { height: 72px; }
+  .texto { left: clamp(32px, 5cqw, 96px); right: auto; bottom: auto; top: 50%; transform: translateY(-50%); width: min(37cqw, 620px); gap: 18px; }
+  .etiqueta { font-size: 13px; }
+  .texto h1 { font-size: clamp(26px, 3.6cqw, 56px); }
+  .bajada { font-size: 17px; max-width: 30em; }
+}
+
+.siguiente {
+  min-height: 100cqh; display: grid; place-items: center;
+  border-top: 1px solid rgba(71, 173, 255, 0.18);
+  color: var(--celeste-claro); font-family: "Inter", system-ui, sans-serif; font-size: 16px;
+}
+.hud { top: auto; bottom: 12px; left: auto; right: 12px; z-index: 4; }
+body.celular .hud { position: fixed; top: 12px; bottom: auto; left: 12px; right: auto; }
+@media (max-width: 760px) {
+  /* En un celu real el panel va por encima: las manos se ven en su tamaño */
+  .escenario { inset: 0; }
+  .panel { height: 42vh; }
+  body.celular .marco { outline: 0; }
+  .hud, body.celular .hud { position: absolute; top: 64px; bottom: auto; left: 8px; right: auto; padding: 4px 8px; font-size: 10px; }
+  .hud-detalle { font-size: 9px; }
+}

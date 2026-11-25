@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Laboratorio: apretón de manos de Sistemas</title>
+  <!-- Laboratorio local: nunca se publica. Servidor (desde web/):
+       python -m http.server 8002 --directory laboratorio/manos --bind 0.0.0.0 -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <main class="escenario" id="escenario">
+    <div class="marco" id="marco">
+      <!-- Scroll de prueba: adentro del marco, así también anda simulando el celular -->
+      <div class="rodar" id="rodar" tabindex="0" role="region" aria-label="Página de prueba">
+        <div class="pista" id="pista">
+          <section class="hero" id="hero">
+            <canvas id="lienzo" aria-hidden="true"></canvas>
+            <div class="barra-menu" aria-hidden="true"></div>
+            <div class="texto">
+              <p class="etiqueta">Sistemas de gestión a medida · Argentina</p>
+              <h1>Todo tu negocio <span>en un solo lugar</span></h1>
+              <p class="bajada">Un sistema hecho a la medida de cómo trabajás. Ventas, stock, caja y tu equipo conectados, estés donde estés, las 24 horas.</p>
+              <a class="cta" href="#hero" id="cta">Quiero mi sistema</a>
+            </div>
+          </section>
+        </div>
+        <section class="siguiente">
+          <p>Texto de prueba: acá sigue la página.</p>
+        </section>
+      </div>
+      <div class="hud" id="hud" aria-live="off">
+        <span><b id="fps">0</b> fps · <b id="ms">0</b> ms por cuadro</span>
+        <span><b id="cantidad">0</b> bytes en pantalla</span>
+        <span>Tramo: <b id="tramo">Inicio</b></span>
+        <span class="hud-detalle" id="detalle"></span>
+      </div>
+    </div>
+  </main>
+
+  <aside class="panel" id="panel">
+    <div class="panel-cabecera">
+      <strong>Laboratorio de las manos</strong>
+      <button type="button" class="boton-chico" id="ocultar">Ocultar</button>
+    </div>
+    <div class="panel-acciones">
+      <button type="button" class="boton" id="celular" aria-pressed="false">Simular celular</button>
+      <button type="button" class="boton boton-principal" id="copiar">Copiar configuración</button>
+      <button type="button" class="boton" id="restablecer">Restablecer</button>
+    </div>
+    <p class="aviso" id="aviso" role="status"></p>
+    <div id="controles"></div>
+  </aside>
+  <button type="button" class="mostrar" id="mostrar" hidden>Panel</button>
+
+  <script src="manos.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

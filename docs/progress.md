@@ -4,6 +4,32 @@ Lo mantiene Claude Code. Se actualiza al cerrar cada paso.
 
 ## Actual
 
+### Laboratorio de las manos de /sistemas (24/11): listo, esperando la revisión de Mauro
+
+Está en `laboratorio/manos/`, no se publica y no toca `sitio/`. `/sistemas` no cambió: sigue con las manos provisorias hasta que Mauro apruebe el laboratorio.
+
+**Cómo abrirlo** (PowerShell, desde `web/`): `python -m http.server 8002 --directory laboratorio/manos --bind 0.0.0.0` y entrar a `http://localhost:8002`. En el celu (misma WiFi): la IP de la PC con `:8002`; el panel se oculta con "Ocultar".
+
+**Hay que decidir primero: la imagen de la mano humana no está en la pose de la referencia.** `originales/manos/mano-humana` es una mano abierta, con los dedos estirados y el pulgar arriba, más grande; en la referencia la mano está cerrada. Con escala, X, Y y giro coinciden el puño de la camisa, la muñeca y los nudillos, pero los dedos no. El selector "Qué mano se ve" permite comparar:
+- "La imagen tal cual" (lo pedido, es lo que se ve al abrir): la pose final no es la de la referencia y parece que la mano atraviesa a la de bytes.
+- "Entra abierta y se cierra al tocarse" (lo que sugiere Claude Code): en el pulso del contacto pasa a la mano humana recortada de la referencia. La pose final queda igual a la referencia.
+- Otra opción: que Mauro regenere la imagen ya cerrada. Se reemplaza y se corre `preparar-imagenes.py`.
+
+**Decisiones para revisar:**
+- Recorte de la mano cerrada hecho con contornos trazados a mano; debajo del pulgar y de los dedos de bytes se rellenó con la piel de alrededor (no se ve: los bytes lo tapan). Su luz es más oscura y el borde más turquesa que el #47ADFF, porque viene así de la referencia.
+- El giro de la imagen (3 grados), la sombra navy, el largo del río, el fondo oscuro del pulgar, el brillo de los bytes y los controles de "Escena" no estaban pedidos: hicieron falta para alinear, para que los 0 y 1 se lean sobre la piel y para que el brazo no pise el texto.
+- En desktop el brazo se pierde en un fundido hacia la izquierda (del 39% al 53% del ancho). En mobile sale por el borde de la pantalla.
+- Bytes en celeste, celeste claro y blanco, sin violeta (es solo del hero de la landing). Uno cambia de 0 a 1 cada tanto.
+- El 8% de los bytes no forma la mano: sigue corriendo por la estela, para que en la pose quieta haya vida.
+- La sacudida es un giro chico con eje en el hombro; la estela acompaña cada vez menos hacia la derecha. Tres movimientos, 16 px en desktop y 9 en mobile.
+- Pin: 200% del alto en desktop y 160% en mobile. Tramos: entrada 30, formación 30, contacto 12, sacudida 20, quietud 8.
+- El laboratorio simula el pin con CSS (para poder simular el celular adentro de la página). En `/sistemas` iría con ScrollTrigger y el mismo suavizado, como la S.
+- Movimiento reducido: pose final quieta, sin pin. El texto de prueba es siempre el real y no se anima (el h1 de bytes es de la página).
+
+**Rendimiento** (Chrome sin ventana, placa Intel UHD, pantalla de 144 Hz): mobile 390 x 844 con la CPU frenada 4 veces, entre 67 y 140 cuadros por segundo según el tramo y 94 o más de promedio en el recorrido; con algún cuadro suelto de 45 a 68 ms. Desktop 1440 x 900 sin frenar: 117 a 144. Desktop con la CPU frenada 4 veces: 30 a 33 con la mano formada (3000 bytes; bajando la cantidad sube). No probado en un celu real, Safari ni Firefox.
+
+**Propuestas (no las apliqué):** actualizar la sección 5.1 de `paginas-servicio.md` con la mano realista y la secuencia atada al scroll; sacar de Pendiente "siluetas de las dos manos (diseñadora)"; calidad adaptativa para las compus lentas al llevarlo a `/sistemas`.
+
 ### Resumen para Mauro (tanda del 24/11)
 
 Los siete pasos autorizados (a hasta g) están construidos, probados en Chrome y subidos. No queda ningún paso en curso. La galaxia del hero no se tocó: sigue esperando tu revisión.
@@ -29,7 +55,7 @@ Los recuadros punteados "A confirmar" se ven solo en localhost y en la red local
 - Desarrollo web: definición de "web básica"; si se nombra Canva; tarjeta de Tiendanube (partners oficiales); tipo de proyecto de cada caso; testimonios; permiso de Novo Hair, Talar Maderas y ATR.
 - Automatizaciones: qué acciones enciende cada disparador; si ofrecemos alertas, aprobación humana y registros; casos reales con permiso.
 - Sistemas: siluetas de las dos manos (diseñadora); frase sobre facturación flexible; funciones de Clientes y proveedores y de Compras; en qué módulo va "Varias monedas"; qué ve cada rol en el ejemplo de permisos; alcance de la capacitación; resultado medido o testimonio del caso real.
-- **Manos de Sistemas, decisión nueva:** durante la tanda apareció `originales/manos/` con dos archivos (`mano-humana`: foto recortada de una mano extendida con traje; `referencia-dos-manos`: el apretón con la mano de 0 y 1). No las usé: la especificación pide la mano humana en línea #A0D3FD y nunca imágenes de stock, la foto tiene colores fuera de la paleta y no sé de dónde salió. Decidí entre: a) usar solo las siluetas de esas imágenes (línea a la izquierda y 0 y 1 a la derecha), que respeta la especificación y es lo que sugiero; b) usar la foto tal cual, que cambia la especificación. Hay que confirmar también el origen y el permiso de uso de las imágenes.
+- **Manos de Sistemas:** resuelto por Mauro el 24/11: las imágenes son suyas (generadas con IA para este proyecto), la mano humana va realista. Ver el laboratorio, arriba.
 - Revisar las "Decisiones para revisar" de abajo, y la galaxia.
 - Commitear tus archivos cuando quieras: `docs/paginas-servicio.md`, `docs/investigacion/`, `docs/roadmap.md` y `AGENTS.md` siguen sin subir (no los toqué).
 
@@ -189,6 +215,7 @@ Los recuadros punteados "A confirmar" se ven solo en localhost y en la red local
 
 ## Hecho
 
+- 24/11: laboratorio de las manos (`laboratorio/manos/`): animación completa atada al scroll, panel con valores separados para mobile y desktop, deslizador de avance, copiar configuración, cuadros por segundo. Probado en 390 x 844 y 1440 x 900, celular simulado, todos los controles en su mínimo y máximo, rebobinado y movimiento reducido: sin errores de consola ni scroll horizontal. Falta la aprobación de Mauro.
 - 24/11: Fase 7, cierre: botones "Ver más" en la landing, menú y footer con links a las páginas, `sitemap.xml` y datos estructurados Service, FAQPage y BreadcrumbList en las tres páginas (validados, con las mismas preguntas que se ven). Todos los links internos responden, sin ids repetidos, imágenes con texto alternativo, botones con nombre, sin colores fuera de la paleta. Las cuatro páginas recorridas en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores (solo falta el favicon, Fase 5) ni scroll horizontal. El formulario llega con su servicio marcado en cada página.
 - 24/11: Fase 7, página /sistemas completa (manos, problema con papeles que vuelan, demo del dashboard, módulos en órbita, seguridad y permisos, control 24/7, capacitación, cómo trabajamos, caso real, preguntas, formulario con Sistemas marcado, también hacemos). Demo, módulos y roles probados en 390, 1024 y 1440, y con movimiento reducido. Página probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Las otras dos páginas y la landing recorridas de nuevo: igual. No probada en un celu real ni medida en PageSpeed.
 - 24/11: Fase 7, página /automatizaciones completa (hilo conductor, lienzo interactivo, problema con pila de tareas, qué incluye con pulso, red, beneficios, revisión humana, conexiones, cómo trabajamos, preguntas, formulario con Automatizaciones marcado, también hacemos). Lienzo probado en 390, 1024 y 1440 (cada disparador enciende solo lo suyo y vuelve al loop) y con movimiento reducido. Página probada en 320, 390, 768, 1024, 1440 y 1920, con movimiento reducido y sin JavaScript: sin errores de consola (solo falta el favicon) ni scroll horizontal. Landing recorrida entera de nuevo y comparada con las fotos del principio: igual. No probada en un celu real ni medida en PageSpeed.
